@@ -17,7 +17,7 @@ public class PlayerSpawn : MonoBehaviour
     void Start()
     {
         startPosition = Vector3.zero;
-        startPosition.x = LaneManager.instance.SecondLane;
+        startPosition.x = LaneManager.instance.GetLanePosition(LaneManager.instance.CurrentLane);
         transform.position = startPosition;
     }
 

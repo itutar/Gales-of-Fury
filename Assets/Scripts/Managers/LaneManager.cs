@@ -13,6 +13,8 @@ public class LaneManager : MonoBehaviour
     // lane support
     int numberOfLanes = 4;
     float[] lanePositions;
+    // Initially in the second corridor
+    int currentLane = 1;
 
     #endregion
 
@@ -66,8 +68,26 @@ public class LaneManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gets or sets the index of the current lane
+    /// The value is clamped between 0 and the total number of lanes minus 1
+    /// </summary>
+    public int CurrentLane
+    {
+        get { return currentLane; }
+        set { currentLane = Mathf.Clamp(value, 0, numberOfLanes - 1); }
+    }
 
-
+    /// <summary>
+    /// Gets the total number of lanes available
+    /// </summary>
+    public int NumberOfLanes
+    {
+        get
+        {
+            return numberOfLanes;
+        }
+    }
 
     #endregion
 
@@ -109,6 +129,22 @@ public class LaneManager : MonoBehaviour
 
         CalculateLanePositions();
     }
+
+    #endregion
+
+    #region Public Methods
+
+    /// <summary>
+    /// Returns the x-coordinate of the specified lane
+    /// </summary>
+    /// <param name="laneIndex">The index of the lane (0-based)
+    /// starting from the left</param>
+    /// <returns>The x-coordinate of the lane's center position</returns>
+    public float GetLanePosition(int laneIndex)
+    {
+        return lanePositions[laneIndex];
+    }
+
 
     #endregion
 

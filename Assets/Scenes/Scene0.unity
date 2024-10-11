@@ -366,6 +366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24faa66f47478d1488498f17e72827fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  laneSwitchSpeed: 5
 --- !u!1 &1207406090
 GameObject:
   m_ObjectHideFlags: 0
