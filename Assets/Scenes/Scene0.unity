@@ -367,6 +367,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laneSwitchSpeed: 5
+  jumpForce: 5
+  windSurfBoard: {fileID: 9014618095382064722}
 --- !u!1 &1481909339
 GameObject:
   m_ObjectHideFlags: 0
@@ -626,7 +628,7 @@ GameObject:
   - component: {fileID: 9014618095382064726}
   - component: {fileID: 9014618095382064727}
   m_Layer: 0
-  m_Name: Wind Surf A
+  m_Name: WindSurfBoard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

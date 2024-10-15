@@ -10,6 +10,13 @@ public class PlayerController : MonoBehaviour
     // MoveToLane support
     [SerializeField] float laneSwitchSpeed = 5f;
 
+    // SwipeUp support
+    [SerializeField] float jumpForce = 5f;
+
+    // Child object reference
+    [SerializeField] GameObject windSurfBoard;
+    Rigidbody windSurfBoardRigidbody;
+
     #endregion
 
     #region Unity Methods
@@ -44,7 +51,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        windSurfBoardRigidbody = windSurfBoard.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -79,6 +86,10 @@ public class PlayerController : MonoBehaviour
 
     void HandleSwipeUp()
     {
+        if (IsGrounded())
+        {
+            windSurfBoardRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
         Debug.Log("Yukarý Kaydýrýldý");
     }
 
@@ -114,6 +125,15 @@ public class PlayerController : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, laneSwitchSpeed * Time.deltaTime);
             yield return null; 
         }
+    }
+
+    /// <summary>
+    /// Checks if the player is grounded
+    /// </summary>
+    /// <returns>Returns true if the player is touching the ground, otherwise false</returns>
+    bool IsGrounded()
+    {
+        return Physics.Raycast(windSurfBoard.transform.position, Vector3.down, 1.1f);
     }
 
     #endregion
