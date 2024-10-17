@@ -120,13 +120,8 @@ public class LaneManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
-
+        DontDestroyOnLoad(gameObject);
         CalculateLanePositions();
     }
 

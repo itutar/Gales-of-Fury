@@ -442,9 +442,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8affeae134a754d40a68d50fbb8cb8e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharkPrefab: {fileID: 0}
+  sharkPrefab: {fileID: 4627457418746437297, guid: e2a7fb4d6b9c7904a8f4f3b242d62289, type: 3}
   regularPirate1Prefab: {fileID: 2355354772765632791, guid: b6f1b3aca9b62d145823c1c2545bb991, type: 3}
-  krakenPrefab: {fileID: 0}
+  krakenPrefab: {fileID: 8085095974348801365, guid: a1a2f58609fd57c478ce6d7fdaf7f56d, type: 3}
 --- !u!4 &1844562179
 Transform:
   m_ObjectHideFlags: 0
@@ -800,8 +800,8 @@ SceneRoots:
   m_Roots:
   - {fileID: 963194228}
   - {fileID: 705507995}
-  - {fileID: 1481909341}
   - {fileID: 1166234511}
+  - {fileID: 1481909341}
   - {fileID: 1984299766}
   - {fileID: 1978540190}
   - {fileID: 1868750556}
