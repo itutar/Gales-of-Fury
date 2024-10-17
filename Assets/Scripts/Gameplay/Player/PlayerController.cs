@@ -133,7 +133,7 @@ public class PlayerController : MonoBehaviour
     /// <returns>Returns true if the player is touching the ground, otherwise false</returns>
     bool IsGrounded()
     {
-        return Physics.Raycast(windSurfBoard.transform.position, Vector3.down, 1.1f);
+        return Physics.Raycast(windSurfBoard.transform.position, Vector3.down, 0.2f);
     }
 
     #endregion

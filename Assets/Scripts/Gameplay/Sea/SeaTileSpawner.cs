@@ -9,7 +9,6 @@ public class SeaTileSpawner : MonoBehaviour
 
     // spawner support
     [SerializeField] private Transform playerTransform;
-    [SerializeField] private float spawnZDistance = 60f;
     [SerializeField] private float tileLength = 60f;
 
     // initialize queue
