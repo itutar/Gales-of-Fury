@@ -72,12 +72,18 @@ public class EnemySpawner : MonoBehaviour
         {
             case EnemyType.Shark:
                 spawnedEnemy = Instantiate(sharkPrefab, GetSpawnPosition(), Quaternion.identity);
+                // Start the Attack
+                EnemyEventManager.Instance.OnEnemyAttack.Invoke(spawnedEnemy);
                 break;
             case EnemyType.RegularPirate1:
                 spawnedEnemy = Instantiate(regularPirate1Prefab, GetSpawnPosition(), Quaternion.identity);
+                // Start the Attack
+                EnemyEventManager.Instance.OnEnemyAttack.Invoke(spawnedEnemy);
                 break;
             case EnemyType.Kraken:
                 spawnedEnemy = Instantiate(krakenPrefab, GetSpawnPosition(), Quaternion.identity);
+                // Start the Attack
+                EnemyEventManager.Instance.OnEnemyAttack.Invoke(spawnedEnemy);
                 break;
         }
     }
@@ -89,7 +95,7 @@ public class EnemySpawner : MonoBehaviour
     {
         while (true)
         {
-            float waitTime = Random.Range(5f, 10f);
+            float waitTime = Random.Range(1f, 2f);// 5-10
             yield return new WaitForSeconds(waitTime);
 
             EnemyEventManager.Instance?.OnEnemySpawned.Invoke(GetRandomEnemyType());

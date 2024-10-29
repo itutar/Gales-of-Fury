@@ -9,5 +9,11 @@ public enum EnemyType
 {
     Shark,
     RegularPirate1,
+    RegularPirate2,
+    RegularPirate3,
+    CaptainMagnusBlackstorm,
+    ErikBlades,
+    IsabellaIronheart,
+    JackGrim,
     Kraken
 }

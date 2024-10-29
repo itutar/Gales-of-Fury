@@ -11,7 +11,8 @@ public class EnemyEventManager : MonoBehaviour
     // UnityEvents
     [System.Serializable] public class EnemySpawnEvent : UnityEvent<EnemyType> { }
     [System.Serializable] public class EnemyDeathEvent : UnityEvent<GameObject> { }
-    [System.Serializable] public class EnemyAttackEvent : UnityEvent<GameObject, GameObject> { }
+    [System.Serializable] public class EnemyAttackEvent : UnityEvent<GameObject> { }
+    [System.Serializable] public class EnemyDisappearEvent : UnityEvent<GameObject> { }
 
     #endregion
 
@@ -21,6 +22,7 @@ public class EnemyEventManager : MonoBehaviour
     public EnemySpawnEvent OnEnemySpawned;
     public EnemyDeathEvent OnEnemyDied;
     public EnemyAttackEvent OnEnemyAttack;
+    public EnemyDisappearEvent OnEnemyDisappear;
 
     #endregion
 
