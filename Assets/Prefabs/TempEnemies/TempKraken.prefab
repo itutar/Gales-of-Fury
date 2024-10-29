@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 191756181726156980}
   - component: {fileID: -8191462655522757100}
   - component: {fileID: 8240558880933464525}
+  - component: {fileID: -4193182479572676031}
   m_Layer: 0
   m_Name: TempKraken
   m_TagString: Untagged
@@ -133,3 +134,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disappearType: 0
+--- !u!114 &-4193182479572676031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8085095974348801365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8b4f32c8a4a4fe4395ee46d6363040c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cannonCallTokenPrefab: {fileID: 7253521587291613908, guid: fb7af0624d30acb459a58b0910818aa9, type: 3}
+  catapultCallTokenPrefab: {fileID: 7253521587291613908, guid: fb7af0624d30acb459a58b0910818aa9, type: 3}
+  archerCallTokenPrefab: {fileID: 7253521587291613908, guid: fb7af0624d30acb459a58b0910818aa9, type: 3}
+  pistoleerCallTokenPrefab: {fileID: 7253521587291613908, guid: fb7af0624d30acb459a58b0910818aa9, type: 3}
+  tokenSpawnOffset: 4

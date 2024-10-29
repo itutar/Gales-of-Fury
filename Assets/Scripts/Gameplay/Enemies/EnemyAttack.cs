@@ -59,10 +59,12 @@ public class EnemyAttack : MonoBehaviour
     {
         // Shark'ýn saldýrý kodlarý
         isSharkAttackAnimationFinished = true;
+        // Initiate the EnemyCallToken event after the attack is finished
         // Initiate the disappear event after the attack is finished
         if (isSharkAttackAnimationFinished)
         {
             GameObject attachedObject = gameObject;
+            EnemyEventManager.Instance.OnEnemyCallTokenDrop.Invoke(attachedObject);
             EnemyEventManager.Instance.OnEnemyDisappear.Invoke(attachedObject);
             isSharkAttackAnimationFinished = false;
         }
@@ -72,10 +74,12 @@ public class EnemyAttack : MonoBehaviour
     {
         // Pirate'ýn saldýrý kodlarý
         isPirateAttackAnimationFinished = true;
+        // Initiate the EnemyCallToken event after the attack is finished
         // Initiate the disappear event after the attack is finished
         if (isPirateAttackAnimationFinished)
         {
             GameObject attachedObject = gameObject;
+            EnemyEventManager.Instance.OnEnemyCallTokenDrop.Invoke(attachedObject);
             EnemyEventManager.Instance.OnEnemyDisappear.Invoke(attachedObject);
             isPirateAttackAnimationFinished = false;
         }
@@ -85,10 +89,12 @@ public class EnemyAttack : MonoBehaviour
     {
         // Kraken'in saldýrý kodlarý
         isKrakenAttackAnimationFinished = true;
+        // Initiate the EnemyCallToken event after the attack is finished
         // Initiate the disappear event after the attack is finished
         if (isKrakenAttackAnimationFinished)
         {
             GameObject attachedObject = gameObject;
+            EnemyEventManager.Instance.OnEnemyCallTokenDrop.Invoke(attachedObject);
             EnemyEventManager.Instance.OnEnemyDisappear.Invoke(attachedObject);
             isKrakenAttackAnimationFinished = false;
         }

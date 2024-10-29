@@ -635,6 +635,9 @@ MonoBehaviour:
   OnEnemyDisappear:
     m_PersistentCalls:
       m_Calls: []
+  OnEnemyCallTokenDrop:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &2013629274
 Transform:
   m_ObjectHideFlags: 0

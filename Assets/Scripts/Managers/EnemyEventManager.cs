@@ -13,6 +13,7 @@ public class EnemyEventManager : MonoBehaviour
     [System.Serializable] public class EnemyDeathEvent : UnityEvent<GameObject> { }
     [System.Serializable] public class EnemyAttackEvent : UnityEvent<GameObject> { }
     [System.Serializable] public class EnemyDisappearEvent : UnityEvent<GameObject> { }
+    [System.Serializable] public class EnemyCallTokenDropEvent : UnityEvent<GameObject> { }
 
     #endregion
 
@@ -23,6 +24,7 @@ public class EnemyEventManager : MonoBehaviour
     public EnemyDeathEvent OnEnemyDied;
     public EnemyAttackEvent OnEnemyAttack;
     public EnemyDisappearEvent OnEnemyDisappear;
+    public EnemyCallTokenDropEvent OnEnemyCallTokenDrop;
 
     #endregion
 

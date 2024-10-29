@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7699804700623134350}
   - component: {fileID: -4880989147368760173}
   - component: {fileID: 6871154881628867076}
+  - component: {fileID: -7321895251634403179}
   m_Layer: 0
   m_Name: TempShark
   m_TagString: Untagged
@@ -135,3 +136,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disappearType: 0
+--- !u!114 &-7321895251634403179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4627457418746437297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8b4f32c8a4a4fe4395ee46d6363040c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cannonCallTokenPrefab: {fileID: 7253521587291613908, guid: fb7af0624d30acb459a58b0910818aa9, type: 3}
+  catapultCallTokenPrefab: {fileID: 7253521587291613908, guid: fb7af0624d30acb459a58b0910818aa9, type: 3}
+  archerCallTokenPrefab: {fileID: 7253521587291613908, guid: fb7af0624d30acb459a58b0910818aa9, type: 3}
+  pistoleerCallTokenPrefab: {fileID: 7253521587291613908, guid: fb7af0624d30acb459a58b0910818aa9, type: 3}
+  tokenSpawnOffset: 4

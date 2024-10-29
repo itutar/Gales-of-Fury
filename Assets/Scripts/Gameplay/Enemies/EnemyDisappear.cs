@@ -74,7 +74,7 @@ public class EnemyDisappear : MonoBehaviour
     /// <returns>Coroutine IEnumerator for the backward movement process.</returns>
     private IEnumerator MoveBackAndDestroy(GameObject enemy)
     {
-        float moveDuration = 2f;
+        float moveDuration = 4f;
 
         // Move the enemy backward along the z-axis
         for (float t = 0; t < moveDuration; t += Time.deltaTime)
