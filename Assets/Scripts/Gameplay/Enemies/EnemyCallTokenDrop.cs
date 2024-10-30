@@ -37,11 +37,10 @@ public class EnemyCallTokenDrop : MonoBehaviour
     /// <param name="enemy"></param>
     private void HandleCallTokenDrop(GameObject enemy)
     {
-        float randomValue = Random.Range(0f, 100f); // 0 - 100 arasý bir rastgele sayý oluþtur.
+        float randomValue = Random.Range(0f, 100f); 
 
         GameObject tokenPrefabToSpawn = null;
 
-        // Token düþme ihtimallerine göre seç.
         if (randomValue <= 10f)
         {
             tokenPrefabToSpawn = cannonCallTokenPrefab; // %10 

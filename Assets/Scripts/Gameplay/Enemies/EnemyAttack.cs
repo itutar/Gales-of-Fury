@@ -64,7 +64,11 @@ public class EnemyAttack : MonoBehaviour
         if (isSharkAttackAnimationFinished)
         {
             GameObject attachedObject = gameObject;
-            EnemyEventManager.Instance.OnEnemyCallTokenDrop.Invoke(attachedObject);
+            // Invoke the OnEnemyCallTokenDrop event with a 10% probability
+            if (Random.Range(0f, 100f) < 10f)
+            {
+                EnemyEventManager.Instance.OnEnemyCallTokenDrop.Invoke(attachedObject);
+            }
             EnemyEventManager.Instance.OnEnemyDisappear.Invoke(attachedObject);
             isSharkAttackAnimationFinished = false;
         }
@@ -79,7 +83,11 @@ public class EnemyAttack : MonoBehaviour
         if (isPirateAttackAnimationFinished)
         {
             GameObject attachedObject = gameObject;
-            EnemyEventManager.Instance.OnEnemyCallTokenDrop.Invoke(attachedObject);
+            // Invoke the OnEnemyCallTokenDrop event with a 10% probability
+            if (Random.Range(0f, 100f) < 10f)
+            {
+                EnemyEventManager.Instance.OnEnemyCallTokenDrop.Invoke(attachedObject);
+            }
             EnemyEventManager.Instance.OnEnemyDisappear.Invoke(attachedObject);
             isPirateAttackAnimationFinished = false;
         }
@@ -94,7 +102,11 @@ public class EnemyAttack : MonoBehaviour
         if (isKrakenAttackAnimationFinished)
         {
             GameObject attachedObject = gameObject;
-            EnemyEventManager.Instance.OnEnemyCallTokenDrop.Invoke(attachedObject);
+            // Invoke the OnEnemyCallTokenDrop event with a 10% probability
+            if (Random.Range(0f, 100f) < 10f)
+            {
+                EnemyEventManager.Instance.OnEnemyCallTokenDrop.Invoke(attachedObject);
+            }
             EnemyEventManager.Instance.OnEnemyDisappear.Invoke(attachedObject);
             isKrakenAttackAnimationFinished = false;
         }
