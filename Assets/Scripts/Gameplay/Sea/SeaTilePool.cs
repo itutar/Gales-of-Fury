@@ -41,7 +41,9 @@ public static class SeaTilePool
         else
         {
             Debug.Log("Expanding SeaTile pool...");
-            return CreateNewSeaTile();
+            GameObject newSeaTile = CreateNewSeaTile();
+            pool.Add(newSeaTile);
+            return newSeaTile;
         }
     }
 
