@@ -1,3 +1,4 @@
+using Pinwheel.Poseidon;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -6,6 +7,11 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     #region Fields
+
+    private Coroutine currentMoveCoroutine;
+
+    public bool applyRipple;
+    public PWater water;
 
     // MoveToLane support
     [SerializeField] float laneSwitchSpeed = 5f;
@@ -69,8 +75,13 @@ public class PlayerController : MonoBehaviour
         if (LaneManager.instance.CurrentLane < LaneManager.instance.NumberOfLanes - 1)
         {
             LaneManager.instance.CurrentLane++;
-            StartCoroutine(MoveToLaneCoroutine(LaneManager.instance.CurrentLane));
-            Debug.Log("Saða Kaydýrýldý, Yeni Koridor: " + LaneManager.instance.CurrentLane);
+            
+            if (currentMoveCoroutine != null)
+            {
+                StopCoroutine(currentMoveCoroutine);
+            }
+            currentMoveCoroutine = StartCoroutine(MoveToLaneCoroutine(LaneManager.instance.CurrentLane));
+            Debug.Log("Saða kaydýrýldý, Yeni Koridor: " + LaneManager.instance.CurrentLane);
         }
     }
 
@@ -79,8 +90,12 @@ public class PlayerController : MonoBehaviour
         if (LaneManager.instance.CurrentLane > 0)
         {
             LaneManager.instance.CurrentLane--;
-            StartCoroutine(MoveToLaneCoroutine(LaneManager.instance.CurrentLane)); 
-            Debug.Log("Sola Kaydýrýldý, Yeni Koridor: " + LaneManager.instance.CurrentLane);
+            if (currentMoveCoroutine != null)
+            {
+                StopCoroutine(currentMoveCoroutine);
+            }
+            currentMoveCoroutine = StartCoroutine(MoveToLaneCoroutine(LaneManager.instance.CurrentLane));
+            Debug.Log("Sola kaydýrýldý, Yeni Koridor: " + LaneManager.instance.CurrentLane);
         }
     }
 
@@ -125,6 +140,7 @@ public class PlayerController : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, laneSwitchSpeed * Time.deltaTime);
             yield return null; 
         }
+        currentMoveCoroutine = null;
     }
 
     /// <summary>
@@ -133,7 +149,27 @@ public class PlayerController : MonoBehaviour
     /// <returns>Returns true if the player is touching the ground, otherwise false</returns>
     bool IsGrounded()
     {
-        return Physics.Raycast(windSurfBoard.transform.position, Vector3.down, 0.2f);
+        if (water == null)
+        {
+            Debug.LogWarning("Water reference is missing!");
+            return false;
+        }
+
+        // Su yüzeyindeki pozisyonu hesapla
+        Vector3 localPos = water.transform.InverseTransformPoint(transform.position);
+        localPos.y = 5f;
+        localPos = water.GetLocalVertexPosition(localPos, applyRipple);
+        Vector3 worldPos = water.transform.TransformPoint(localPos);
+
+        // Oyuncunun pozisyonu ile su yüzeyi arasýndaki farký hesapla
+        float displacement = worldPos.y - transform.position.y;
+
+        // Eðer fark belirli bir deðerin altýndaysa oyuncunun yerde olduðunu kabul et
+        bool isGrounded = displacement >= -0.2f && displacement <= 0.2f;
+        
+        Debug.Log("IsGrounded result: " + isGrounded);
+       
+        return isGrounded;
     }
 
     #endregion

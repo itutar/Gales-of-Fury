@@ -17,6 +17,10 @@ public class InputManager : MonoBehaviour
 
     private Coroutine doubleTapCoroutine;
 
+    private Vector2 firstTapPosition;
+    // The offset of the first touch relative to the second touch(pixels)
+    private float positionThreshold = 20f; 
+
     #endregion
 
     #region Events
@@ -36,8 +40,8 @@ public class InputManager : MonoBehaviour
         DetectSwipe();
         DetectDoubleTap();
         // Mouseclick denemesi
-        DetectMouseSwipe();
-        DetectMouseDoubleClick();
+        //DetectMouseSwipe();
+        //DetectMouseDoubleClick();
     }
 
     #endregion
@@ -109,6 +113,7 @@ public class InputManager : MonoBehaviour
         if (!oneTap)
         {
             oneTap = true;
+            firstTapPosition = touch.position; 
 
             // Stop if you have previous coroutine
             if (doubleTapCoroutine != null)
@@ -121,8 +126,18 @@ public class InputManager : MonoBehaviour
         }
         else
         {
-            oneTap = false;
-            OnDoubleTap?.Invoke();
+            // check the position of the second touch
+            if (Vector2.Distance(firstTapPosition, touch.position) <= positionThreshold)
+            {
+                oneTap = false;
+                OnDoubleTap?.Invoke(); 
+            }
+            else
+            {
+                oneTap = true; 
+                // record the new position
+                firstTapPosition = touch.position; 
+            }
         }
     }
 
@@ -139,23 +154,22 @@ public class InputManager : MonoBehaviour
         float timer = 0f;
         while (timer < doubleTapTime)
         {
-            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+            if (Input.touchCount > 0 && Vector2.Distance(firstTapPosition, Input.GetTouch(0).position) > positionThreshold)
             {
                 yield break;
             }
+
             timer += Time.deltaTime;
             yield return null;
         }
         oneTap = false;
-        
-        // reset reference when coroutine completes
-        doubleTapCoroutine = null; 
+        doubleTapCoroutine = null;
     }
 
     #endregion
 
     #region MouseClick Deneme
-
+    /*
     void DetectMouseSwipe()
     {
         if (Input.GetMouseButtonDown(0))
@@ -217,6 +231,6 @@ public class InputManager : MonoBehaviour
             }
         }
     }
-
+    */
     #endregion
 }

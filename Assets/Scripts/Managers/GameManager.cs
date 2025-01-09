@@ -6,7 +6,6 @@ public class GameManager : MonoBehaviour
 {
     private void Awake()
     {
-        SeaTilePool.Initialize();
         CoinObjectPool.Initialize();
     }
 }

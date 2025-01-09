@@ -27,8 +27,8 @@ public class PlayerRotation : MonoBehaviour
 
         // X ekseni için sýnýrlarý uygula (-30 ile 30 derece arasý)
         eulerRotation.x = Mathf.Clamp(eulerRotation.x, -30f, 30f);
-        eulerRotation.y = 0f;
-        eulerRotation.z = 0f;
+        eulerRotation.y = Mathf.Clamp(eulerRotation.x, -30f, 30f);
+        eulerRotation.z = Mathf.Clamp(eulerRotation.x, -30f, 30f);
 
         // Geriye kalan rotasyonu uygulamak için Euler açýlarýný tekrar Quaternion'a çevir
         transform.rotation = Quaternion.Euler(eulerRotation);
