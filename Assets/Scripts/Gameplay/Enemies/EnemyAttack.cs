@@ -9,6 +9,14 @@ public class EnemyAttack : MonoBehaviour
 
     [SerializeField] EnemyType enemyType;
     
+    // Regular pirate2 fields
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private GameObject arrowPrefab;
+    [SerializeField] private float shootInterval = 5f;
+    [SerializeField] private float spacing = 1.0f;
+    [SerializeField] private float offsetZ = 1f;
+    private int pirate2AttackCount = 0;
+
     // Indicates whether the attack animation has finished
     private bool isSharkAttackAnimationFinished = false;
     private bool isPirateAttackAnimationFinished = false;
@@ -47,6 +55,12 @@ public class EnemyAttack : MonoBehaviour
                     break;
                 case EnemyType.RegularPirate1:
                     PirateAttack();
+                    break;
+                case EnemyType.RegularPirate2:
+                    RegularPirate2Attack();
+                    break;
+                case EnemyType.RegularPirate3:
+                    RegularPirate3Attack(); 
                     break;
                 case EnemyType.Kraken:
                     KrakenAttack();
@@ -92,7 +106,65 @@ public class EnemyAttack : MonoBehaviour
             isPirateAttackAnimationFinished = false;
         }
     }
+    #region RegularPirate2
 
+    private void RegularPirate2Attack()
+    {
+        pirate2AttackCount++;
+        FireArrowWaves();
+
+        if (pirate2AttackCount < 2)
+        {
+            Invoke(nameof(RegularPirate2Attack), shootInterval);
+        }
+        else
+        {
+            if (Random.Range(0f, 100f) < 10f)
+            {
+                EnemyEventManager.Instance.OnEnemyCallTokenDrop.Invoke(gameObject);
+            }
+            EnemyEventManager.Instance.OnEnemyDisappear.Invoke(gameObject);
+        }
+    }
+
+    private void FireArrowWaves()
+    {
+        if (arrowPrefab == null || firePoint == null)
+        {
+            Debug.LogWarning("Arrow prefab or fire point not assigned.");
+            return;
+        }
+
+        Vector3 shipRight = transform.right;
+        Vector3 fireOrigin = firePoint.position;
+
+        for (int i = 0; i < 5; i++)
+        {
+            // Saða
+            Vector3 rightPos = fireOrigin + shipRight * (i + 1) * spacing + transform.forward * offsetZ;
+            SpawnArrow(rightPos, -transform.forward);
+
+            // Sola
+            Vector3 leftPos = fireOrigin - shipRight * (i + 1) * spacing + transform.forward * offsetZ;
+            SpawnArrow(leftPos, -transform.forward);
+        }
+    }
+
+    private void SpawnArrow(Vector3 position, Vector3 direction)
+    {
+        GameObject arrow = Instantiate(arrowPrefab, position, Quaternion.LookRotation(direction));
+    }
+
+    #endregion
+
+    #region RegularPirate3
+
+    private void RegularPirate3Attack()
+    {
+
+    }
+
+    #endregion
     private void KrakenAttack()
     {
         // Kraken'in saldýrý kodlarý
