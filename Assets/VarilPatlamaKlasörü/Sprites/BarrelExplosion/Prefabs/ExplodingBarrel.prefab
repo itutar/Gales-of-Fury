@@ -122,7 +122,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barrelFuse: {fileID: 8030459922401845560}
-  fuseStartDelay: 5
+  barrelExplosion: {fileID: 9169873820273520232, guid: a9dfd41861ac13a45be5fef48cc68139, type: 3}
+  fuseStartDelay: 1
 --- !u!1 &7895811394842962524
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 8197765513707240434}
   - component: {fileID: 4217435261882608827}
   - component: {fileID: 4948682180947401589}
-  - component: {fileID: 8985654033323535815}
+  - component: {fileID: -3379242093156256617}
+  - component: {fileID: 1380091583144504107}
   m_Layer: 0
   m_Name: ExplodingBarrel_v1
   m_TagString: Untagged
@@ -109,7 +110,34 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43476344487976738, guid: 83bf933c5fc001e44ac9c7a20b1c57eb, type: 2}
---- !u!114 &8985654033323535815
+--- !u!54 &-3379242093156256617
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164711885093704628}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &1380091583144504107
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,11 +146,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 164711885093704628}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6696415c25a537489848ff7acab6de9, type: 3}
+  m_Script: {fileID: 11500000, guid: a4bac096f1736844999fd7b17a36d088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barrelFuse: {fileID: 8030459922401845560}
-  fuseStartDelay: 5
+  BarrelExplosion: {fileID: 5945427466428042082}
+  BarrelFuse: {fileID: 7895811394842962524}
+  fuseBurningTime: 5
 --- !u!1 &7895811394842962524
 GameObject:
   m_ObjectHideFlags: 0
@@ -5008,8 +5037,28 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6464356908666726039, guid: a9dfd41861ac13a45be5fef48cc68139, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3623288363455299646}
   m_SourcePrefab: {fileID: 100100000, guid: a9dfd41861ac13a45be5fef48cc68139, type: 3}
+--- !u!1 &5945427466428042082 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6464356908666726039, guid: a9dfd41861ac13a45be5fef48cc68139, type: 3}
+  m_PrefabInstance: {fileID: 807380854721965557}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3623288363455299646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5945427466428042082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 660e48bb94c21724a9ad22d694afea51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &7767453304531482673 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6989565990370481604, guid: a9dfd41861ac13a45be5fef48cc68139, type: 3}
