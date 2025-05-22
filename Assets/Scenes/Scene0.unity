@@ -414,6 +414,7 @@ GameObject:
   - component: {fileID: 1166234511}
   - component: {fileID: 1166234512}
   - component: {fileID: 1166234513}
+  - component: {fileID: 1166234514}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -466,6 +467,19 @@ MonoBehaviour:
   laneSwitchSpeed: 5
   jumpForce: 5
   windSurfBoard: {fileID: 9014618095382064722}
+--- !u!114 &1166234514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166234510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51c23c714a1756542ba8c012f2108372, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerReference: {fileID: 11400000, guid: dbbc44f7dad38234c9b5f874ddad99fb, type: 2}
 --- !u!1 &1366325482
 GameObject:
   m_ObjectHideFlags: 0
