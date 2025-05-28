@@ -2,46 +2,124 @@ using Pinwheel.Poseidon;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class SimpleBuoyancy : MonoBehaviour
 {
-    [SerializeField] private Transform frontPoint;
-    [SerializeField] private Transform backPoint;
-    [SerializeField] private PWater water; // Poseidon Water reference
-    [SerializeField] private float buoyancyStrength = 10f;
-    [SerializeField] private float damping = 0.5f;
+    #region Fields
 
-    private Rigidbody rb;
+    PWater waterTile;
+    bool applyRipple = true;
+    Rigidbody rb;
+    // EndlessTiles reference to get the list of the tiles
+    [SerializeField] SeaTileReference seaTileReference;
+    EndlessTiles endlessTiles;
 
-    private void Awake()
+    // Four buoyancy points frontleft, frontright, backleft, backright
+    [SerializeField] GameObject[] buoyancyPoints = new GameObject[4];
+    // water surface position frontleft, frontright, backleft, backright
+    Vector3[] waterSurfacePositions = new Vector3[4];
+
+    // Buoyancy parameters
+    public float depthBeforeSubmerged = 2f;
+    public float displacementAmount = 3f;
+
+    // Water drag parameters
+    [SerializeField] float waterDrag = 0.99f;
+    [SerializeField] float waterAngularDrag = 0.5f;
+
+    #endregion
+
+    #region Unity Methods
+
+    private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        endlessTiles = seaTileReference.seaTileReferenceObject.GetComponent<EndlessTiles>();
+        if (endlessTiles == null)
+        {
+            Debug.LogError("EndlessTiles script bulunamadý!");
+            
+        }
+    }
+
+    private void Update()
+    {
+        if (seaTileReference != null)
+        {
+            waterTile = GetClosestTile();
+            if (waterTile != null)
+            {
+                // get the water position for each buoyancy point
+                for (int i = 0; i < buoyancyPoints.Length; i++)
+                {
+                    Vector3 localPos = waterTile.transform.InverseTransformPoint(buoyancyPoints[i].transform.position);
+                    localPos.y = 0;
+                    localPos = waterTile.GetLocalVertexPosition(localPos, applyRipple);
+
+                    Vector3 worldPos = waterTile.transform.TransformPoint(localPos);
+                    waterSurfacePositions[i] = worldPos;
+                }
+            }
+        }
     }
 
     private void FixedUpdate()
     {
-        ApplyBuoyancyAtPoint(frontPoint);
-        ApplyBuoyancyAtPoint(backPoint);
-    }
-
-    private void ApplyBuoyancyAtPoint(Transform point)
-    {
-        Vector3 worldPos = point.position;
-        Vector3 localPos = water.transform.InverseTransformPoint(worldPos);
-
-        Vector3 waterLocalPos = water.GetLocalVertexPosition(localPos);
-        float waterHeight = water.transform.TransformPoint(waterLocalPos).y;
-
-        float depthDifference = waterHeight - worldPos.y;
-
-        if (depthDifference > 0)
+        if (rb == null || waterTile == null)
+            return;
+        for (int i = 0; i < buoyancyPoints.Length; i++)
         {
-            // Nokta suyun altýnda -> Yukarý kuvvet uygula
-            Vector3 force = Vector3.up * depthDifference * buoyancyStrength;
-            // Hafif bir damping ekleyelim (isteðe baðlý)
-            force -= rb.GetPointVelocity(worldPos) * damping;
+            Vector3 point = buoyancyPoints[i].transform.position;
+            float waterLevel = waterSurfacePositions[i].y;
 
-            rb.AddForceAtPosition(force, worldPos);
+            rb.AddForceAtPosition(Physics.gravity / buoyancyPoints.Length,
+                         buoyancyPoints[i].transform.position, ForceMode.Acceleration);
+
+            // Sadece bu nokta suyun altýndaysa kaldýrýcý kuvvet uygula
+            if (point.y < waterLevel)
+            {
+                float depth = waterLevel - point.y;
+                // Nokta ne kadar batýk, 1 birimden fazla batarsa kuvvet maksimuma çýkar.
+                float displacementMultiplier = Mathf.Clamp01(depth / depthBeforeSubmerged) * displacementAmount;
+                // Yukarý yönlü kuvvet (F = m * g * çarpan)
+                Vector3 force = Vector3.up * Mathf.Abs(Physics.gravity.y) * displacementMultiplier;
+                // Kuvveti noktaya uygula (dönme momenti oluþur, daha gerçekçi)
+                rb.AddForceAtPosition(force, point, ForceMode.Acceleration);
+
+                // Linear drag
+                rb.AddForce(displacementMultiplier * -rb.velocity * waterDrag * Time.fixedDeltaTime, ForceMode.VelocityChange);
+                // Angular drag
+                rb.AddTorque(displacementMultiplier * -rb.angularVelocity * waterAngularDrag * Time.fixedDeltaTime, ForceMode.VelocityChange);
+            }
         }
     }
+
+    #endregion
+
+    #region Private Methods
+
+    /// <summary>
+    /// Gets the closest tile to the attached object
+    /// </summary>
+    /// <returns>the closest tile</returns>
+    private PWater GetClosestTile()
+    {
+        float closestDistance = float.MaxValue;
+        PWater closestTile = null;
+
+        foreach (GameObject tile in endlessTiles.GetSpawnedTiles())
+        {
+            float distance = Vector3.Distance(transform.position, tile.transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestTile = tile.GetComponent<PWater>();
+            }
+        }
+
+        return closestTile;
+    }
+
+    #endregion
 }
