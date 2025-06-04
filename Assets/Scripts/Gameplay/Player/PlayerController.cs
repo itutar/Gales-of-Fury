@@ -1,27 +1,38 @@
-using Pinwheel.Poseidon;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.EnhancedTouch;
+using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 public class PlayerController : MonoBehaviour
 {
+    #region Events
+
+    public event Action<float> OnMoveToLaneRequested;
+
+    #endregion
+
     #region Fields
 
-    private Coroutine currentMoveCoroutine;
+    float jumpForce = 55f; // Force applied when jumping
+    float swipeThreshold = 25f; // Minimum distance to consider a swipe
+    private bool hasSwipedThisTouch = false;
+    int activeFingerId = -1; // Track the active finger ID
 
-    public bool applyRipple;
-    public PWater water;
+    [SerializeField] Rigidbody rb;
 
-    // MoveToLane support
-    [SerializeField] float laneSwitchSpeed = 5f;
+    // reference to get the water surface level
+    FindWaterSurfaceLevel waterFinder;
+    float currentWaterSurfaceY;
 
-    // SwipeUp support
-    [SerializeField] float jumpForce = 5f;
+    // double tap detection
+    private float lastTapTime = 0f;
+    private float myDoubleTapDelay = 0.3f;
 
-    // Child object reference
-    [SerializeField] GameObject windSurfBoard;
-    Rigidbody windSurfBoardRigidbody;
+    // Check if the player is grounded
+    bool IsGrounded;
 
     #endregion
 
@@ -29,148 +40,185 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        InputManager.OnSwipeRight += HandleSwipeRight;
-        InputManager.OnSwipeLeft += HandleSwipeLeft;
-        InputManager.OnSwipeUp += HandleSwipeUp;
-        InputManager.OnSwipeDown += HandleSwipeDown;
-        InputManager.OnDoubleTap += HandleDoubleTap;
+        EnhancedTouchSupport.Enable();
+
+        Touch.onFingerMove += OnFingerMove;
+        Touch.onFingerDown += OnFingerDown;
+        Touch.onFingerUp += OnFingerUp;
     }
 
     private void OnDisable()
     {
-        InputManager.OnSwipeRight -= HandleSwipeRight;
-        InputManager.OnSwipeLeft -= HandleSwipeLeft;
-        InputManager.OnSwipeUp -= HandleSwipeUp;
-        InputManager.OnSwipeDown -= HandleSwipeDown;
-        InputManager.OnDoubleTap -= HandleDoubleTap;
+        EnhancedTouchSupport.Disable();
+
+        Touch.onFingerMove -= OnFingerMove;
+        Touch.onFingerDown -= OnFingerDown;
+        Touch.onFingerUp -= OnFingerUp;
     }
 
-    private void OnDestroy()
-    {
-        InputManager.OnSwipeRight -= HandleSwipeRight;
-        InputManager.OnSwipeLeft -= HandleSwipeLeft;
-        InputManager.OnSwipeUp -= HandleSwipeUp;
-        InputManager.OnSwipeDown -= HandleSwipeDown;
-        InputManager.OnDoubleTap -= HandleDoubleTap;
-    }
-
-    // Start is called before the first frame update
     void Start()
     {
-        windSurfBoardRigidbody = windSurfBoard.GetComponent<Rigidbody>();
+        waterFinder = GetComponent<FindWaterSurfaceLevel>();
+        if (waterFinder == null)
+        {
+            Debug.LogError("PlayerController: FindWaterSurfaceLevel component not found! Please add it to the player GameObject.", this);
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        // Update the current water surface level
+        if (waterFinder != null)
+        {
+            currentWaterSurfaceY = waterFinder.GetWaterSurfaceY();
+            CheckGrounded();
+        }
     }
 
     #endregion
 
     #region Private Methods
 
-    void HandleSwipeRight()
+    void OnFingerDown(Finger finger)
     {
-        if (LaneManager.instance.CurrentLane < LaneManager.instance.NumberOfLanes - 1)
+        // Check if the user using one finger at a time
+        if (activeFingerId == -1)
         {
-            LaneManager.instance.CurrentLane++;
-            
-            if (currentMoveCoroutine != null)
+            activeFingerId = finger.index;
+            hasSwipedThisTouch = false; // Reset swipe state for the new touch
+        }
+    }
+
+    void OnFingerUp(Finger finger)
+    {
+        if (finger.index == activeFingerId)
+        {
+            // SADECE swipe yapýlmadýysa double tap algýla
+            float currentTime = Time.time;
+            if (!hasSwipedThisTouch && (currentTime - lastTapTime < myDoubleTapDelay))
             {
-                StopCoroutine(currentMoveCoroutine);
+                DoubleTapAction();
             }
-            currentMoveCoroutine = StartCoroutine(MoveToLaneCoroutine(LaneManager.instance.CurrentLane));
-            Debug.Log("Saða kaydýrýldý, Yeni Koridor: " + LaneManager.instance.CurrentLane);
+            lastTapTime = currentTime;
+
+            // touch has ended. reset for the next touch
+            activeFingerId = -1;
+            hasSwipedThisTouch = false; 
         }
     }
 
-    void HandleSwipeLeft()
+    void OnFingerMove(Finger finger)
     {
-        if (LaneManager.instance.CurrentLane > 0)
-        {
-            LaneManager.instance.CurrentLane--;
-            if (currentMoveCoroutine != null)
-            {
-                StopCoroutine(currentMoveCoroutine);
-            }
-            currentMoveCoroutine = StartCoroutine(MoveToLaneCoroutine(LaneManager.instance.CurrentLane));
-            Debug.Log("Sola kaydýrýldý, Yeni Koridor: " + LaneManager.instance.CurrentLane);
-        }
-    }
-
-    void HandleSwipeUp()
-    {
-        if (IsGrounded())
-        {
-            windSurfBoardRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }
-        Debug.Log("Yukarý Kaydýrýldý");
-    }
-
-    void HandleSwipeDown()
-    {
-        Debug.Log("Aþaðý Kaydýrýldý");
-    }
-
-    void HandleDoubleTap()
-    {
-        Debug.Log("Çift Týklama Algýlandý");
-    }
-
-    /// <summary>
-    /// Moves the player to the specified lane
-    /// </summary>
-    /// <param name="laneIndex">The index of the lane (0-based)
-    /// starting from the left</param>
-    IEnumerator MoveToLaneCoroutine(int laneIndex)
-    {
-        // Get target position from LaneManager
-        float targetPositionX = LaneManager.instance.GetLanePosition(laneIndex);
-
-        // Take current position
-        Vector3 currentPosition = transform.position;
-
-        // Set target position, Y and Z axis remain unchanged
-        Vector3 targetPosition = new Vector3(targetPositionX, currentPosition.y, currentPosition.z);
-
-        // Move to target position
-        while (transform.position != targetPosition)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, laneSwitchSpeed * Time.deltaTime);
-            yield return null; 
-        }
-        currentMoveCoroutine = null;
-    }
-
-    /// <summary>
-    /// Checks if the player is grounded
-    /// </summary>
-    /// <returns>Returns true if the player is touching the ground, otherwise false</returns>
-    bool IsGrounded()
-    {
-        if (water == null)
-        {
-            Debug.LogWarning("Water reference is missing!");
-            return false;
-        }
-
-        // Su yüzeyindeki pozisyonu hesapla
-        Vector3 localPos = water.transform.InverseTransformPoint(transform.position);
-        localPos.y = 5f;
-        localPos = water.GetLocalVertexPosition(localPos, applyRipple);
-        Vector3 worldPos = water.transform.TransformPoint(localPos);
-
-        // Oyuncunun pozisyonu ile su yüzeyi arasýndaki farký hesapla
-        float displacement = worldPos.y - transform.position.y;
-
-        // Eðer fark belirli bir deðerin altýndaysa oyuncunun yerde olduðunu kabul et
-        bool isGrounded = displacement >= -0.2f && displacement <= 0.2f;
+        // only interested in the active finger and If we have already changed lanes once in this touch, skip it.
+        if (finger.index != activeFingerId || hasSwipedThisTouch)
+            return;
         
-        Debug.Log("IsGrounded result: " + isGrounded);
-       
-        return isGrounded;
+        var touch = finger.currentTouch;
+        // if the touch is not in progress, skip it.
+        if (!touch.isInProgress)
+            return;
+        
+        float deltaX = touch.delta.x;
+        float deltaY = touch.delta.y;
+        // check if swipe right or left
+        if (deltaX > swipeThreshold)
+        {
+            TryMoveToLane(Direction.Right);
+            hasSwipedThisTouch = true; // Mark that we have swiped this touch
+            
+        }
+        else if (deltaX < -swipeThreshold)
+        {
+            TryMoveToLane(Direction.Left);
+            hasSwipedThisTouch = true;
+            
+        }
+
+        // check if swipe up
+        if (deltaY > swipeThreshold)
+        {
+            Jump();
+            hasSwipedThisTouch = true; // Mark that we have swiped this touch
+            
+        }
+    }
+
+    /// <summary>
+    /// Tries to move the player to the next lane in the specified direction.
+    /// </summary>
+    /// <param name="dir">direction enum that defined in PlayerController script</param>
+    void TryMoveToLane(Direction dir)
+    {
+        int current = LaneManager.instance.CurrentLane;
+        int maxIndex = LaneManager.instance.NumberOfLanes - 1;
+
+        if (dir == Direction.Right && current < maxIndex)
+        {
+            current++;
+            LaneManager.instance.CurrentLane = current;
+            MovePlayerToLane(current);
+
+        }
+        else if (dir == Direction.Left && current > 0)
+        {
+            current--;
+            LaneManager.instance.CurrentLane = current;
+            MovePlayerToLane(current);
+        }
+        // if the player is already at the edge of the lanes, do nothing
+        
+    }
+
+    /// <summary>
+    /// Moves the player to the specified lane index.
+    /// </summary>
+    /// <param name="laneIndex">the lane that player will move towards</param>
+    private void MovePlayerToLane(int laneIndex)
+    {
+        float targetX = LaneManager.instance.GetLanePosition(laneIndex);
+        OnMoveToLaneRequested?.Invoke(targetX);
+    }
+
+    /// <summary>
+    /// Makes the player jump.
+    /// </summary>
+    void Jump()
+    {
+        // Prevent jumping if not grounded
+        if (!IsGrounded)
+            return;
+        
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
+
+    /// <summary>
+    /// Executes the action associated with a double-tap gesture.
+    /// </summary>
+    void DoubleTapAction()
+    {
+        Debug.Log("Double tap detected! Executing action.");
+        // Call the help ship manager to spawn a help ship
+        HelpShipManager.instance?.CallHelpShip();
+    }
+
+    /// <summary>
+    /// checks if the player is grounded by comparing the player's Y position with the water surface level.
+    /// </summary>
+    void CheckGrounded()
+    {
+        IsGrounded = transform.position.y <= currentWaterSurfaceY + 0.2f;
     }
 
     #endregion
+
+    #region Enums
+
+    private enum Direction
+    {
+        Left,
+        Right
+    }
+
+    #endregion
+
 }

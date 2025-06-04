@@ -31,12 +31,14 @@ public class HelpShipManager : MonoBehaviour
 
     private void OnEnable()
     {
-        InputManager.OnDoubleTap += CallHelpShip;
+        //InputManager.OnDoubleTap += CallHelpShip;
+        // doubletap event 
     }
 
     private void OnDisable()
     {
-        InputManager.OnDoubleTap -= CallHelpShip;
+        //InputManager.OnDoubleTap -= CallHelpShip;
+        // doubletap event
     }
 
     #endregion
@@ -62,7 +64,7 @@ public class HelpShipManager : MonoBehaviour
     /// Instantiates the assigned HelpShip prefab.
     /// This method is triggered by a double-tap gesture if a HelpShip call is available.
     /// </summary>
-    void CallHelpShip()
+    public void CallHelpShip()
     {
         if (hasHelpShipAvailable && currentHelpShipPrefab != null)
         {

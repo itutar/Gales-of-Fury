@@ -21,14 +21,14 @@ MonoBehaviour:
   enableLightAbsorption: 1
   depthColor: {r: 0.36992702, g: 0.4111141, b: 0.4811321, a: 0.85}
   maxDepth: 10
-  enableFoam: 1
+  enableFoam: 0
   foamColor: {r: 1, g: 1, b: 1, a: 1}
   foamDistance: 1.2
-  enableFoamHQ: 1
-  foamNoiseScaleHQ: 3
+  enableFoamHQ: 0
+  foamNoiseScaleHQ: 1.32
   foamNoiseSpeedHQ: 1
-  shorelineFoamStrength: 0.11
-  crestFoamStrength: 0.169
+  shorelineFoamStrength: 0.28
+  crestFoamStrength: 0.08
   crestMaxDepth: 10
   slopeFoamStrength: 0.5
   slopeFoamFlowSpeed: 20

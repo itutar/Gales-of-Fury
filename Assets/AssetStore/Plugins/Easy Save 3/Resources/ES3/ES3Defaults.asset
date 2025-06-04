@@ -38,7 +38,10 @@ MonoBehaviour:
     - AloneSoft.VeryAnimation
     - Assembly-CSharp
     - AssetInventory.Examples
+    - CFXRDemo
+    - CFXRRuntime
     - Cinemachine
+    - KinoBloom.Runtime
     - Lofelt.NiceVibrations
     - Lofelt.NiceVibrations.Demo
     - MoreMountains.Tools

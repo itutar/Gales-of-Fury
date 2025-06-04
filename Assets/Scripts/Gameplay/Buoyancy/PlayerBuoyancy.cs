@@ -7,110 +7,96 @@ public class PlayerBuoyancy : MonoBehaviour
 {
     #region Fields
 
-    public PWater water;         // Su yüzeyini temsil eden varlýk
-    public bool applyRipple;     // Dalga etkisini uygulayýp uygulamayacaðýmýz
-    private Rigidbody rb;
-
-    public float buoyancyStrength = 10f;  // Kaldýrma kuvveti için katsayý
-    public float damping = 0.5f;          // Sürtünme kuvveti için katsayý
-    public float verticalDamping = 2f;   // Y eksenindeki sönümleme katsayýsý
-
-    //Jumping flag
-    bool isJumping = false;
-    Coroutine buoyancyCoroutine;
-
+    PWater waterTile;
+    bool applyRipple = true;
+    Rigidbody rb;
     // EndlessTiles reference to get the list of the tiles
-    private EndlessTiles endlessTiles;
+    [SerializeField] SeaTileReference seaTileReference;
+    EndlessTiles endlessTiles;
+
+    // Four buoyancy points frontleft, frontright, backleft, backright
+    [SerializeField] GameObject[] buoyancyPoints = new GameObject[4];
+    // water surface position frontleft, frontright, backleft, backright
+    Vector3[] waterSurfacePositions = new Vector3[4];
+
+    // Buoyancy parameters
+    public float depthBeforeSubmerged = 2f;
+    public float displacementAmount = 3f;
+
+    // Water drag parameters
+    [SerializeField] float waterDrag = 0.99f;
+    [SerializeField] float waterAngularDrag = 0.5f;
 
     #endregion
 
     #region Unity Methods
 
-    private void OnEnable()
-    {
-        InputManager.OnSwipeUp += DetectJump;
-    }
-
-    private void OnDisable()
-    {
-        InputManager.OnSwipeUp -= DetectJump;
-    }
-
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody>();
-        if (rb == null)
-        {
-            Debug.LogError("Buoyancy için Rigidbody gerekli!");
-        }
-    }
-
     private void Start()
     {
-        endlessTiles = FindObjectOfType<EndlessTiles>();
+        rb = GetComponent<Rigidbody>();
+        endlessTiles = seaTileReference.seaTileReferenceObject.GetComponent<EndlessTiles>();
         if (endlessTiles == null)
         {
             Debug.LogError("EndlessTiles script bulunamadý!");
+
         }
     }
 
     private void Update()
     {
-        if (endlessTiles != null)
+        if (seaTileReference != null)
         {
-            water = GetClosestTile();
+            waterTile = GetClosestTile();
+            if (waterTile != null)
+            {
+                // get the water position for each buoyancy point
+                for (int i = 0; i < buoyancyPoints.Length; i++)
+                {
+                    Vector3 localPos = waterTile.transform.InverseTransformPoint(buoyancyPoints[i].transform.position);
+                    localPos.y = 0;
+                    localPos = waterTile.GetLocalVertexPosition(localPos, applyRipple);
+
+                    Vector3 worldPos = waterTile.transform.TransformPoint(localPos);
+                    waterSurfacePositions[i] = worldPos;
+                }
+            }
         }
     }
 
     private void FixedUpdate()
     {
-        if (water == null || rb == null)
+        if (rb == null || waterTile == null)
             return;
+        for (int i = 0; i < buoyancyPoints.Length; i++)
+        {
+            Vector3 point = buoyancyPoints[i].transform.position;
+            float waterLevel = waterSurfacePositions[i].y;
 
-        // Su yüzeyindeki pozisyonu hesapla
-        Vector3 localPos = water.transform.InverseTransformPoint(transform.position);
-        localPos.y = 0;
-        localPos = water.GetLocalVertexPosition(localPos, applyRipple);
-        Vector3 worldPos = water.transform.TransformPoint(localPos);
+            rb.AddForceAtPosition(Physics.gravity / buoyancyPoints.Length,
+                         buoyancyPoints[i].transform.position, ForceMode.Acceleration);
 
-        // Kaldýrma kuvvetini hesapla (zýplama durumuna göre ayarlanmýþ)
-        float displacement = worldPos.y - transform.position.y;
-        float adjustedBuoyancyStrength = isJumping ? buoyancyStrength * 0.2f : buoyancyStrength; // Kuvveti azalt
-        Vector3 buoyancyForce = new Vector3(0, adjustedBuoyancyStrength * displacement, 0);
+            // Sadece bu nokta suyun altýndaysa kaldýrýcý kuvvet uygula
+            if (point.y < waterLevel)
+            {
+                float depth = waterLevel - point.y;
+                // Nokta ne kadar batýk, 1 birimden fazla batarsa kuvvet maksimuma çýkar.
+                float displacementMultiplier = Mathf.Clamp01(depth / depthBeforeSubmerged) * displacementAmount;
+                // Yukarý yönlü kuvvet (F = m * g * çarpan)
+                Vector3 force = Vector3.up * Mathf.Abs(Physics.gravity.y) * displacementMultiplier;
+                // Kuvveti noktaya uygula (dönme momenti oluþur, daha gerçekçi)
+                rb.AddForceAtPosition(force, point, ForceMode.Acceleration);
 
-        // Sürtünme kuvvetini hesapla
-        Vector3 dragForce = -rb.velocity * damping;
-
-        // Y ekseni için sönümleme kuvvetini hesapla
-        Vector3 verticalDrag = new Vector3(0, -rb.velocity.y * verticalDamping, 0);
-
-        // Kuvvetleri uygula
-        rb.AddForce(buoyancyForce, ForceMode.Force); // Kaldýrma kuvveti
-        rb.AddForce(dragForce, ForceMode.Force);    // Genel sürtünme kuvveti
-        rb.AddForce(verticalDrag, ForceMode.Force); // Y ekseni için sönümleme
+                // Linear drag
+                rb.AddForce(displacementMultiplier * -rb.velocity * waterDrag * Time.fixedDeltaTime, ForceMode.VelocityChange);
+                // Angular drag
+                rb.AddTorque(displacementMultiplier * -rb.angularVelocity * waterAngularDrag * Time.fixedDeltaTime, ForceMode.VelocityChange);
+            }
+        }
     }
 
     #endregion
 
     #region Private Methods
-
-    void DetectJump()
-    {
-        isJumping = true;
-        if (buoyancyCoroutine != null)
-        {
-            StopCoroutine(buoyancyCoroutine);
-        }
-        // Yeni Coroutine baþlat ve referansýný sakla
-        buoyancyCoroutine = StartCoroutine(EnableBuoyancyAfterJump());
-        
-    }
-
-    private IEnumerator EnableBuoyancyAfterJump()
-    {
-        yield return new WaitForSeconds(1f); // Zýplamanýn tamamlanmasý için süre
-        isJumping = false;
-    }
 
     /// <summary>
     /// Gets the closest tile to the attached object
