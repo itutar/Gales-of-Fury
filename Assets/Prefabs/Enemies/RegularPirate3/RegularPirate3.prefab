@@ -2986,9 +2986,9 @@ GameObject:
   - component: {fileID: 721440601561957572}
   - component: {fileID: 770189930441190373}
   - component: {fileID: 3388138589571298328}
-  - component: {fileID: 1230891842980894936}
   - component: {fileID: 4357478123248052106}
   - component: {fileID: 7623628150912467045}
+  - component: {fileID: 8044318633400593336}
   m_Layer: 0
   m_Name: RegularPirate3
   m_TagString: Untagged
@@ -3093,24 +3093,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: e4de1643478970c438373027102d3480, type: 3}
---- !u!114 &1230891842980894936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4219741620076811718}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28ee3c8ff5fa203458fb972c59ec57fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyType: 3
-  firePoint: {fileID: 0}
-  arrowPrefab: {fileID: 0}
-  shootInterval: 5
-  spacing: 1
-  offsetZ: 1
 --- !u!114 &4357478123248052106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3160,6 +3142,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8044318633400593336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4219741620076811718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36cd6ee2cb6f47e4aa3c37d738eb0f59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animComponent: {fileID: 6812057987892578819}
 --- !u!1 &4353606862537813128
 GameObject:
   m_ObjectHideFlags: 0

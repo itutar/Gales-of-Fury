@@ -23,7 +23,6 @@ public class RegularPirate3Human3Animation : MonoBehaviour
     void Start()
     {
         animator = this.GetComponent<Animator>();
-        EnemyEventManager.Instance.OnEnemyAttack.AddListener(OnAttack);
     }
 
     // Update is called once per frame
@@ -41,18 +40,7 @@ public class RegularPirate3Human3Animation : MonoBehaviour
 
     #region Private Methods
 
-    /// <summary>
-    /// Handles the attack event based on the enemy type.
-    /// </summary>
-    /// <param name="enemy">The enemy performing the attack</param>
-    private void OnAttack(GameObject enemy)
-    {
-        if (enemy == Parent)
-        {
-            animator.SetTrigger("regularPirate3Human3AttackTrigger");
-            SpawnOnBetweenHands(spine);
-        }
-    }
+    
 
     private void SpawnOnBetweenHands(Transform spine)
     {
@@ -78,8 +66,15 @@ public class RegularPirate3Human3Animation : MonoBehaviour
         currentBarrel.transform.parent = null;
         Rigidbody rb = currentBarrel.GetComponent<Rigidbody>();
         rb.isKinematic = false;
-        rb.useGravity = true;
+    }
 
+    /// <summary>
+    /// Triggers the attack animation and calls SpawnOnBetweenHands method.
+    /// </summary>
+    public void OnAttack()
+    {
+        animator.SetTrigger("regularPirate3Human3AttackTrigger");
+        SpawnOnBetweenHands(spine);
     }
 
     #endregion

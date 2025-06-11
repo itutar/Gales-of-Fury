@@ -6213,7 +6213,7 @@ MonoBehaviour:
   sharkPrefab: {fileID: 4627457418746437297, guid: e2a7fb4d6b9c7904a8f4f3b242d62289, type: 3}
   regularPirate1Prefab: {fileID: 2355354772765632791, guid: b6f1b3aca9b62d145823c1c2545bb991, type: 3}
   regularPirate2Prefab: {fileID: 4454457780852853469, guid: a5c10db95307e8b4aa82a9707c897011, type: 3}
-  regularPirate3Prefab: {fileID: 0}
+  regularPirate3Prefab: {fileID: 4219741620076811718, guid: 09be6a54abfe5834391bfb3ea437deaa, type: 3}
   krakenPrefab: {fileID: 8085095974348801365, guid: a1a2f58609fd57c478ce6d7fdaf7f56d, type: 3}
 --- !u!4 &1844562179
 Transform:
@@ -13758,6 +13758,7 @@ GameObject:
   - component: {fileID: 9014618095382064730}
   - component: {fileID: 9014618095382064731}
   - component: {fileID: 9014618095382064732}
+  - component: {fileID: 9014618095382064733}
   m_Layer: 0
   m_Name: WindSurfBoard
   m_TagString: Player
@@ -13848,6 +13849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24faa66f47478d1488498f17e72827fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerHealth: {fileID: 9014618095382064733}
   rb: {fileID: 9014618095382064723}
 --- !u!114 &9014618095382064730
 MonoBehaviour:
@@ -13896,6 +13898,21 @@ MonoBehaviour:
   findWaterSurface: {fileID: 9014618095382064730}
   contactThreshold: 0.1
   vfx: {fileID: 1544589669}
+--- !u!114 &9014618095382064733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9014618095382064722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee6fae447d9a49a4f9bab5f0ae222d87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageResetTime: 2
+  animator: {fileID: 5866666020280430298}
+  handIKRig: {fileID: 1119478118}
 --- !u!1 &9030526843867138962
 GameObject:
   m_ObjectHideFlags: 0

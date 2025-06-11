@@ -16,6 +16,10 @@ public class PlayerController : MonoBehaviour
 
     #region Fields
 
+    // for test
+    [SerializeField] PlayerHealth playerHealth;
+
+
     float jumpForce = 55f; // Force applied when jumping
     float swipeThreshold = 25f; // Minimum distance to consider a swipe
     private bool hasSwipedThisTouch = false;
@@ -198,6 +202,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Double tap detected! Executing action.");
         // Call the help ship manager to spawn a help ship
+        playerHealth?.TakeDamage(); // For test, remove this line in production
         HelpShipManager.instance?.CallHelpShip();
     }
 

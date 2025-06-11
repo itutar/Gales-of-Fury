@@ -54,7 +54,7 @@ public class EnemySpawner : MonoBehaviour
         //EnemyType[] values = (EnemyType[])System.Enum.GetValues(typeof(EnemyType));
         //int randomIndex = Random.Range(0, values.Length);
         //return values[randomIndex];
-        return EnemyType.RegularPirate2;
+        return EnemyType.RegularPirate3;
     }
 
     #endregion

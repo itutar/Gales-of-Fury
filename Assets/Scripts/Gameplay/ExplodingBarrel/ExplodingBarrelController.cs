@@ -11,6 +11,9 @@ public class ExplodingBarrelController : MonoBehaviour
     private ParticleSystem barrelExplosionParticle;
     private ParticleSystem barrelFuseParticle;
     [SerializeField] private float fuseBurningTime = 5f;
+    [SerializeField] private float explosionRadius = 2.5f;
+
+    [SerializeField] Rigidbody barrelRigidbody;
 
     #endregion
 
@@ -25,10 +28,15 @@ public class ExplodingBarrelController : MonoBehaviour
         StartCoroutine(StopFuse());
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDrawGizmos()
     {
-        
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, explosionRadius);
+    }
+
+    private void FixedUpdate()
+    {
+        barrelRigidbody?.AddForce(Vector3.back * 10f, ForceMode.Force);
     }
 
     #endregion
@@ -41,6 +49,20 @@ public class ExplodingBarrelController : MonoBehaviour
         barrelFuseParticle.Stop();
         transform.rotation = Quaternion.identity;
         barrelExplosionParticle.Play();
+
+        // explosion moment damage check
+        var hits = Physics.OverlapSphere(transform.position, explosionRadius);
+        foreach (var hit in hits)
+        {
+            if (hit.CompareTag("Player"))
+            {
+                Debug.Log("Player hit by explosion!");
+                var health = hit.GetComponent<PlayerHealth>();
+                if (health != null)
+                    health.TakeDamage();
+            }
+        }
+
         BarrelExplosion.transform.parent = null;
         Destroy(gameObject);
 
