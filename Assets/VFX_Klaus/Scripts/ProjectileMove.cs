@@ -50,7 +50,18 @@ public class ProjectileMove : MonoBehaviour
         Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
         Vector3 pos = contact.point;
 
-        if(hitPrefab != null)
+        // Damage check
+        if (co.collider.CompareTag("Player"))
+        {
+            PlayerHealth health = co.collider.GetComponent<PlayerHealth>();
+            if (health != null)
+            {
+                health.TakeDamage();
+                Debug.Log("Player hit by projectile VFX!");
+            }
+        }
+
+        if (hitPrefab != null)
         {
             var hitVFX = Instantiate(hitPrefab, pos, rot);
             var psHit = hitVFX.GetComponent<ParticleSystem>();

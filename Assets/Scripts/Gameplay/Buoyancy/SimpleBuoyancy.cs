@@ -28,6 +28,8 @@ public class SimpleBuoyancy : MonoBehaviour
     [SerializeField] float waterDrag = 0.99f;
     [SerializeField] float waterAngularDrag = 0.5f;
 
+    // if zero, the object will sink, if one no effect will be applied
+    [HideInInspector] public float sinkFactor = 1f;
     #endregion
 
     #region Unity Methods
@@ -81,7 +83,7 @@ public class SimpleBuoyancy : MonoBehaviour
             {
                 float depth = waterLevel - point.y;
                 // Nokta ne kadar batýk, 1 birimden fazla batarsa kuvvet maksimuma çýkar.
-                float displacementMultiplier = Mathf.Clamp01(depth / depthBeforeSubmerged) * displacementAmount;
+                float displacementMultiplier = Mathf.Clamp01(depth / depthBeforeSubmerged) * displacementAmount * sinkFactor;
                 // Yukarý yönlü kuvvet (F = m * g * çarpan)
                 Vector3 force = Vector3.up * Mathf.Abs(Physics.gravity.y) * displacementMultiplier;
                 // Kuvveti noktaya uygula (dönme momenti oluþur, daha gerçekçi)

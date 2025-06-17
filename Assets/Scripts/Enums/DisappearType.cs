@@ -5,5 +5,6 @@ using UnityEngine;
 public enum DisappearType 
 {
     FadeOut,
-    StayBehind
+    StayBehind,
+    MoveToTopCornerAndDisappear
 }

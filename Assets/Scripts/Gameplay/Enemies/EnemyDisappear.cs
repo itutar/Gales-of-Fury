@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +7,9 @@ public class EnemyDisappear : MonoBehaviour
     #region Fields
 
     [SerializeField] DisappearType disappearType;
+
+    // Currently running disappear coroutine (if any)
+    private Coroutine activeDisappearCoroutine;
 
     #endregion
 
@@ -32,13 +35,28 @@ public class EnemyDisappear : MonoBehaviour
     /// <param name="enemy">Disappearing object</param>
     private void HandleEnemyDisappear(GameObject enemy)
     {
+        // If this is not my GameObject, ignore (defensive check)
+        if (enemy != this.gameObject)
+            return;
+
+        // If a coroutine is already running → stop it first
+        if (activeDisappearCoroutine != null)
+        {
+            StopCoroutine(activeDisappearCoroutine);
+            activeDisappearCoroutine = null;
+        }
+
+        // Now start the desired coroutine
         switch (disappearType)
         {
             case DisappearType.FadeOut:
-                StartCoroutine(FadeOutAndDestroy(enemy));
+                activeDisappearCoroutine = StartCoroutine(SinkAndDestroy(enemy));
                 break;
             case DisappearType.StayBehind:
-                StartCoroutine(MoveBackAndDestroy(enemy));
+                activeDisappearCoroutine = StartCoroutine(MoveBackAndDestroy(enemy));
+                break;
+            case DisappearType.MoveToTopCornerAndDisappear:
+                activeDisappearCoroutine = StartCoroutine(MoveToTopCornerAndDestroy(enemy));
                 break;
         }
     }
@@ -46,23 +64,37 @@ public class EnemyDisappear : MonoBehaviour
     /// <summary>
     /// Gradually fades out the specified enemy GameObject by moving the enemy downward.
     /// Once fully disappeared, the GameObject is destroyed to remove it from the scene.
+    /// Also gradually disables buoyancy by reducing sinkFactor.
     /// </summary>
     /// <param name="enemy">The enemy GameObject to fade out and destroy</param>
     /// <returns>Coroutine IEnumerator for timed fading and destroying process</returns>
-    private IEnumerator FadeOutAndDestroy(GameObject enemy)
+    private IEnumerator SinkAndDestroy(GameObject enemy)
     {
-        float fadeDuration = 2f;
+        float duration = 3f;
+        float elapsed = 0f;
 
-        // moves the enemy downward on the y-axis
-        for (float t = 0; t < fadeDuration; t += Time.deltaTime)
+        SimpleBuoyancy buoyancy = enemy.GetComponent<SimpleBuoyancy>();
+        if (buoyancy != null)
         {
-            float alpha = Mathf.Lerp(1, 0, t / fadeDuration);
-            
-            enemy.transform.position += Vector3.down * Time.deltaTime * 0.5f;
+            buoyancy.sinkFactor = 1f;
+        }
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+
+            // Lower sinkFactor over time (from 1 → 0)
+            if (buoyancy != null)
+            {
+                buoyancy.sinkFactor = Mathf.Lerp(1f, 0f, t);
+            }
+
+            // No manual position change! Let buoyancy handle sinking naturally.
+
             yield return null;
         }
 
-        // Destroy the enemy object after it fades out completely
         Destroy(enemy);
     }
 
@@ -74,19 +106,92 @@ public class EnemyDisappear : MonoBehaviour
     /// <returns>Coroutine IEnumerator for the backward movement process.</returns>
     private IEnumerator MoveBackAndDestroy(GameObject enemy)
     {
-        float moveDuration = 4f;
+        float duration = 4f;
+        float elapsed = 0f;
 
-        // Move the enemy backward along the z-axis
-        for (float t = 0; t < moveDuration; t += Time.deltaTime)
+        Rigidbody rb = enemy.GetComponent<Rigidbody>();
+        if (rb == null)
         {
-            enemy.transform.position += Vector3.back * Time.deltaTime * 4f; 
+            Debug.LogError("Enemy has no Rigidbody for MoveBackAndDestroy!");
+            yield break;
+        }
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+
+            // Check if Rigidbody is still valid
+            if (rb != null)
+            {
+                Vector3 force = Vector3.back * 10f; // adjust force strength here
+                rb.AddForce(force, ForceMode.Force);
+            }
+            else
+            {
+                Debug.LogWarning("Rigidbody destroyed during MoveBackAndDestroy!");
+                yield break;
+            }
+
             yield return null;
         }
 
-        // Destroy the enemy object after it has moved back sufficiently
         Destroy(enemy);
     }
 
+    private IEnumerator MoveToTopCornerAndDestroy(GameObject enemy)
+    {
+        Rigidbody rb = enemy.GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            Debug.LogError("Enemy has no Rigidbody for MoveToTopCornerAndDisappear!");
+            yield break;
+        }
+
+        // Randomly pick left or right
+        Vector3 direction = (Random.value < 0.5f) ? new Vector3(-1f, 0f, 1f) : new Vector3(1f, 0f, 1f);
+        direction.Normalize();
+
+        Camera cam = Camera.main;
+
+        bool isOutOfScreen = false;
+
+        while (!isOutOfScreen)
+        {
+            // Apply a force toward top corner
+            Vector3 force = direction * 100f;
+            rb.AddForce(force, ForceMode.Force);
+
+            // Dynamically calculate left and right edges in world space based on current Z position
+            float currentZ = enemy.transform.position.z;
+            float leftEdgeX = cam.ViewportToWorldPoint(new Vector3(0f, 0.5f, currentZ)).x - 3f;
+            float rightEdgeX = cam.ViewportToWorldPoint(new Vector3(1f, 0.5f, currentZ)).x + 3f;
+
+            // Check if X position passed the threshold
+            float currentX = enemy.transform.position.x;
+
+            if (currentX < leftEdgeX || currentX > rightEdgeX)
+            {
+                isOutOfScreen = true;
+            }
+
+            yield return null;
+        }
+
+        Destroy(enemy);
+    }
+
+    #endregion
+
+    #region Public Methods
+
+    /// <summary>
+    /// Sets the type of disappearance behavior for the object.
+    /// </summary>
+    /// <param name="newType">The new disappearance type to apply.</param>
+    public void SetDisappearType(DisappearType newType)
+    {
+        disappearType = newType;
+    }
 
     #endregion
 }
