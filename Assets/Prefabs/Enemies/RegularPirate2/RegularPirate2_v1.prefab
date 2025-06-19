@@ -1101,6 +1101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disappearType: 2
+  moveToCornerForce: 15
 --- !u!114 &8217358325926972847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1123,7 +1124,6 @@ MonoBehaviour:
   displacementAmount: 3
   waterDrag: 0.99
   waterAngularDrag: 0.5
-  sinkFactor: 1
 --- !u!54 &702306963965051623
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1217,7 +1217,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   attackComponentRaw: {fileID: 5174075792547240028}
-  moveComponent: {fileID: 8105769622318467467}
+  moveComponentRaw: {fileID: 8105769622318467467}
   health: 1
   escapeDirection: {x: 1, y: 1, z: 0}
   escapeSpeed: 3

@@ -11,9 +11,12 @@ public class EnemySpawner : MonoBehaviour
     public GameObject regularPirate1Prefab;
     public GameObject regularPirate2Prefab;
     public GameObject regularPirate3Prefab;
-    public GameObject krakenPrefab;
+    public GameObject krakenPrefabPopUp;
+    public GameObject krakenPrefabAttack;
     // Coroutine reference
     private Coroutine spawnCoroutine;
+
+    [SerializeField] private PlayerReference playerReference;
 
     #endregion
 
@@ -51,10 +54,10 @@ public class EnemySpawner : MonoBehaviour
     /// <returns>A randomly selected EnemyType value.</returns>
     public EnemyType GetRandomEnemyType()
     {
-        //EnemyType[] values = (EnemyType[])System.Enum.GetValues(typeof(EnemyType));
-        //int randomIndex = Random.Range(0, values.Length);
-        //return values[randomIndex];
-        return EnemyType.RegularPirate2;
+        EnemyType[] values = (EnemyType[])System.Enum.GetValues(typeof(EnemyType));
+        int randomIndex = Random.Range(0, values.Length);
+        return values[randomIndex];
+        //return EnemyType.Kraken;
     }
 
     #endregion
@@ -76,12 +79,13 @@ public class EnemySpawner : MonoBehaviour
         {
             case EnemyType.Shark:
                 spawnedEnemy = Instantiate(sharkPrefab, GetSpawnPosition(out targetXPosition), Quaternion.identity);
-                var moverShark = spawnedEnemy.GetComponent<MoveEnemyTowardsTargetLane>();
+                var moverShark = spawnedEnemy.GetComponent<MoveSharkToLane>();
                 moverShark.Initialize(targetXPosition);
                 
                 break;
             case EnemyType.RegularPirate1:
                 spawnedEnemy = Instantiate(regularPirate1Prefab, GetSpawnPosition(out targetXPosition), Quaternion.identity);
+                spawnedEnemy.transform.rotation = Quaternion.Euler(0f, 180f, 0f); // Rotate to face the player
                 var moverRegularPirate1 = spawnedEnemy.GetComponent<MoveEnemyTowardsTargetLane>();
                 moverRegularPirate1.Initialize(targetXPosition);
                 
@@ -99,10 +103,8 @@ public class EnemySpawner : MonoBehaviour
                 
                 break;
             case EnemyType.Kraken:
-                spawnedEnemy = Instantiate(krakenPrefab, GetSpawnPosition(out targetXPosition), Quaternion.identity);
-                var moverKraken = spawnedEnemy.GetComponent<MoveEnemyTowardsTargetLane>();
-                moverKraken.Initialize(targetXPosition);
-                
+                StartCoroutine(SpawnKrakenSequence());
+
                 break;
         }
     }
@@ -114,7 +116,7 @@ public class EnemySpawner : MonoBehaviour
     {
         while (true)
         {
-            float waitTime = Random.Range(15f, 20f);// 5-10
+            float waitTime = Random.Range(5f, 10f);// 5-10
             yield return new WaitForSeconds(waitTime);
 
             EnemyEventManager.Instance?.OnEnemySpawned.Invoke(GetRandomEnemyType());
@@ -150,6 +152,32 @@ public class EnemySpawner : MonoBehaviour
         int laneIndex = Random.Range(0, LaneManager.instance.NumberOfLanes);
         targetXPosition = LaneManager.instance.GetLanePosition(laneIndex);
         return new Vector3(spawnXPosition, 5.5f, spawnZ);
+    }
+
+    #endregion
+
+    #region Kraken Methods
+
+    /// <summary>
+    /// spawns the Kraken prefabs at the player's position in a sequence.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator SpawnKrakenSequence()
+    {
+        if (playerReference.player == null)
+            yield break;
+
+        // 1. spawn
+        Vector3 spawnPos = playerReference.player.transform.position;
+        // ensure the spawn position is at the water surface level
+        spawnPos.y = playerReference.player.GetComponent<PlayerBuoyancy>().GetPlayerWaterLevel();
+        Instantiate(krakenPrefabPopUp, spawnPos, Quaternion.identity);
+
+        // 1.5 saniye bekle
+        yield return new WaitForSeconds(1.05f);
+
+        // 2. spawn
+        Instantiate(krakenPrefabAttack, spawnPos, Quaternion.identity);
     }
 
     #endregion

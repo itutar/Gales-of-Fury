@@ -81,13 +81,13 @@ public class RegularPirate1Attack : MonoBehaviour, IAttackController
             burstSpeedVFX.Play();
         }
 
-        yield return new WaitForSeconds(2f); // bitiþ animasyon süresi
+        yield return new WaitForSeconds(1f); // bitiþ animasyon süresi
 
         // Disappear ayarý
         EnemyDisappear disappearComponent = GetComponent<EnemyDisappear>();
         if (disappearComponent != null)
         {
-            disappearComponent.SetDisappearType(DisappearType.MoveToTopCornerAndDisappear);
+            disappearComponent.SetDisappearType(DisappearType.StayBehind);
         }
 
         EnemyEventManager.Instance.OnEnemyDisappear.Invoke(gameObject);

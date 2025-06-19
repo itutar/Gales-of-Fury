@@ -836,7 +836,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1166234511}
   - component: {fileID: 1166234512}
-  - component: {fileID: 1166234514}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -872,19 +871,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf5469d61107e704aa455d921d4c609b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1166234514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1166234510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51c23c714a1756542ba8c012f2108372, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerReference: {fileID: 11400000, guid: dbbc44f7dad38234c9b5f874ddad99fb, type: 2}
 --- !u!1 &1366325482
 GameObject:
   m_ObjectHideFlags: 0
@@ -6210,11 +6196,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8affeae134a754d40a68d50fbb8cb8e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharkPrefab: {fileID: 4627457418746437297, guid: e2a7fb4d6b9c7904a8f4f3b242d62289, type: 3}
+  sharkPrefab: {fileID: 2452246647571159902, guid: 99792d6aa9fd7c94ba33c84b3aff5a7d, type: 3}
   regularPirate1Prefab: {fileID: 5213961502025538312, guid: f3360b33b50ad7145a3e8d6e860a6cea, type: 3}
   regularPirate2Prefab: {fileID: 4454457780852853469, guid: a5c10db95307e8b4aa82a9707c897011, type: 3}
   regularPirate3Prefab: {fileID: 4219741620076811718, guid: 09be6a54abfe5834391bfb3ea437deaa, type: 3}
-  krakenPrefab: {fileID: 8085095974348801365, guid: a1a2f58609fd57c478ce6d7fdaf7f56d, type: 3}
+  krakenPrefabPopUp: {fileID: 6009143311380208117, guid: b970d16dbeac01e4681b0e5a3526cf29, type: 3}
+  krakenPrefabAttack: {fileID: 7417081530511921840, guid: cd07d6f41fc8fe64683312df5aa1c781, type: 3}
+  playerReference: {fileID: 11400000, guid: dbbc44f7dad38234c9b5f874ddad99fb, type: 2}
 --- !u!4 &1844562179
 Transform:
   m_ObjectHideFlags: 0
@@ -6353,63 +6341,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &2006227082
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 702543836761411169, guid: 99792d6aa9fd7c94ba33c84b3aff5a7d, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -2.5469031
-      objectReference: {fileID: 0}
-    - target: {fileID: 702543836761411169, guid: 99792d6aa9fd7c94ba33c84b3aff5a7d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 5.943387
-      objectReference: {fileID: 0}
-    - target: {fileID: 702543836761411169, guid: 99792d6aa9fd7c94ba33c84b3aff5a7d, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 3.5993423
-      objectReference: {fileID: 0}
-    - target: {fileID: 702543836761411169, guid: 99792d6aa9fd7c94ba33c84b3aff5a7d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 702543836761411169, guid: 99792d6aa9fd7c94ba33c84b3aff5a7d, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 702543836761411169, guid: 99792d6aa9fd7c94ba33c84b3aff5a7d, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 702543836761411169, guid: 99792d6aa9fd7c94ba33c84b3aff5a7d, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 702543836761411169, guid: 99792d6aa9fd7c94ba33c84b3aff5a7d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 702543836761411169, guid: 99792d6aa9fd7c94ba33c84b3aff5a7d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 702543836761411169, guid: 99792d6aa9fd7c94ba33c84b3aff5a7d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2452246647571159902, guid: 99792d6aa9fd7c94ba33c84b3aff5a7d, type: 3}
-      propertyPath: m_Name
-      value: Shark
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 99792d6aa9fd7c94ba33c84b3aff5a7d, type: 3}
 --- !u!1 &2013629272
 GameObject:
   m_ObjectHideFlags: 0
@@ -13844,6 +13775,7 @@ GameObject:
   - component: {fileID: 9014618095382064731}
   - component: {fileID: 9014618095382064732}
   - component: {fileID: 9014618095382064733}
+  - component: {fileID: 9014618095382064734}
   m_Layer: 0
   m_Name: WindSurfBoard
   m_TagString: Player
@@ -13999,6 +13931,19 @@ MonoBehaviour:
   animator: {fileID: 5866666020280430298}
   handIKRig: {fileID: 1119478118}
   hulaRigidbody: {fileID: 5866666020280430303}
+--- !u!114 &9014618095382064734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9014618095382064722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51c23c714a1756542ba8c012f2108372, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerReference: {fileID: 11400000, guid: dbbc44f7dad38234c9b5f874ddad99fb, type: 2}
 --- !u!1 &9030526843867138962
 GameObject:
   m_ObjectHideFlags: 0
@@ -18601,4 +18546,3 @@ SceneRoots:
   - {fileID: 168041170}
   - {fileID: 1366325486}
   - {fileID: 1478516601}
-  - {fileID: 2006227082}

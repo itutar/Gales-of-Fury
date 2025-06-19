@@ -4,8 +4,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
-public class SimpleBuoyancy : MonoBehaviour
+public class SimpleBuoyancy : MonoBehaviour, IBuoyancy
 {
+    #region IBuoyancy Implementation
+
+    public float SinkFactor
+    {
+        get { return sinkFactor; }
+        set
+        {
+            sinkFactor = value;
+        }
+    }
+
+    #endregion
+
     #region Fields
 
     PWater waterTile;
@@ -29,7 +42,7 @@ public class SimpleBuoyancy : MonoBehaviour
     [SerializeField] float waterAngularDrag = 0.5f;
 
     // if zero, the object will sink, if one no effect will be applied
-    [HideInInspector] public float sinkFactor = 1f;
+    private float sinkFactor = 1f;
     #endregion
 
     #region Unity Methods

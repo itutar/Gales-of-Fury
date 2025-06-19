@@ -153,9 +153,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BarrelExplosion: {fileID: 5945427466428042082}
   BarrelFuse: {fileID: 7895811394842962524}
-  fuseBurningTime: 3.7
   explosionRadius: 2.5
   barrelRigidbody: {fileID: -3379242093156256617}
+  playerReference: {fileID: 11400000, guid: dbbc44f7dad38234c9b5f874ddad99fb, type: 2}
 --- !u!114 &2327452255065166498
 MonoBehaviour:
   m_ObjectHideFlags: 0

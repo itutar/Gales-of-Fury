@@ -54,7 +54,6 @@ public class PlayerHealth : MonoBehaviour
         if (!isDamaged)
         {
             // First time damage
-            Debug.Log("Player takes damage!");
             isDamaged = true;
             StartShaking();
             // Timer 
@@ -106,7 +105,6 @@ public class PlayerHealth : MonoBehaviour
 
     private void StartShaking()
     {
-        Debug.Log("Player shakes!");
         animator.SetTrigger("PlayerShakenTrigger");
 
         // handlayer weight 0
@@ -121,7 +119,6 @@ public class PlayerHealth : MonoBehaviour
 
     private void StopShaking()
     {
-        Debug.Log("Player normal!");
         // hanlayer weight 1
         if (handLayerIndex >= 0)
             animator.SetLayerWeight(handLayerIndex, 1f);

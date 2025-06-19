@@ -18,16 +18,6 @@ public class SharkAnimation : MonoBehaviour
         animator = this.GetComponent<Animator>();
     }
 
-    private void Update()
-    {
-        // for test
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            animator.SetTrigger("SharkAttackTrigger");
-        }
-    }
-
-
     #endregion
 
     #region Public Methods
@@ -38,6 +28,14 @@ public class SharkAnimation : MonoBehaviour
     public void StartSharkAttackVfx()
     {
         motionLines.Play();
+    }
+
+    /// <summary>
+    /// triggers the shark attack animation.
+    /// </summary>
+    public void TriggerAttackAnimation()
+    {
+        animator.SetTrigger("SharkAttackTrigger");
     }
 
     #endregion

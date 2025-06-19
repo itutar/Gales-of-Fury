@@ -12,7 +12,8 @@ public class EnemyLifecycleStateMachine : MonoBehaviour
     // Reference to attack component and movement component
     [SerializeField] private MonoBehaviour attackComponentRaw;
     private IAttackController attackComponent;
-    [SerializeField] private MoveEnemyTowardsTargetLane moveComponent;
+    [SerializeField] private MonoBehaviour moveComponentRaw;
+    private IMoveToLane moveComponent;
 
     // Enemy health
     public float health = 1f;
@@ -27,6 +28,12 @@ public class EnemyLifecycleStateMachine : MonoBehaviour
 
     private void Awake()
     {
+        // cast move component to IMoveToLane interface
+        moveComponent = moveComponentRaw as IMoveToLane;
+        if (moveComponent == null)
+            Debug.LogError("moveComponentRaw IMoveToLane implement etmiyor!", this);
+
+
         // cast attack component to IAttackController interface
         attackComponent = attackComponentRaw as IAttackController;
         if (attackComponent == null)
@@ -48,7 +55,11 @@ public class EnemyLifecycleStateMachine : MonoBehaviour
         switch (currentState)
         {
             case EnemyState.Idle:
-                CheckLaneArrival();
+                // check lane arrival
+                if (moveComponent.IsFinished)
+                {
+                    StartAttacking();
+                }
                 break;
 
             case EnemyState.Attacking:
@@ -77,17 +88,17 @@ public class EnemyLifecycleStateMachine : MonoBehaviour
 
     #region Private Methods
 
-    /// <summary>
-    /// Checks if the enemy has reached its target lane.
-    /// </summary>
-    private void CheckLaneArrival()
-    {
-        if (moveComponent != null && !moveComponent.enabled)
-        {
-            // Enemy has arrived at the lane
-            StartAttacking();
-        }
-    }
+    ///// <summary>
+    ///// Checks if the enemy has reached its target lane.
+    ///// </summary>
+    //private void CheckLaneArrival()
+    //{
+    //    if (moveComponent != null && !moveComponent.enabled)
+    //    {
+    //        // Enemy has arrived at the lane
+    //        StartAttacking();
+    //    }
+    //}
 
     /// <summary>
     /// Transitions to Attacking state and enables the attack component.

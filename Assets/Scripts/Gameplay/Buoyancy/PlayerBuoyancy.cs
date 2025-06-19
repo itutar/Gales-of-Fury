@@ -17,7 +17,7 @@ public class PlayerBuoyancy : MonoBehaviour
     // Four buoyancy points frontleft, frontright, backleft, backright
     [SerializeField] GameObject[] buoyancyPoints = new GameObject[4];
     // water surface position frontleft, frontright, backleft, backright
-    Vector3[] waterSurfacePositions = new Vector3[4];
+    private Vector3[] waterSurfacePositions = new Vector3[4];
 
     // Buoyancy parameters
     public float depthBeforeSubmerged = 2f;
@@ -118,6 +118,20 @@ public class PlayerBuoyancy : MonoBehaviour
         }
 
         return closestTile;
+    }
+
+    #endregion
+
+    #region Public Methods
+
+    /// <summary>
+    /// Gets the water level of the player in the game.
+    /// </summary>
+    /// <returns>The vertical position of the water surface relative to the player, as a floating-point value.
+    /// returns frontleft point of the player's buoyancy points</returns>
+    public float GetPlayerWaterLevel()
+    {
+        return waterSurfacePositions[0].y;
     }
 
     #endregion

@@ -96,6 +96,37 @@ Transform:
   - {fileID: 9002783517799722282}
   m_Father: {fileID: 2822442572038515075}
   m_LocalEulerAnglesHint: {x: 0.07186, y: 5.769094, z: 2.0007825}
+--- !u!1 &1290184408082934672
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5354972233928597218}
+  m_Layer: 0
+  m_Name: BuoyancyPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5354972233928597218
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1290184408082934672}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.251, z: -0.567}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 702543836761411169}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1705885165790907788
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,6 +234,13 @@ GameObject:
   - component: {fileID: 6245458132727461748}
   - component: {fileID: 215450196163204663}
   - component: {fileID: 7861115558233108723}
+  - component: {fileID: 6956559290521621539}
+  - component: {fileID: 6962382298744881737}
+  - component: {fileID: 1299548401794451122}
+  - component: {fileID: 8367387478909370434}
+  - component: {fileID: 971356022445796092}
+  - component: {fileID: 7576467140772773457}
+  - component: {fileID: 7682435448435271133}
   m_Layer: 0
   m_Name: Shark
   m_TagString: Untagged
@@ -226,6 +264,7 @@ Transform:
   - {fileID: 1833383948920309577}
   - {fileID: 7829129715746295518}
   - {fileID: 1196378985516849293}
+  - {fileID: 5354972233928597218}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &6245458132727461748
@@ -311,6 +350,135 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   motionLines: {fileID: 6065459535577748092}
+--- !u!114 &6956559290521621539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2452246647571159902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbf5118ecf8d7b64aa52389339446754, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharkAnimation: {fileID: 7861115558233108723}
+  rb: {fileID: 1299548401794451122}
+  burstForce: 100
+  verticalForce: 2
+  attackDelay: 2
+  playerReference: {fileID: 11400000, guid: dbbc44f7dad38234c9b5f874ddad99fb, type: 2}
+--- !u!114 &6962382298744881737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2452246647571159902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6abd15f36b4ecc043a25daed3393900c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buoyancyPoint: {fileID: 5354972233928597218}
+  seaTileReference: {fileID: 11400000, guid: 0ab359a4ad0811344b63d77597534619, type: 2}
+  displacementAmount: 3
+  depthBeforeSubmerged: 1.5
+  alignmentTorque: 200
+--- !u!54 &1299548401794451122
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2452246647571159902}
+  serializedVersion: 4
+  m_Mass: 5
+  m_Drag: 1.1
+  m_AngularDrag: 0.65
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &8367387478909370434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2452246647571159902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b237061eb9e43d409022f6cb69ba9e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentState: 0
+  attackComponentRaw: {fileID: 6956559290521621539}
+  moveComponentRaw: {fileID: 971356022445796092}
+  health: 1
+  escapeDirection: {x: 1, y: 1, z: 0}
+  escapeSpeed: 3
+--- !u!114 &971356022445796092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2452246647571159902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7ccd08954d08eb4f8472cf9b13e77f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forceStrength: 20
+  stopThreshold: 0.1
+  turnDuration: 1
+--- !u!114 &7576467140772773457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2452246647571159902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57697ce47ee97a941bbf91d6de676a43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  disappearType: 0
+--- !u!65 &7682435448435271133
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2452246647571159902}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.708516, y: 1.4007905, z: 3.9564815}
+  m_Center: {x: -0.0052049756, y: 0.20039529, z: -0.6766598}
 --- !u!1 &2556591624721116358
 GameObject:
   m_ObjectHideFlags: 0

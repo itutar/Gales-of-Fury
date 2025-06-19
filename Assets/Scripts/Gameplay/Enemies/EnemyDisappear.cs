@@ -11,6 +11,9 @@ public class EnemyDisappear : MonoBehaviour
     // Currently running disappear coroutine (if any)
     private Coroutine activeDisappearCoroutine;
 
+    [SerializeField]
+    private float moveToCornerForce = 100f;
+
     #endregion
 
     #region Unity Methods
@@ -73,10 +76,10 @@ public class EnemyDisappear : MonoBehaviour
         float duration = 3f;
         float elapsed = 0f;
 
-        SimpleBuoyancy buoyancy = enemy.GetComponent<SimpleBuoyancy>();
+        IBuoyancy buoyancy = enemy.GetComponent<IBuoyancy>();
         if (buoyancy != null)
         {
-            buoyancy.sinkFactor = 1f;
+            buoyancy.SinkFactor = 1f; // başta kaldırma kuvveti tam güçte
         }
 
         while (elapsed < duration)
@@ -87,7 +90,7 @@ public class EnemyDisappear : MonoBehaviour
             // Lower sinkFactor over time (from 1 → 0)
             if (buoyancy != null)
             {
-                buoyancy.sinkFactor = Mathf.Lerp(1f, 0f, t);
+                buoyancy.SinkFactor = Mathf.Lerp(1f, 0f, t);
             }
 
             // No manual position change! Let buoyancy handle sinking naturally.
@@ -123,7 +126,7 @@ public class EnemyDisappear : MonoBehaviour
             // Check if Rigidbody is still valid
             if (rb != null)
             {
-                Vector3 force = Vector3.back * 10f; // adjust force strength here
+                Vector3 force = Vector3.back * 50f; // adjust force strength here
                 rb.AddForce(force, ForceMode.Force);
             }
             else
@@ -158,13 +161,13 @@ public class EnemyDisappear : MonoBehaviour
         while (!isOutOfScreen)
         {
             // Apply a force toward top corner
-            Vector3 force = direction * 100f;
+            Vector3 force = direction * moveToCornerForce;
             rb.AddForce(force, ForceMode.Force);
 
             // Dynamically calculate left and right edges in world space based on current Z position
             float currentZ = enemy.transform.position.z;
-            float leftEdgeX = cam.ViewportToWorldPoint(new Vector3(0f, 0.5f, currentZ)).x - 3f;
-            float rightEdgeX = cam.ViewportToWorldPoint(new Vector3(1f, 0.5f, currentZ)).x + 3f;
+            float leftEdgeX = cam.ViewportToWorldPoint(new Vector3(0f, 0.5f, currentZ)).x - 6f;
+            float rightEdgeX = cam.ViewportToWorldPoint(new Vector3(1f, 0.5f, currentZ)).x + 6f;
 
             // Check if X position passed the threshold
             float currentX = enemy.transform.position.x;
