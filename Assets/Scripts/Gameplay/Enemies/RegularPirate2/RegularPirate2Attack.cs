@@ -22,7 +22,7 @@ public class RegularPirate2Attack : MonoBehaviour, IAttackController
 
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject arrowPrefab;
-    [SerializeField] private float shootInterval = 3.5f;
+    [SerializeField] private float shootInterval = 1.5f;
     [SerializeField] private float spacing = 0.7f;
     [SerializeField] private float offsetZ = -4f;
     // Height offset for arrow spawn position
@@ -61,7 +61,7 @@ public class RegularPirate2Attack : MonoBehaviour, IAttackController
         float attackInterval = shootInterval; // for consistency
 
         // Wait first
-        yield return new WaitForSeconds(attackInterval);
+        yield return new WaitForSeconds(0.5f);
 
         for (int attackCount = 0; attackCount < maxAttacks; attackCount++)
         {
@@ -73,9 +73,6 @@ public class RegularPirate2Attack : MonoBehaviour, IAttackController
                 yield return new WaitForSeconds(attackInterval);
             }
         }
-
-        // After last attack, wait for a short delay if needed 
-        yield return new WaitForSeconds(2f);
 
         // Trigger call token drop chance (10%)
         if (Random.Range(0f, 100f) < 10f)

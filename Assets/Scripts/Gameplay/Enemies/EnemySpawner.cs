@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -55,9 +56,9 @@ public class EnemySpawner : MonoBehaviour
     public EnemyType GetRandomEnemyType()
     {
         EnemyType[] values = (EnemyType[])System.Enum.GetValues(typeof(EnemyType));
-        int randomIndex = Random.Range(0, values.Length);
+        int randomIndex = UnityEngine.Random.Range(0, values.Length);
         return values[randomIndex];
-        //return EnemyType.Kraken;
+        //return EnemyType.Shark;
     }
 
     #endregion
@@ -79,12 +80,14 @@ public class EnemySpawner : MonoBehaviour
         {
             case EnemyType.Shark:
                 spawnedEnemy = Instantiate(sharkPrefab, GetSpawnPosition(out targetXPosition), Quaternion.identity);
+                Debug.Log($"EnemySpawner: Spawning Shark at position {spawnedEnemy.transform.position}");
                 var moverShark = spawnedEnemy.GetComponent<MoveSharkToLane>();
                 moverShark.Initialize(targetXPosition);
                 
                 break;
             case EnemyType.RegularPirate1:
                 spawnedEnemy = Instantiate(regularPirate1Prefab, GetSpawnPosition(out targetXPosition), Quaternion.identity);
+                Debug.Log($"EnemySpawner: Spawning Regular Pirate 1 at position {spawnedEnemy.transform.position}");
                 spawnedEnemy.transform.rotation = Quaternion.Euler(0f, 180f, 0f); // Rotate to face the player
                 var moverRegularPirate1 = spawnedEnemy.GetComponent<MoveEnemyTowardsTargetLane>();
                 moverRegularPirate1.Initialize(targetXPosition);
@@ -92,18 +95,21 @@ public class EnemySpawner : MonoBehaviour
                 break;
             case EnemyType.RegularPirate2: 
                 spawnedEnemy = Instantiate(regularPirate2Prefab, GetSpawnPosition(out targetXPosition), Quaternion.identity);
+                Debug.Log($"EnemySpawner: Spawning Regular Pirate 2 at position {spawnedEnemy.transform.position}");
                 var moverRegularPirate2 = spawnedEnemy.GetComponent<MoveEnemyTowardsTargetLane>();
                 moverRegularPirate2.Initialize(targetXPosition);
                 
                 break;
             case EnemyType.RegularPirate3:
                 spawnedEnemy = Instantiate(regularPirate3Prefab, GetSpawnPosition(out targetXPosition), Quaternion.identity);
+                Debug.Log($"EnemySpawner: Spawning Regular Pirate 3 at position {spawnedEnemy.transform.position}");
                 var moverRegularPirate3 = spawnedEnemy.GetComponent<MoveEnemyTowardsTargetLane>();
                 moverRegularPirate3.Initialize(targetXPosition);
                 
                 break;
             case EnemyType.Kraken:
                 StartCoroutine(SpawnKrakenSequence());
+                Debug.Log("EnemySpawner: Spawning Kraken sequence.");
 
                 break;
         }
@@ -116,10 +122,13 @@ public class EnemySpawner : MonoBehaviour
     {
         while (true)
         {
-            float waitTime = Random.Range(5f, 10f);// 5-10
+            float waitTime = UnityEngine.Random.Range(5f, 10f);// 5-10
+            float multiplier = Blackboard.Instance.GetValue<float>(BlackboardKey.SpeedMultiplier);
+            Debug.Log($"EnemySpawner: Current Speed Multiplier: {multiplier}");
+            waitTime *= multiplier; // Adjust wait time based on speed multiplier
             yield return new WaitForSeconds(waitTime);
-
-            EnemyEventManager.Instance?.OnEnemySpawned.Invoke(GetRandomEnemyType());
+            Debug.Log($"EnemySpawner: Spawning enemy after {waitTime} seconds.");
+            EnemyEventManager.Instance.OnEnemySpawned.Invoke(GetRandomEnemyType());
         }
     }
 
@@ -130,12 +139,12 @@ public class EnemySpawner : MonoBehaviour
     private Vector3 GetSpawnPosition(out float targetXPosition)
     {
         // spawn at a random side of the screen
-        bool spawnOnLeft = Random.value < 0.5f;
+        bool spawnOnLeft = UnityEngine.Random.value < 0.5f;
 
         // Pick a random Z distance (depth) where the enemy will appear
         float minZ = 10f;
         float maxZ = 50f; //20
-        float spawnZ = Random.Range(minZ, maxZ);
+        float spawnZ = UnityEngine.Random.Range(minZ, maxZ);
         float camZ = Camera.main.transform.position.z;
 
 
@@ -149,7 +158,7 @@ public class EnemySpawner : MonoBehaviour
         // put some space between the enemy and the screen edge
         float spawnXPosition = spawnOnLeft ? leftWorldPoint.x - 3f : rightWorldPoint.x + 3f;
 
-        int laneIndex = Random.Range(0, LaneManager.instance.NumberOfLanes);
+        int laneIndex = UnityEngine.Random.Range(0, LaneManager.instance.NumberOfLanes);
         targetXPosition = LaneManager.instance.GetLanePosition(laneIndex);
         return new Vector3(spawnXPosition, 5.5f, spawnZ);
     }

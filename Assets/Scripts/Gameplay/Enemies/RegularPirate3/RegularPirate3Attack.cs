@@ -53,11 +53,11 @@ public class RegularPirate3Attack : MonoBehaviour, IAttackController
     /// <returns></returns>
     private IEnumerator AttackRoutine()
     {
-        float attackInterval = 5f;
+        float attackInterval = 3.5f;
         int maxAttacks = 2;
 
         // Wait first
-        yield return new WaitForSeconds(attackInterval);
+        yield return new WaitForSeconds(0.5f);
 
         for (int attackCount = 0; attackCount < maxAttacks; attackCount++)
         {

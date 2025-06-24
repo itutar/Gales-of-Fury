@@ -3204,7 +3204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disappearType: 2
-  moveToCornerForce: 25
+  moveToCornerForce: 45
 --- !u!114 &8119352692371018411
 MonoBehaviour:
   m_ObjectHideFlags: 0

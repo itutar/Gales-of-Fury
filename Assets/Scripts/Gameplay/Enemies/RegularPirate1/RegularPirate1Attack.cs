@@ -21,7 +21,6 @@ public class RegularPirate1Attack : MonoBehaviour, IAttackController
     #region Fields
 
     [SerializeField] private  ParticleSystem burstSpeedVFX;
-    [SerializeField] private float shootInterval = 2.5f;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float burstForce = 250f;
 
@@ -67,7 +66,7 @@ public class RegularPirate1Attack : MonoBehaviour, IAttackController
     private IEnumerator AttackRoutine()
     {
         // Initial delay
-        yield return new WaitForSeconds(shootInterval);
+        yield return new WaitForSeconds(0.5f);
 
         if (rb != null)
         {

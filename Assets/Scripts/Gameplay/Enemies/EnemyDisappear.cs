@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyDisappear : MonoBehaviour
 {
     #region Fields
-
+    
     [SerializeField] DisappearType disappearType;
 
     // Currently running disappear coroutine (if any)
@@ -17,6 +17,7 @@ public class EnemyDisappear : MonoBehaviour
     #endregion
 
     #region Unity Methods
+
 
     private void OnEnable()
     {
@@ -75,6 +76,8 @@ public class EnemyDisappear : MonoBehaviour
     {
         float duration = 3f;
         float elapsed = 0f;
+        float multiplier = Blackboard.Instance.GetValue<float>(BlackboardKey.SpeedMultiplier);
+        duration /= multiplier; // Adjust duration based on speed multiplier
 
         IBuoyancy buoyancy = enemy.GetComponent<IBuoyancy>();
         if (buoyancy != null)
@@ -111,7 +114,6 @@ public class EnemyDisappear : MonoBehaviour
     {
         float duration = 4f;
         float elapsed = 0f;
-
         Rigidbody rb = enemy.GetComponent<Rigidbody>();
         if (rb == null)
         {
@@ -126,7 +128,9 @@ public class EnemyDisappear : MonoBehaviour
             // Check if Rigidbody is still valid
             if (rb != null)
             {
-                Vector3 force = Vector3.back * 50f; // adjust force strength here
+                float multiplier = Blackboard.Instance.GetValue<float>(BlackboardKey.SpeedMultiplier);
+
+                Vector3 force = Vector3.back * 50f * multiplier; // adjust force strength here
                 rb.AddForce(force, ForceMode.Force);
             }
             else
@@ -161,7 +165,8 @@ public class EnemyDisappear : MonoBehaviour
         while (!isOutOfScreen)
         {
             // Apply a force toward top corner
-            Vector3 force = direction * moveToCornerForce;
+            float multiplier = Blackboard.Instance.GetValue<float>(BlackboardKey.SpeedMultiplier);
+            Vector3 force = direction * moveToCornerForce * multiplier;
             rb.AddForce(force, ForceMode.Force);
 
             // Dynamically calculate left and right edges in world space based on current Z position

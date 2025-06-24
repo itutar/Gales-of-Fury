@@ -366,7 +366,7 @@ MonoBehaviour:
   rb: {fileID: 1299548401794451122}
   burstForce: 100
   verticalForce: 2
-  attackDelay: 2
+  attackDelay: 1.5
   playerReference: {fileID: 11400000, guid: dbbc44f7dad38234c9b5f874ddad99fb, type: 2}
 --- !u!114 &6962382298744881737
 MonoBehaviour:
@@ -458,6 +458,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disappearType: 0
+  moveToCornerForce: 100
 --- !u!65 &7682435448435271133
 BoxCollider:
   m_ObjectHideFlags: 0

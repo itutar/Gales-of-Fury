@@ -1101,7 +1101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disappearType: 2
-  moveToCornerForce: 15
+  moveToCornerForce: 60
 --- !u!114 &8217358325926972847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1165,7 +1165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firePoint: {fileID: 8281071018703010678}
   arrowPrefab: {fileID: 5938167112633497377, guid: fdbb66d0c7e0baf42be109264ddc5aa1, type: 3}
-  shootInterval: 3.5
+  shootInterval: 1.5
   spacing: 0.7
   offsetZ: -4
 --- !u!114 &8105769622318467467

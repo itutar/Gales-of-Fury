@@ -40,8 +40,9 @@ public class MoveEnemyTowardsTargetLane : MonoBehaviour, IMoveToLane
         float deltaX = targetXPosition - transform.position.x;
         if (Mathf.Abs(deltaX) > stopThreshold)
         {
+            float multiplier = Blackboard.Instance.GetValue<float>(BlackboardKey.SpeedMultiplier);
             // Force direction: towards the target 1 or -1
-            Vector3 force = Vector3.right * Mathf.Sign(deltaX) * forceStrength;
+            Vector3 force = Vector3.right * Mathf.Sign(deltaX) * forceStrength * multiplier;
             rb.AddForce(force, ForceMode.Force);
         }
         else

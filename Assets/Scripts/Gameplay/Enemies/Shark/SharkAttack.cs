@@ -25,7 +25,7 @@ public class SharkAttack : MonoBehaviour, IAttackController
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float burstForce = 10f;
     [SerializeField] private float verticalForce = 2f;
-    [SerializeField] private float attackDelay = 2f;
+    [SerializeField] private float attackDelay = 1.5f;
 
     [Header("Player Reference")]
     [SerializeField] private PlayerReference playerReference;
@@ -75,7 +75,7 @@ public class SharkAttack : MonoBehaviour, IAttackController
     IEnumerator AttackRoutine()
     {
         // İlk saldırıdan önce bekle
-        yield return new WaitForSeconds(attackDelay);
+        yield return new WaitForSeconds(0.5f);
 
         // Shark, player'ın Z değerinin üstündeyken saldırmaya devam et
         while (transform.position.z > playerTransform.position.z)
