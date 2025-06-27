@@ -161,6 +161,7 @@ public class PlayerController : MonoBehaviour
             current++;
             LaneManager.instance.CurrentLane = current;
             MovePlayerToLane(current);
+            Blackboard.Instance.SetValue(BlackboardKey.PlayerLane, current);
 
         }
         else if (dir == Direction.Left && current > 0)
@@ -168,6 +169,7 @@ public class PlayerController : MonoBehaviour
             current--;
             LaneManager.instance.CurrentLane = current;
             MovePlayerToLane(current);
+            Blackboard.Instance.SetValue(BlackboardKey.PlayerLane, current);
         }
         // if the player is already at the edge of the lanes, do nothing
         

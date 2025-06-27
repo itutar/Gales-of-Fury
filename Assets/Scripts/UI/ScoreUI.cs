@@ -13,10 +13,6 @@ public class ScoreUI : MonoBehaviour
 
     private RectTransform bgRect;
 
-    float charWidth = 50f;
-    float padding = 50f;
-    float newWidth;
-
     #endregion
 
     #region Unity Methods
@@ -59,64 +55,6 @@ public class ScoreUI : MonoBehaviour
     }
 
     #endregion
-    /*
-    private void OnScoreChanged(int newScore)
-    {
-        scoreText.text = newScore.ToString();
-        int digitCount = scoreText.text.Length;
-        Vector4 currentMargins = scoreText.margin;
-
-        
-        // Update the width of the background image and adjust the text position
-        
-        //textRect.anchoredPosition = new Vector2(-padding / 2f, textRect.anchoredPosition.y);
-        if (digitCount == 1)
-        {
-            newWidth = charWidth * digitCount + 100f;
-            scoreText.margin = new Vector4(0f, currentMargins.y, currentMargins.z, currentMargins.w);
-        }
-        else if (digitCount == 2)
-        {
-            newWidth = charWidth * digitCount + 150f;
-            scoreText.margin = new Vector4(0f, currentMargins.y, currentMargins.z, currentMargins.w);
-        }
-        else if (digitCount == 3)
-        {
-            newWidth = charWidth * digitCount + 200f;
-            scoreText.margin = new Vector4(0f, currentMargins.y, currentMargins.z, currentMargins.w);
-        }
-        else if (digitCount == 4)
-        {
-            scoreText.margin = new Vector4(0f, currentMargins.y, currentMargins.z, currentMargins.w);
-        }
-        else if (digitCount == 5)
-        {
-            scoreText.margin = new Vector4(0f, currentMargins.y, currentMargins.z, currentMargins.w);
-            scoreText.rectTransform.anchoredPosition = new Vector2(-50f, scoreText.rectTransform.anchoredPosition.y);
-        }
-        else if (digitCount == 6)
-        {
-            scoreText.margin = new Vector4(0f, currentMargins.y, currentMargins.z, currentMargins.w);
-        }
-        else if (digitCount == 7)
-        {
-            scoreText.margin = new Vector4(0f, currentMargins.y, currentMargins.z, currentMargins.w);
-        }
-        else if (digitCount == 8)
-        {
-            scoreText.margin = new Vector4(0f, currentMargins.y, currentMargins.z, currentMargins.w);
-        }
-        else if (digitCount == 9)
-        {
-            scoreText.margin = new Vector4(0f, currentMargins.y, currentMargins.z, currentMargins.w);
-        }
-        else
-        {
-            scoreText.margin = new Vector4(0f, currentMargins.y, currentMargins.z, currentMargins.w);
-        }
-        bgRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, newWidth);
-    }
-    */
 
     private void OnScoreChanged(int newScore)
     {
@@ -133,9 +71,30 @@ public class ScoreUI : MonoBehaviour
 
         // Text pozisyonu
         float newX;
-        if (digitCount < 6)
+        if (digitCount == 1)
         {
-            newX = digitCount * -10f;
+            bgRect.anchoredPosition = new Vector2(-25f, bgRect.anchoredPosition.y);
+            newX = 0f;
+        }
+        else if (digitCount == 2)
+        {
+            bgRect.anchoredPosition = new Vector2(-20f, bgRect.anchoredPosition.y);
+            newX = -20f;
+        }
+        else if (digitCount == 3)
+        {
+            bgRect.anchoredPosition = new Vector2(-20f, bgRect.anchoredPosition.y);
+            newX = -42f;
+        }
+        else if (digitCount == 4)
+        {
+            bgRect.anchoredPosition = new Vector2(-20f, bgRect.anchoredPosition.y);
+            newX = -65f; 
+        }
+        else if (digitCount < 6)
+        {
+            bgRect.anchoredPosition = new Vector2(-5f, bgRect.anchoredPosition.y);
+            newX = digitCount * -15f;
         }
         else
         {

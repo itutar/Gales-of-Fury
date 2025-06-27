@@ -130,7 +130,7 @@ public class EnemyDisappear : MonoBehaviour
             {
                 float multiplier = Blackboard.Instance.GetValue<float>(BlackboardKey.SpeedMultiplier);
 
-                Vector3 force = Vector3.back * 50f * multiplier; // adjust force strength here
+                Vector3 force = Vector3.back * 100f * multiplier; // adjust force strength here
                 rb.AddForce(force, ForceMode.Force);
             }
             else

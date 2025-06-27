@@ -120,3 +120,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  playerReference: {fileID: 11400000, guid: dbbc44f7dad38234c9b5f874ddad99fb, type: 2}

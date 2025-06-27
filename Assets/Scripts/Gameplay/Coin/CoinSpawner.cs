@@ -33,13 +33,16 @@ public class CoinSpawner : MonoBehaviour
         float lanePositionX = LaneManager.instance.GetLanePosition(randomLane);
 
         // position of the first coin
-        Vector3 startPosition = new Vector3(lanePositionX, 1, 20);
+        Vector3 startPosition = new Vector3(lanePositionX, 6, 20);
 
         // place the remaining coins
         for (int i = 0; i < coinsInRow; i++)
         {
             GameObject coin = CoinObjectPool.GetCoin();
             coin.transform.position = startPosition + new Vector3(0, 0, i * coinSpacing);
+            // Set the coin's lane index
+            var coinScript = coin.GetComponent<Coin>();
+            coinScript.laneIndex = randomLane; 
             coin.SetActive(true);
         }
     }

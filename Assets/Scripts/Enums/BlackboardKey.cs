@@ -6,5 +6,6 @@ public enum BlackboardKey
 {
     Score,
     SpeedMultiplier,
-    Coin
+    Coin,
+    PlayerLane
 }

@@ -19,6 +19,7 @@ public class PlayerSpawn : MonoBehaviour
         startPosition = Vector3.zero;
         startPosition.y = 5f; // Set a height above the water surface
         startPosition.x = LaneManager.instance.GetLanePosition(LaneManager.instance.CurrentLane);
+        Blackboard.Instance.SetValue(BlackboardKey.PlayerLane, LaneManager.instance.CurrentLane);
         transform.position = startPosition;
     }
 

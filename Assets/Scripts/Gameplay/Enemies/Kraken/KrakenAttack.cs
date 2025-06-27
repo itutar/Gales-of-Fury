@@ -16,6 +16,8 @@ public class KrakenAttack : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         canTrigger = true;
+        yield return new WaitForSeconds(0.5f); 
+        canTrigger = false; 
     }
 
     private void OnTriggerStay(Collider other)
