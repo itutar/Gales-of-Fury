@@ -424,7 +424,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   burstSpeedVFX: {fileID: 7561580005263534031}
-  shootInterval: 5
   rb: {fileID: 5625873541922466810}
   burstForce: 1100
 --- !u!114 &4973846014846443601
@@ -472,6 +471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disappearType: 1
+  moveToCornerForce: 100
 --- !u!65 &6018353940446339076
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -491,8 +491,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 5.051393, y: 4.867666, z: 12.929797}
-  m_Center: {x: -0.01869933, y: 2.3415668, z: -0.40513867}
+  m_Size: {x: 5.051393, y: 4.307337, z: 10.520376}
+  m_Center: {x: -0.01869933, y: 2.0614023, z: 0.79957294}
 --- !u!1 &5765480695415154578
 GameObject:
   m_ObjectHideFlags: 0

@@ -42,7 +42,15 @@ public class CoinSpawner : MonoBehaviour
             coin.transform.position = startPosition + new Vector3(0, 0, i * coinSpacing);
             // Set the coin's lane index
             var coinScript = coin.GetComponent<Coin>();
-            coinScript.laneIndex = randomLane; 
+            coinScript.laneIndex = randomLane;
+            // animator timing
+            Animator anim = coin.GetComponent<Animator>();
+            if (anim != null)
+            {
+                float normalizedTime = i * 0.1f % 1f;
+                anim.Play("Coin Idle", 0, normalizedTime);
+            }
+
             coin.SetActive(true);
         }
     }

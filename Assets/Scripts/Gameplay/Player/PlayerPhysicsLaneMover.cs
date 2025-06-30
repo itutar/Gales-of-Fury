@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Controls the player's movement between lanes using physics.
+/// Contols the player's rotation
+/// </summary>
 public class PlayerPhysicsLaneMover : MonoBehaviour
 {
     [Header("Movement Settings")]
@@ -9,7 +13,7 @@ public class PlayerPhysicsLaneMover : MonoBehaviour
     
     [SerializeField] private float springStrength = 500f;
     [SerializeField] private float positionThreshold = 0.1f;
-    [SerializeField] private float rotationThreshold = 2f; // degrees
+    [SerializeField] private float rotationThreshold = 10f; // degrees
 
     [SerializeField] private float angleSpring = 30f;    // Yönü hedefe çekme kuvveti (artarsa daha hýzlý döner)
     [SerializeField] private float angleDamping = 10f;   // Fazla dönmeyi bastýran kuvvet (artarsa fazla sarkmaz, daha çabuk durur)
@@ -50,28 +54,24 @@ public class PlayerPhysicsLaneMover : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // 1. ROTASYON düzelt
-        Vector3 currentForward = transform.forward;
-        Vector3 targetForward = Vector3.forward;
-        Vector3 rotAxis = Vector3.Cross(currentForward, targetForward).normalized;
-        float angle = Vector3.SignedAngle(currentForward, targetForward, Vector3.up);
+        // 1. ROTASYON düzelt – tam 3D rotasyon (yaw + pitch + roll)
+        Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, Vector3.up); // hedef düz rotasyon
+        Quaternion deltaRotation = targetRotation * Quaternion.Inverse(transform.rotation);
 
-        if (rotAxis == Vector3.zero) rotAxis = Vector3.up;
+        deltaRotation.ToAngleAxis(out float angle, out Vector3 axis);
+        if (angle > 180f) angle -= 360f; // 0–180 yerine -180–180 aralýðýna çek
 
-        float currentAngularVel = rb.angularVelocity.y;
-
-        // --- Kuvvet uygulama, threshold altýnda durur, üstünde yumuþakça azalýr ---
-        if (Mathf.Abs(angle) >= rotationThreshold)
+        if (Mathf.Abs(angle) > rotationThreshold)
         {
-            // Yaklaþtýkça kuvveti azalt (ör: 90 dereceyi referans al)
             float lerp = Mathf.Clamp01(Mathf.Abs(angle) / 90f);
             float spring = angleSpring * lerp;
 
             float springTorque = angle * spring;
-            float dampingTorque = -currentAngularVel * angleDamping;
-            float totalTorque = springTorque + dampingTorque;
+            Vector3 torque = axis.normalized * springTorque;
 
-            rb.AddTorque(Vector3.up * totalTorque, ForceMode.Force);
+            Vector3 damping = -rb.angularVelocity * angleDamping;
+
+            rb.AddTorque(torque + damping, ForceMode.Force);
         }
 
         if (targetX.HasValue)

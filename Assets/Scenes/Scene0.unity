@@ -14828,7 +14828,7 @@ MonoBehaviour:
   rb: {fileID: 9014618095382064723}
   springStrength: 5000
   positionThreshold: 0.1
-  rotationThreshold: 2
+  rotationThreshold: 10
   angleSpring: 30
   angleDamping: 10
 --- !u!114 &9014618095382064732

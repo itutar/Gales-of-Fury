@@ -17,7 +17,7 @@ public class Coin : MonoBehaviour
     [SerializeField] PlayerReference playerReference;
     private GameObject player;
     bool isSuckedIn = false;
-    public int laneIndex;
+    [HideInInspector] public int laneIndex;
 
 
 

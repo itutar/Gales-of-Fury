@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
 
 
     float jumpForce = 55f; // Force applied when jumping
-    float swipeThreshold = 25f; // Minimum distance to consider a swipe
+    float swipeThreshold = 20f; // Minimum distance to consider a swipe (25f baþlangýçtaki deðer)
     private bool hasSwipedThisTouch = false;
     int activeFingerId = -1; // Track the active finger ID
 
@@ -145,6 +145,12 @@ public class PlayerController : MonoBehaviour
             hasSwipedThisTouch = true; // Mark that we have swiped this touch
             
         }
+        // check if swipe down
+        else if (deltaY < -swipeThreshold)
+        {
+            SwipeDownAction();
+            hasSwipedThisTouch = true;
+        }
     }
 
     /// <summary>
@@ -196,6 +202,28 @@ public class PlayerController : MonoBehaviour
         
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
+    /// <summary>
+    /// makes the player go down.
+    /// </summary>
+    void SwipeDownAction()
+    {
+        Debug.Log("Swipe down detected!");
+        // prevent swiping down if grounded
+        if (IsGrounded)
+        {
+            Debug.Log("Swipe down action is not allowed while grounded.");
+            return;
+        }
+
+        // Stop upward movement if the player is moving up
+        if (rb.velocity.y > 0)
+        {
+            Vector3 velocity = rb.velocity;
+            velocity.y = 0;
+            rb.velocity = velocity;
+        }
+        rb.AddForce(Vector3.down * jumpForce / 2, ForceMode.Impulse);
+    }
 
     /// <summary>
     /// Executes the action associated with a double-tap gesture.
@@ -204,7 +232,6 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Double tap detected! Executing action.");
         // Call the help ship manager to spawn a help ship
-        playerHealth?.TakeDamage(); // For test, remove this line in production
         HelpShipManager.instance?.CallHelpShip();
     }
 
