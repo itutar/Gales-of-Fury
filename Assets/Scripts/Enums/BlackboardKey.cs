@@ -7,5 +7,8 @@ public enum BlackboardKey
     Score,
     SpeedMultiplier,
     Coin,
-    PlayerLane
+    PlayerLane,
+    IsBossActive,
+    CurrentBossType,
+    BossHealth
 }

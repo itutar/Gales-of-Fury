@@ -71,6 +71,7 @@ public class LaneManager : MonoBehaviour
     /// <summary>
     /// Gets or sets the index of the current lane
     /// The value is clamped between 0 and the total number of lanes minus 1
+    /// !!!!! For Player ONLY !!!!!
     /// </summary>
     public int CurrentLane
     {

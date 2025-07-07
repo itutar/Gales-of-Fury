@@ -21196,6 +21196,8 @@ GameObject:
   - component: {fileID: 434959477133621489}
   - component: {fileID: 2632400997863084996}
   - component: {fileID: 8974820160197735090}
+  - component: {fileID: -4772612559295224944}
+  - component: {fileID: 5603108581798023169}
   m_Layer: 0
   m_Name: ErikBladesShip
   m_TagString: Untagged
@@ -21304,6 +21306,30 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 34f1a28e97fa40b48845cac26b338e8c, type: 3}
+--- !u!114 &-4772612559295224944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7499500907136632242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f8812555781c5c4d88e6d499dcd076e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5603108581798023169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7499500907136632242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d04cfc1863fab468714397ff72fd7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7518341621627885580
 GameObject:
   m_ObjectHideFlags: 0

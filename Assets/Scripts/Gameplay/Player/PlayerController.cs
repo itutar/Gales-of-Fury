@@ -199,7 +199,13 @@ public class PlayerController : MonoBehaviour
         // Prevent jumping if not grounded
         if (!IsGrounded)
             return;
-        
+        // Stop downward movement if the player is moving up
+        if (rb.velocity.y < 0)
+        {
+            Vector3 velocity = rb.velocity;
+            velocity.y = 0;
+            rb.velocity = velocity;
+        }
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
     /// <summary>
@@ -207,7 +213,6 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void SwipeDownAction()
     {
-        Debug.Log("Swipe down detected!");
         // prevent swiping down if grounded
         if (IsGrounded)
         {
@@ -230,9 +235,10 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void DoubleTapAction()
     {
-        Debug.Log("Double tap detected! Executing action.");
         // Call the help ship manager to spawn a help ship
         HelpShipManager.instance?.CallHelpShip();
+        // test
+        ScoreManager.Instance.Add(10000);
     }
 
     /// <summary>

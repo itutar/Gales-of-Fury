@@ -25,17 +25,18 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnEnable()
     {
+        Blackboard.Instance.Subscribe<bool>(BlackboardKey.IsBossActive, OnBossStateChanged);
         EnemyEventManager.Instance.OnEnemySpawned.AddListener(SpawnEnemy);
     }
 
     private void OnDisable()
     {
         EnemyEventManager.Instance?.OnEnemySpawned.RemoveListener(SpawnEnemy);
-        if (spawnCoroutine != null)
-        {
-            StopCoroutine(spawnCoroutine);
-            spawnCoroutine = null;
-        }
+        //if (spawnCoroutine != null)
+        //{
+        //    StopCoroutine(spawnCoroutine);
+        //    spawnCoroutine = null;
+        //}
     }
 
     private void Start()
@@ -64,6 +65,32 @@ public class EnemySpawner : MonoBehaviour
     #endregion
 
     #region Private Methods
+
+    /// <summary>
+    /// Handles changes to the boss state by starting or stopping enemy spawning as needed.
+    /// </summary>
+    /// <remarks>This method ensures that enemy spawning is paused while the boss is active and resumes when
+    /// the boss is inactive.</remarks>
+    /// <param name="isBossActive">A value indicating whether the boss is currently active.  If <see langword="true"/>, enemy spawning is stopped;
+    /// otherwise, enemy spawning is started.</param>
+    private void OnBossStateChanged(bool isBossActive)
+    {
+        if (isBossActive)
+        {
+            if (spawnCoroutine != null)
+            {
+                StopCoroutine(spawnCoroutine);
+                spawnCoroutine = null;
+            }
+        }
+        else
+        {
+            if (spawnCoroutine == null)
+            {
+                spawnCoroutine = StartCoroutine(SpawnEnemyAtRandomIntervals());
+            }
+        }
+    }
 
     /// <summary>
     /// Spawns an enemy based on the specified enemy type.
@@ -117,10 +144,28 @@ public class EnemySpawner : MonoBehaviour
     {
         while (true)
         {
-            float waitTime = UnityEngine.Random.Range(5f, 10f);// 5-10
+            float waitTime = UnityEngine.Random.Range(5f, 10f);
             float multiplier = Blackboard.Instance.GetValue<float>(BlackboardKey.SpeedMultiplier);
-            waitTime *= multiplier; // Adjust wait time based on speed multiplier
-            yield return new WaitForSeconds(waitTime);
+            waitTime /= multiplier;
+
+            float waited = 0f;
+            while (waited < waitTime)
+            {
+                if (Blackboard.Instance.GetValue<bool>(BlackboardKey.IsBossActive))
+                {
+                    yield return new WaitForSeconds(1f);
+                    break; // dış döngüye dön → yeniden kontrol et
+                }
+
+                float step = 0.1f;
+                yield return new WaitForSeconds(step);
+                waited += step;
+            }
+
+            // if boss is active, skip spawning
+            if (Blackboard.Instance.GetValue<bool>(BlackboardKey.IsBossActive))
+                continue;
+
             EnemyEventManager.Instance.OnEnemySpawned.Invoke(GetRandomEnemyType());
         }
     }
