@@ -65,6 +65,10 @@ public class SharkBuoyancy : MonoBehaviour, IBuoyancy
             localPos.y = 0f;
             localPos = waterTile.GetLocalVertexPosition(localPos, applyRipple);
             Vector3 worldSurfacePos = waterTile.transform.TransformPoint(localPos);
+
+            // Add CPU-side curved world transformation to match water shader bending (CurvedWorldUtility)
+            worldSurfacePos = CurvedWorldUtility.BendPosition(worldSurfacePos);
+
             float waterLevel = worldSurfacePos.y;
 
             if (worldPos.y < waterLevel)

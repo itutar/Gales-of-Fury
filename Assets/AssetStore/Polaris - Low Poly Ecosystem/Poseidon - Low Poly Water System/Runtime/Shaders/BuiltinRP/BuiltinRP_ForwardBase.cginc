@@ -1,4 +1,4 @@
-#ifndef BUILTIN_RP_FORWARD_BASE_INCLUDED
+﻿#ifndef BUILTIN_RP_FORWARD_BASE_INCLUDED
 #define BUILTIN_RP_FORWARD_BASE_INCLUDED
 
 #define _ALPHABLEND_ON 1
@@ -51,6 +51,30 @@ Varyings vert(appdata_full v)
     #else
         ApplyRipple(v.vertex, v.texcoord, v.color);
     #endif
+
+    // ===== CURVED WORLD BEGIN ==================================
+    // Transform to world space
+    float4 wp4 = mul(unity_ObjectToWorld, v.vertex);
+    float3 wp  = wp4.xyz;
+
+    // Parabolic bend: forward (Z) → up (Y)
+    //   smaller radius  →  stronger curve
+    const float _BendRadius = 550.0;      // tweak 50-200
+    wp.y -= (wp.z * wp.z) / _BendRadius;
+
+    // Back to object space
+    v.vertex = mul(unity_WorldToObject, float4(wp, 1.0));
+
+    // Apply same curvature to texcoord and color
+    float3 texcoordWorld = mul(unity_ObjectToWorld, float4(v.texcoord.xyz, 1.0)).xyz;
+    texcoordWorld.y -= (texcoordWorld.z * texcoordWorld.z) / _BendRadius;
+    v.texcoord.xyz = mul(unity_WorldToObject, float4(texcoordWorld, 1.0)).xyz;
+
+    float3 colorWorld = mul(unity_ObjectToWorld, float4(v.color.xyz, 1.0)).xyz;
+    colorWorld.y -= (colorWorld.z * colorWorld.z) / _BendRadius;
+    v.color.xyz = mul(unity_WorldToObject, float4(colorWorld, 1.0)).xyz;
+    // ===== CURVED WORLD END ====================================
+
     CalculateNormal(v.vertex, v.texcoord, v.color, v.normal);
 
     o.pos = UnityObjectToClipPos(v.vertex);

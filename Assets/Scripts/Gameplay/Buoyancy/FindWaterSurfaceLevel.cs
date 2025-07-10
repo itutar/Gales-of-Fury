@@ -49,6 +49,10 @@ public class FindWaterSurfaceLevel : MonoBehaviour
         localPos.y = 0;
         localPos = waterTile.GetLocalVertexPosition(localPos, applyRipple);
         Vector3 worldPos = waterTile.transform.TransformPoint(localPos);
+
+        // Add CPU-side curved world transformation to match water shader bending (CurvedWorldUtility)
+        worldPos = CurvedWorldUtility.BendPosition(worldPos);
+
         return worldPos.y;
     }
 
