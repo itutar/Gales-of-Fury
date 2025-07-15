@@ -7,7 +7,7 @@ public class EndlessTiles : MonoBehaviour
     #region Fields
 
     public GameObject tilePrefab;      // 400x400 boyutundaki tile prefab'i
-    public int numberOfTiles = 4;      // Sahnede ayný anda duracak tile sayýsý
+    public int numberOfTiles = 2;      // Sahnede ayný anda duracak tile sayýsý
     public float tileSize = 400f;      // Her bir tile'ýn uzunluðu (z yönünde)
     public Transform player;           // Yerinde sabit duran player
 

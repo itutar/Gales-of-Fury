@@ -312,7 +312,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3070240604389373652}
-  - component: {fileID: 7695055328828385172}
   - component: {fileID: 9155538070285156409}
   - component: {fileID: 5625873541922466810}
   - component: {fileID: 2681040318133403065}
@@ -347,28 +346,6 @@ Transform:
   - {fileID: 8169753628834623246}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &7695055328828385172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5213961502025538312}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d86c04aa7e455644084736a17c319b63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  seaTileReference: {fileID: 11400000, guid: 0ab359a4ad0811344b63d77597534619, type: 2}
-  buoyancyPoints:
-  - {fileID: 6613555164831898961}
-  - {fileID: 8989371028715067470}
-  - {fileID: 374528629290914445}
-  - {fileID: 5765480695415154578}
-  depthBeforeSubmerged: 2
-  displacementAmount: 3
-  waterDrag: 0.99
-  waterAngularDrag: 0.5
 --- !u!114 &9155538070285156409
 MonoBehaviour:
   m_ObjectHideFlags: 0

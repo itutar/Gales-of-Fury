@@ -68,8 +68,15 @@ public class HelpShipManager : MonoBehaviour
     {
         if (hasHelpShipAvailable && currentHelpShipPrefab != null)
         {
-            // HelpShip objesini Instantiate et 
-            Instantiate(currentHelpShipPrefab, transform.position, Quaternion.identity);
+            // Get the current lane from the LaneManager
+            int currentLane = LaneManager.instance.CurrentLane;
+            float x = LaneManager.instance.GetLanePosition(currentLane);
+
+            // Set the spawn position based on the current lane
+            Vector3 spawnPosition = new Vector3(x, -21f, 120f);
+            Quaternion rotation = Quaternion.Euler(0f, 180f, 0f);
+            // Instantiate the HelpShip at the specified position
+            Instantiate(currentHelpShipPrefab, spawnPosition, rotation);
             hasHelpShipAvailable = false; 
         }
     }

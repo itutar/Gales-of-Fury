@@ -10,5 +10,6 @@ public enum BlackboardKey
     PlayerLane,
     IsBossActive,
     CurrentBossType,
-    BossHealth
+    BossHealth,
+    CurrentBossTransform
 }

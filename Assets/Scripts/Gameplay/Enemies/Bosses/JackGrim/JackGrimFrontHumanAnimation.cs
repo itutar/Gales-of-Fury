@@ -18,15 +18,19 @@ public class JackGrimFrontHumanAnimation : MonoBehaviour
         animator = this.GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
+
+    #endregion
+
+    #region Public Methods
+
+    /// <summary>
+    /// Called by JackGrimBehaviour
+    /// </summary>
+    public void PlayAttack()
     {
-        // For testing purposes
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            animator.SetTrigger("JackGrimFrontHumanAttackTrigger");
-        }
+        animator.SetTrigger("JackGrimFrontHumanAttackTrigger");
     }
 
     #endregion
+
 }

@@ -66,13 +66,15 @@ public class BossSpawner : MonoBehaviour
         float x = LaneManager.instance.GetLanePosition(currentLane);
 
         // Set the spawn position based on the current lane
-        Vector3 spawnPosition = new Vector3(x, 0f, 20f);
+        Vector3 spawnPosition = new Vector3(x, -21f, 120f);
 
         // Instantiate the boss prefab
-        Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity);
+        GameObject bossInstance = Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity);
 
         // Set the current boss type in the blackboard
         Blackboard.Instance.SetValue(BlackboardKey.CurrentBossType, _currentBossType);
+        // Set the boss instance transform in the blackboard
+        Blackboard.Instance.SetValue(BlackboardKey.CurrentBossTransform, bossInstance.transform);
 
         // Notify the boss event manager
         BossEventManager.Instance.BossSpawned(_currentBossType);

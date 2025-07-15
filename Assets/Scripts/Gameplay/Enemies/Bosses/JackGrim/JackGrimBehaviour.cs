@@ -6,12 +6,15 @@ public class JackGrimBehaviour : MonoBehaviour
 {
     #region Fields
 
-    private float laneChangeCooldown = 2f;
+    private float laneChangeCooldown = 5f;
     private float forceStrength = 20f;
-    private float rotationSpeed = 1f;
     private int currentLane;
 
     Rigidbody rb;
+
+    // Rotation correction support
+    [Header("Rotation Stabilizer")]
+    [SerializeField] RotationStabilizer rotationStabilizer;
 
     // Projectile support
     [SerializeField] PlayerReference player;
@@ -20,6 +23,16 @@ public class JackGrimBehaviour : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab;
     float launchForce = 40f;
 
+    // Animation support
+    [Header("Animation")]
+    [SerializeField] JackGrimFrontHumanAnimation frontAnimation;
+    [SerializeField] JackGrimFrontHumanAnimation backAnimation;
+    [SerializeField] JackGrimHimselfHumanAnimation selfAnimation;
+
+    // Approach support
+    float approachTargetZ = 20f;
+    float approachSpeed = 25f;
+
     #endregion
 
     #region Unity Methods
@@ -27,9 +40,9 @@ public class JackGrimBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentLane = 1;
-        StartCoroutine(LaneChangeLoop());
         rb = GetComponent<Rigidbody>();
+        currentLane = 1;
+        StartCoroutine(ApproachToPlayArea());
     }
 
     #endregion
@@ -40,6 +53,7 @@ public class JackGrimBehaviour : MonoBehaviour
     {
         while (true)
         {
+            laneChangeCooldown = Random.Range(3f, 6f);
             yield return new WaitForSeconds(laneChangeCooldown);
 
             int targetLane = GetTargetLane(currentLane);
@@ -48,8 +62,16 @@ public class JackGrimBehaviour : MonoBehaviour
 
             bool right = targetLane > currentLane;
 
+            // Trigger all animations
+            frontAnimation?.PlayAttack();
+            backAnimation?.PlayAttack();
+            selfAnimation?.PlayAttack();
+            yield return new WaitForSeconds(0.5f); // Wait for the attack animation to start
+
             // 1. Rotate çapraza
             Quaternion diagonalRot = Quaternion.Euler(0, right ? 45f : -45f, 0);
+            if (rotationStabilizer != null)
+                rotationStabilizer.enabled = false; // Disable rotation stabilizer during the attack
             yield return StartCoroutine(RotateTo(diagonalRot));
 
             // 2. Attack
@@ -60,16 +82,21 @@ public class JackGrimBehaviour : MonoBehaviour
 
             // 4. Düz hizaya dön
             yield return StartCoroutine(RotateTo(Quaternion.Euler(0, 0, 0)));
+            if (rotationStabilizer != null)
+                rotationStabilizer.enabled = true; // Re-enable rotation stabilizer
 
             currentLane = targetLane;
         }
     }
 
-    private IEnumerator RotateTo(Quaternion targetRot)
+    private IEnumerator RotateTo(Quaternion targetRot, float duration = 0.5f)
     {
-        while (Quaternion.Angle(transform.rotation, targetRot) > 1f)
+        Quaternion startRot = transform.rotation;
+        float t = 0f;
+        while (t < 1f)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * rotationSpeed);
+            t += Time.deltaTime / duration;     // 0–1 arasý
+            transform.rotation = Quaternion.Slerp(startRot, targetRot, t);
             yield return null;
         }
         transform.rotation = targetRot;
@@ -88,14 +115,12 @@ public class JackGrimBehaviour : MonoBehaviour
         }
 
         // stop movement and set final position
-        Vector3 v = rb.velocity;
-        rb.velocity = new Vector3(0f, v.y, v.z);
-        transform.position = new Vector3(targetX, transform.position.y, transform.position.z);
+        rb.velocity = new Vector3(0f, 0f, 0f);
+        transform.position = new Vector3(targetX, transform.position.y, 18f);
     }
 
     private void DoAttack()
     {
-        Debug.Log("Jack Grim DOATTACK METODU ÇALIÞTI!");
         GameObject playerObject = player.player;
         if (playerObject == null || projectilePrefab == null) return;
         // Adjust the target position to be slightly above the player to avoid collision issues(gravity)
@@ -122,14 +147,43 @@ public class JackGrimBehaviour : MonoBehaviour
     /// input lane as a fallback.</returns>
     private int GetTargetLane(int lane)
     {
-        switch(lane)
-            {
-            case 0: return 2; 
+        switch (lane)
+        {
+            case 0: return 2;
             case 1: return 3;
             case 2: return 0;
             case 3: return 1;
             default: return lane; // fallback
         }
+    }
+
+    /// <summary>
+    /// Moves the Jack Grim to the play area at a constant speed.
+    /// Then starts the lane change loop.
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator ApproachToPlayArea()
+    {
+        while (transform.position.z > approachTargetZ)
+        {
+            float distanceToTarget = transform.position.z - approachTargetZ;
+            float mult = Blackboard.Instance.GetValue<float>(BlackboardKey.SpeedMultiplier);
+
+            // slow down when 40 units away
+            float slowDownStartDistance = 40f; 
+            float t = Mathf.Clamp01(distanceToTarget / slowDownStartDistance);
+
+            Vector3 vel = rb.velocity;
+            vel.z = -approachSpeed * mult * t; // sabit hýz
+            rb.velocity = vel;
+            yield return new WaitForFixedUpdate();
+        }
+
+        rb.velocity = Vector3.zero;
+        // Hedefe tam hizala (18 f kullanýyorsan ona çek)
+        transform.position = new Vector3(transform.position.x, transform.position.y, approachTargetZ);
+        
+        StartCoroutine(LaneChangeLoop());
     }
 
     #endregion

@@ -18,19 +18,18 @@ public class JackGrimHimselfHumanAnimation : MonoBehaviour
         animator = this.GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //For testing purposes
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            animator.SetTrigger("JackGrimHimselfHumanAttackOrderTrigger");
-        }
-    }
-
     #endregion
 
     #region Public Methods
+
+    /// <summary>
+    /// Called by JackGrimBehaviour
+    /// </summary>
+    public void PlayAttack()
+    {
+        animator.SetTrigger("JackGrimHimselfHumanAttackOrderTrigger");
+        // The animation event will still call StartJackGrimHimselfHumanAttackVfx()
+    }
 
     /// <summary>
     /// Called from animation event to start the Jack Grim Himself Human attack muzzle VFX
