@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Controls the animation for the Archer help ship archer human.
 /// </summary>
-public class ArcherHelpShipArcherAnim : MonoBehaviour
+public class ArcherHelpShipArcherAnim : MonoBehaviour, IAttackAnimator
 {
     #region Fields
 

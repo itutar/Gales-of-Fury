@@ -11,5 +11,6 @@ public enum BlackboardKey
     IsBossActive,
     CurrentBossType,
     BossHealth,
-    CurrentBossTransform
+    CurrentBossTransform,
+    HelperShipReachedZOffset
 }
