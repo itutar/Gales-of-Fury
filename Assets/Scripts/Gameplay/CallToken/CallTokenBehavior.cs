@@ -48,6 +48,7 @@ public class CallTokenBehavior : MonoBehaviour
         {
             HelpShipManager.instance?.GrantHelpShip(helpShipPrefab);
             HelpShipManager.instance?.CallHelpShip();
+            Destroy(gameObject);
         }
     }
 

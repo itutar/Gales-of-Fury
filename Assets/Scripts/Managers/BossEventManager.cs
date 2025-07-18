@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class BossSpawnedEvent : UnityEvent<BossType> { }
 
 [System.Serializable]
-public class BossDamageEvent : UnityEvent<int> { }
+public class BossDamageEvent : UnityEvent<float> { }
 
 [System.Serializable]
 public class BossDefeatedEvent : UnityEvent<BossType> { }
@@ -32,6 +32,7 @@ public class BossEventManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        Debug.Log("BossEventManager Awake Çalýþtý");
     }
 
     #endregion

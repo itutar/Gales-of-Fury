@@ -6420,6 +6420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65aeeb3e86384f44fb1d36529e99108a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shipType: 3
   bulletPrefab: {fileID: 0}
   firePoint: {fileID: 0}
 --- !u!114 &-3549029907586534691

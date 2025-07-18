@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossHealth : MonoBehaviour
 {
-    int currentHealth;
+    float currentHealth;
 
     #region Unity Methods
 
@@ -27,7 +27,7 @@ public class BossHealth : MonoBehaviour
 
     #endregion
 
-    private void TakeDamage(int amount)
+    private void TakeDamage(float amount)
     {
         currentHealth -= amount;
         currentHealth = Mathf.Max(currentHealth, 0);

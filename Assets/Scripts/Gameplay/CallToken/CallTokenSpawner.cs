@@ -16,7 +16,7 @@ public class CallTokenSpawner : MonoBehaviour
     [SerializeField] private GameObject catapultCallToken;
     [SerializeField] private GameObject pistoleerCallToken;
 
-    private float spawnInterval = 3f; //20
+    private float spawnInterval = 20f; //20
 
     private GameObject[] _tokenPool;
     private Coroutine _spawnLoop;

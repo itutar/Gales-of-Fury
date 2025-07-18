@@ -39095,7 +39095,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e02d08d1eb681048aa4abd1342dd5d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  helpShipPrefab: {fileID: 0}
+  helpShipPrefab: {fileID: 878708626929706982, guid: adf6f91c31592f249a968abd10d3c15f, type: 3}
   waterSurfaceLevelFinder: {fileID: 1167217848090101781}
 --- !u!114 &1167217848090101781
 MonoBehaviour:

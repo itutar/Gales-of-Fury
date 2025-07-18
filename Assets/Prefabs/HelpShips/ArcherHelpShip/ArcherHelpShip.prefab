@@ -2700,6 +2700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65aeeb3e86384f44fb1d36529e99108a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shipType: 2
   bulletPrefab: {fileID: 4929669109267049703, guid: 94a6c089cbcf3894194aa1db55c4eb13, type: 3}
   firePoint: {fileID: 1535869920034181166}
 --- !u!114 &-5216645468186543339

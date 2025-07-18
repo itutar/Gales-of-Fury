@@ -6,6 +6,9 @@ public class HelperShipAttack : MonoBehaviour
 {
     #region Fields
 
+    // Helper ship type
+    [SerializeField] private HelperShipType shipType;
+
     // animation support
     private IAttackAnimator attackAnimator;
 
@@ -75,6 +78,17 @@ public class HelperShipAttack : MonoBehaviour
 
     private void Fire()
     {
+        float damage = shipType switch
+        {
+            HelperShipType.Cannon => 2f,
+            HelperShipType.Catapult => 1f,
+            HelperShipType.Archer => 0.75f,
+            HelperShipType.Pistoleer => 0.5f,
+            _ => 1f
+        };
+
+        BossEventManager.Instance.OnBossTakeDamage.Invoke(damage);
+
         if (bulletPrefab != null && firePoint != null)
             Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
     }
