@@ -30,7 +30,7 @@ public class JackGrimBehaviour : MonoBehaviour
     [SerializeField] JackGrimHimselfHumanAnimation selfAnimation;
 
     // Approach support
-    float approachTargetZ = 20f;
+    float approachTargetZ = 25f;
     float approachSpeed = 25f;
 
     #endregion
@@ -116,7 +116,34 @@ public class JackGrimBehaviour : MonoBehaviour
 
         // stop movement and set final position
         rb.velocity = new Vector3(0f, 0f, 0f);
-        transform.position = new Vector3(targetX, transform.position.y, 18f);
+        yield return StartCoroutine(SmoothMoveToLane(targetX, approachTargetZ));
+    }
+
+    /// <summary>
+    /// The goal is to prevent the forward movement bug and ensure that the object stays properly in the desired position.
+    /// </summary>
+    /// <remarks>This method interpolates the object's position from its current position to the target
+    /// position using linear interpolation (Lerp). The movement is performed over the specified duration and is
+    /// frame-rate independent. The final position is explicitly set to ensure precise alignment with the
+    /// target.</remarks>
+    /// <param name="targetX">The target X-coordinate to move to.</param>
+    /// <param name="targetZ">The target Z-coordinate to move to.</param>
+    /// <param name="duration">The duration, in seconds, over which the movement should occur. Defaults to 0.6 seconds.</param>
+    /// <returns>An enumerator that performs the smooth movement when used in a coroutine.</returns>
+    private IEnumerator SmoothMoveToLane(float targetX, float targetZ, float duration = 0.6f)
+    {
+        Vector3 startPos = transform.position;
+        Vector3 targetPos = new Vector3(targetX, transform.position.y, targetZ);
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            transform.position = Vector3.Lerp(startPos, targetPos, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = targetPos; // Hedefte tam hizala
     }
 
     private void DoAttack()
@@ -147,13 +174,29 @@ public class JackGrimBehaviour : MonoBehaviour
     /// input lane as a fallback.</returns>
     private int GetTargetLane(int lane)
     {
+        //switch (lane)
+        //{
+        //    case 0: return 2;
+        //    case 1: return 3;
+        //    case 2: return 0;
+        //    case 3: return 1;
+        //    default: return lane; // fallback
+        //}
         switch (lane)
         {
-            case 0: return 2;
+            case 0:
+                if (Random.value < 0.5f)
+                    return 2;
+                else
+                    return 3;
             case 1: return 3;
             case 2: return 0;
-            case 3: return 1;
-            default: return lane; // fallback
+            case 3:
+                if (Random.value < 0.5f)
+                    return 1;
+                else
+                    return 0;
+            default: return lane;
         }
     }
 

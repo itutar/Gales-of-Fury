@@ -13,6 +13,8 @@ public class BossDeathHandler : MonoBehaviour
     private float moveToCornerForce = 12f;
     private float screenOffsetX = 6f;
 
+    [SerializeField] MonoBehaviour behaviourScript;
+
     #endregion
 
     #region Unity Methods
@@ -43,6 +45,12 @@ public class BossDeathHandler : MonoBehaviour
     private void HandleDeath()
     {
         _isDead = true;
+
+        // disable the behaviour script
+        if (behaviourScript != null)
+        {
+            behaviourScript.enabled = false;
+        }
 
         // event
         BossType bossType = Blackboard.Instance.GetValue<BossType>(BlackboardKey.CurrentBossType);

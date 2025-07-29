@@ -49,8 +49,8 @@ public class BossSpawner : MonoBehaviour
 
         // Rastgele boss seç
         BossType[] bosses = (BossType[])System.Enum.GetValues(typeof(BossType));
-        //_currentBossType = bosses[Random.Range(0, bosses.Length)];
-        _currentBossType = BossType.IsabellaIronheart; // For testing for test for test for test for test for test for test
+        _currentBossType = bosses[Random.Range(0, bosses.Length)];
+        //_currentBossType = BossType.IsabellaIronheart; // For testing for test for test for test for test for test for test
 
         // select boss prefab
         GameObject prefabToSpawn = GetBossPrefab(_currentBossType);

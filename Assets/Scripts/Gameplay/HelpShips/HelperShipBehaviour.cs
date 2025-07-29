@@ -9,7 +9,7 @@ public class HelperShipBehaviour : MonoBehaviour
 
     float zMoveSpeed = 5f;
     private Transform bossTransform;
-    private const float zOffset = 30f;
+    private const float zOffset = 40f;
 
     #endregion
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IsabellaIronheartBehaviour : MonoBehaviour
+public class ErikBladesBehaviour : MonoBehaviour
 {
     #region Fields
 
@@ -18,27 +18,23 @@ public class IsabellaIronheartBehaviour : MonoBehaviour
     [Header("Player Reference")]
     [SerializeField] PlayerReference player;
 
-    [Header("Archer Setup")]
-    [SerializeField] private Transform leftArcherProjectileSpawnPoint;
-    [SerializeField] private Transform rightArcherProjectileSpawnPoint;
-    [SerializeField] private GameObject isabellaArrowPrefab;
+    [Header("Pistoleer Setup")]
+    [SerializeField] private Transform leftPistoleerProjectileSpawnPoint;
+    [SerializeField] private Transform rightPistoleerProjectileSpawnPoint;
+    [SerializeField] private GameObject pistoleerBulletPrefab;
 
-    [Header("Cannon Setup")]
-    [SerializeField] private Transform cannonProjectileSpawnPoint;
-    [SerializeField] private GameObject backCannonballPrefab;
-    float launchForce = 25f;
-
-    [Header("VFX")]
-    [SerializeField] private GameObject cannonMuzzleVFX;
+    [Header("Back Barrel Setup")]
+    [SerializeField] private ErikBladesBackHumanAnimation backHumanAnimation;
 
     [Header("Animation")]
-    [SerializeField] IsabellaIronheartArcherAnimation archerAnimationR1;
-    [SerializeField] IsabellaIronheartArcherAnimation archerAnimationR2;
-    [SerializeField] IsabellaIronheartArcherAnimation archerAnimationL1;
-    [SerializeField] IsabellaIronheartArcherAnimation archerAnimationL2;
-    [SerializeField] IsabellaIronheartBackCannonHumanAnimation backCannonHumanAnimation;
+    [SerializeField] ErikBladesPistoleerAnimation pistoleerAnimationR1;
+    [SerializeField] ErikBladesPistoleerAnimation pistoleerAnimationR2;
+    [SerializeField] ErikBladesPistoleerAnimation pistoleerAnimationL1;
+    [SerializeField] ErikBladesPistoleerAnimation pistoleerAnimationL2;
 
-    float approachTargetZ = 25f;
+    private float projectileLaunchForce = 25f;
+
+    float approachTargetZ = 30f;
     float approachSpeed = 25f;
 
     #endregion
@@ -69,17 +65,18 @@ public class IsabellaIronheartBehaviour : MonoBehaviour
 
             bool right = targetLane > currentLane;
 
+            // Pistoleer Animations
             if (right)
             {
-                archerAnimationR1?.PlayAttack();
-                archerAnimationR2?.PlayAttack();
+                pistoleerAnimationR1?.PlayAttack();
+                pistoleerAnimationR2?.PlayAttack();
             }
             else
             {
-                archerAnimationL1?.PlayAttack();
-                archerAnimationL2?.PlayAttack();
+                pistoleerAnimationL1?.PlayAttack();
+                pistoleerAnimationL2?.PlayAttack();
             }
-                
+
             yield return new WaitForSeconds(0.5f);
 
             Quaternion diagonalRot = Quaternion.Euler(0, right ? 45f : -45f, 0);
@@ -87,7 +84,7 @@ public class IsabellaIronheartBehaviour : MonoBehaviour
                 rotationStabilizer.enabled = false;
             yield return StartCoroutine(RotateTo(diagonalRot));
 
-            DoAttack(right);
+            DoPistoleerAttack(right);
 
             yield return StartCoroutine(MoveToLane(targetLane));
 
@@ -97,8 +94,8 @@ public class IsabellaIronheartBehaviour : MonoBehaviour
 
             currentLane = targetLane;
 
-            // attack back cannon
-            BackCannonAttack();
+            // Back barrel attack
+            BackBarrelAttack();
         }
     }
 
@@ -128,7 +125,6 @@ public class IsabellaIronheartBehaviour : MonoBehaviour
         }
 
         rb.velocity = Vector3.zero;
-        //transform.position = new Vector3(targetX, transform.position.y, 18f);
         yield return StartCoroutine(SmoothMoveToLane(targetX, approachTargetZ));
     }
 
@@ -159,62 +155,34 @@ public class IsabellaIronheartBehaviour : MonoBehaviour
         transform.position = targetPos; // Hedefte tam hizala
     }
 
-    private void DoAttack(bool movingRight)
+    private void DoPistoleerAttack(bool movingRight)
     {
         GameObject playerObject = player.player;
         if (playerObject == null) return;
 
         Vector3 adjustedTarget = playerObject.transform.position + Vector3.up;
 
-        // Yön bilgisine göre doðru spawn noktasý seç
-        Transform spawnPoint = movingRight ? rightArcherProjectileSpawnPoint : leftArcherProjectileSpawnPoint;
+        Transform spawnPoint = movingRight ? rightPistoleerProjectileSpawnPoint : leftPistoleerProjectileSpawnPoint;
 
-        // spawn arrows
-        Vector3 dir1 = (adjustedTarget - spawnPoint.position).normalized;
-        GameObject arrow1 = Instantiate(isabellaArrowPrefab, spawnPoint.position, Quaternion.LookRotation(dir1));
-        Rigidbody rbArrow1 = arrow1.GetComponent<Rigidbody>();
-        rbArrow1.AddForce(dir1 * launchForce, ForceMode.Impulse);
+        // First shot
+        Vector3 gravityAdjustment = new Vector3(0, 2f, 0); // Adjust for gravity
+        Vector3 dir1 = (adjustedTarget - spawnPoint.position + gravityAdjustment).normalized;
+        GameObject bullet1 = Instantiate(pistoleerBulletPrefab, spawnPoint.position, Quaternion.LookRotation(dir1));
+        Rigidbody rbBullet1 = bullet1.GetComponent<Rigidbody>();
+        rbBullet1.AddForce(dir1 * projectileLaunchForce, ForceMode.Impulse);
 
-        Vector3 secondArrowPos = spawnPoint.position + new Vector3(1, 0, 1) * 1f;
-        Vector3 dir2 = (adjustedTarget - secondArrowPos).normalized;
-        GameObject arrow2 = Instantiate(isabellaArrowPrefab, secondArrowPos, Quaternion.LookRotation(dir2));
-        Rigidbody rbArrow2 = arrow2.GetComponent<Rigidbody>();
-        rbArrow2.AddForce(dir2 * launchForce, ForceMode.Impulse);
+        // Second shot (offset)
+        Vector3 secondShotPos = spawnPoint.position + new Vector3(0.5f, 0, 0.5f);
+        Vector3 dir2 = (adjustedTarget - secondShotPos + gravityAdjustment).normalized;
+        GameObject bullet2 = Instantiate(pistoleerBulletPrefab, secondShotPos, Quaternion.LookRotation(dir2));
+        Rigidbody rbBullet2 = bullet2.GetComponent<Rigidbody>();
+        rbBullet2.AddForce(dir2 * projectileLaunchForce, ForceMode.Impulse);
     }
 
-    private void BackCannonAttack()
+    private void BackBarrelAttack()
     {
-        // play cannon muzzle VFX
-        if (cannonMuzzleVFX != null)
-        {
-            // VFX'i cannon spawn noktasýnda instantiate et
-            GameObject vfx = Instantiate(cannonMuzzleVFX, cannonProjectileSpawnPoint.position, cannonProjectileSpawnPoint.rotation);
-            Destroy(vfx, 2f); // 2 saniye sonra otomatik olarak yok et
-        }
-
-        // Topçu animasyonunu tetikle
-        backCannonHumanAnimation?.PlayAttack();
-
-        // Hedef (player) pozisyonu al
-        GameObject playerObject = player.player;
-        if (playerObject == null) return;
-
-        Vector3 adjustedTarget = playerObject.transform.position + Vector3.up;
-
-        // Ýlk cannon mermisini spawnla
-        Vector3 dir1 = (adjustedTarget - cannonProjectileSpawnPoint.position).normalized;
-        GameObject cannonball1 = Instantiate(backCannonballPrefab, cannonProjectileSpawnPoint.position, Quaternion.LookRotation(dir1));
-        Rigidbody rbCannon1 = cannonball1.GetComponent<Rigidbody>();
-        rbCannon1.AddForce(dir1 * launchForce, ForceMode.Impulse);
-
-        // Ýkinci cannon mermisi (küçük offset ile X ekseninde veya hafif zaman gecikmesi ile)
-
-        Vector3 secondCannonPos = cannonProjectileSpawnPoint.position + Vector3.right * 0.5f; // X ekseninde 0.5 birim offset
-        Vector3 dir2 = (adjustedTarget - secondCannonPos).normalized;
-        GameObject cannonball2 = Instantiate(backCannonballPrefab, secondCannonPos, Quaternion.LookRotation(dir2));
-        Rigidbody rbCannon2 = cannonball2.GetComponent<Rigidbody>();
-        
-        rbCannon2.AddForce(dir2 * launchForce, ForceMode.Impulse);
+        backHumanAnimation?.PlayAttack();
+        //backHumanAnimation?.SpawnOnBetweenHands(); // Animasyondan barrel çýkarma kontrolü
     }
 
     private int GetTargetLane(int lane)

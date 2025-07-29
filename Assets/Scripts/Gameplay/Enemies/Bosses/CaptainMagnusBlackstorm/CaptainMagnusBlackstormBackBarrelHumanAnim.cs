@@ -14,7 +14,6 @@ public class CaptainMagnusBlackstormBackBarrelHumanAnim : MonoBehaviour
     public PlayerReference playerReference;
 
     Animator animator;
-    [SerializeField] GameObject Parent;
 
     //barrel variable
     private GameObject currentBarrel;
@@ -28,40 +27,19 @@ public class CaptainMagnusBlackstormBackBarrelHumanAnim : MonoBehaviour
     {
         player = playerReference.player.transform;
         animator = this.GetComponent<Animator>();
-        EnemyEventManager.Instance.OnEnemyAttack.AddListener(OnAttack);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // for test
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            animator.SetTrigger("CaptainMagnusBlackstormBackHumanTrigger");
-
-        }
-    }
-
-    #endregion
-
-    #region Private Methods
-
-    /// <summary>
-    /// Handles the attack event based on the enemy type.
-    /// </summary>
-    /// <param name="enemy">The enemy performing the attack</param>
-    private void OnAttack(GameObject enemy)
-    {
-        if (enemy == Parent)
-        {
-            animator.SetTrigger("CaptainMagnusBlackstormBackHumanTrigger");
-
-        }
     }
 
     #endregion
 
     #region Public Methods
+
+    /// <summary>
+    /// called from CaptainMagnusBlackstormBehaviour script.
+    /// </summary>
+    public void PlayAttack()
+    {
+        animator.SetTrigger("CaptainMagnusBlackstormBackHumanTrigger");
+    }
 
     public void SpawnOnBetweenHands()
     {
@@ -84,7 +62,7 @@ public class CaptainMagnusBlackstormBackBarrelHumanAnim : MonoBehaviour
     public void ReleaseBarrel()
     {
         currentBarrel.transform.parent = null;
-        
+
         Rigidbody rb = currentBarrel.GetComponent<Rigidbody>();
         rb.isKinematic = false;
         rb.useGravity = true;
