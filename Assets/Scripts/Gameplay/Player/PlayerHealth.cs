@@ -7,7 +7,7 @@ public class PlayerHealth : MonoBehaviour
 {
     #region Fields
 
-    public float damageResetTime = 2f;
+    private float damageResetTime = 5f;
 
     private bool isDamaged = false;
     private Coroutine damageCoroutine;

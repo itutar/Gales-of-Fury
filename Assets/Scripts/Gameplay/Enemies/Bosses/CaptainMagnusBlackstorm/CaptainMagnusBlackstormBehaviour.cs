@@ -41,6 +41,9 @@ public class CaptainMagnusBlackstormBehaviour : MonoBehaviour
     float approachTargetZ = 30f;
     float approachSpeed = 25f;
 
+    // constraint z axis movement when boss arrives to play area
+    bool zAxisConstrained = false;
+
     #endregion
 
     #region Unity Methods
@@ -50,6 +53,25 @@ public class CaptainMagnusBlackstormBehaviour : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         currentLane = 1;
         StartCoroutine(ApproachToPlayArea());
+    }
+
+    /// <summary>
+    /// when boss arrives to play area, z axis position is constrained to prevent it from moving forward.
+    /// </summary>
+    private void Update()
+    {
+        if (!zAxisConstrained)
+        {
+            return;
+        }
+
+        Vector3 vel = rb.velocity;
+        vel.z = 0f;
+        rb.velocity = vel;
+
+        Vector3 pos = rb.position;
+        pos.z = approachTargetZ;
+        rb.position = pos;
     }
 
     #endregion
@@ -107,7 +129,7 @@ public class CaptainMagnusBlackstormBehaviour : MonoBehaviour
         Transform firePoint1 = right ? RightSideCannonsFirePoint1 : LeftSideCannonsFirePoint1;
         Transform firePoint2 = right ? RightSideCannonsFirePoint2 : LeftSideCannonsFirePoint2;
 
-        Vector3 adjustedTarget = playerObject.transform.position + Vector3.up;
+        Vector3 adjustedTarget = playerObject.transform.position + Vector3.up * 4.5f;
 
         FireCannonFromPoint(firePoint1, adjustedTarget);
         FireCannonFromPoint(firePoint2, adjustedTarget);
@@ -136,7 +158,7 @@ public class CaptainMagnusBlackstormBehaviour : MonoBehaviour
         GameObject playerObject = player.player;
         if (playerObject == null) return;
 
-        Vector3 adjustedTarget = playerObject.transform.position + Vector3.up;
+        Vector3 adjustedTarget = playerObject.transform.position + Vector3.up * 2f;
 
         FireCannonFromPoint(BackCannonFirePoint1, adjustedTarget);
         FireCannonFromPoint(BackCannonFirePoint2, adjustedTarget);
@@ -236,6 +258,10 @@ public class CaptainMagnusBlackstormBehaviour : MonoBehaviour
 
         rb.velocity = Vector3.zero;
         transform.position = new Vector3(transform.position.x, transform.position.y, approachTargetZ);
+
+        // constraint z axis position
+        rb.constraints = RigidbodyConstraints.FreezePositionZ;
+        zAxisConstrained = true;
 
         StartCoroutine(LaneChangeLoop());
     }

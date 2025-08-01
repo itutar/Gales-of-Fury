@@ -32,16 +32,17 @@ public class EnemySpawner : MonoBehaviour
     private void OnDisable()
     {
         EnemyEventManager.Instance?.OnEnemySpawned.RemoveListener(SpawnEnemy);
-        //if (spawnCoroutine != null)
-        //{
-        //    StopCoroutine(spawnCoroutine);
-        //    spawnCoroutine = null;
-        //}
+        if (spawnCoroutine != null)
+        {
+            StopCoroutine(spawnCoroutine);
+            spawnCoroutine = null;
+        }
     }
 
     private void Start()
     {
-        spawnCoroutine = StartCoroutine(SpawnEnemyAtRandomIntervals());
+        if (spawnCoroutine == null)
+            spawnCoroutine = StartCoroutine(SpawnEnemyAtRandomIntervals());
     }
 
     #endregion
@@ -144,8 +145,9 @@ public class EnemySpawner : MonoBehaviour
     {
         while (true)
         {
-            float waitTime = UnityEngine.Random.Range(5f, 10f);
+            float waitTime = UnityEngine.Random.Range(3.4f, 7f);
             float multiplier = Blackboard.Instance.GetValue<float>(BlackboardKey.SpeedMultiplier);
+            multiplier = Mathf.Clamp(multiplier, 1f, 1.2f); // Ensure multiplier is within a reasonable range
             waitTime /= multiplier;
 
             float waited = 0f;
@@ -171,34 +173,21 @@ public class EnemySpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// Generates and returns a random position for enemy spawning.
+    /// Returns a spawn position that sits on a random lane,
+    /// ahead of the player/camera on the Z axis.
     /// </summary>
-    /// <returns>A Vector3 representing the spawn position for an enemy.</returns>
     private Vector3 GetSpawnPosition(out float targetXPosition)
     {
-        // spawn at a random side of the screen
-        bool spawnOnLeft = UnityEngine.Random.value < 0.5f;
-
-        // Pick a random Z distance (depth) where the enemy will appear
-        float minZ = 10f;
-        float maxZ = 50f; //20
-        float spawnZ = UnityEngine.Random.Range(minZ, maxZ);
-        float camZ = Camera.main.transform.position.z;
-
-
-        // Compute the world-space X at the chosen spawnZ plane:
-        //    - Viewport X = 0 gives the left edge; Viewport X = 1 gives the right edge.
-        //    - The 'z' parameter for ViewportToWorldPoint is the distance from camera.
-        float distanceFromCamera = spawnZ - camZ;
-        Vector3 leftWorldPoint = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, distanceFromCamera));
-        Vector3 rightWorldPoint = Camera.main.ViewportToWorldPoint(new Vector3(1f, 0f, distanceFromCamera));
-
-        // put some space between the enemy and the screen edge
-        float spawnXPosition = spawnOnLeft ? leftWorldPoint.x - 3f : rightWorldPoint.x + 3f;
-
+        // 1) Random lane
         int laneIndex = UnityEngine.Random.Range(0, LaneManager.instance.NumberOfLanes);
-        targetXPosition = LaneManager.instance.GetLanePosition(laneIndex);
-        return new Vector3(spawnXPosition, 5.5f, spawnZ);
+        float x = LaneManager.instance.GetLanePosition(laneIndex);
+
+        // 2) Same Y & Z as bosses
+        float spawnY = -21f;
+        float spawnZ = 120f;
+
+        targetXPosition = x;     // keeps existing Initialise(float) signature happy
+        return new Vector3(x, spawnY, spawnZ);
     }
 
     #endregion

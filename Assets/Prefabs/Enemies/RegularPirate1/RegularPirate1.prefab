@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3779545241323725092}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BackLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 3324207047837698397}
   - component: {fileID: 2496212436400702376}
   - component: {fileID: 3883516960505808329}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Mesh0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 4010535139269980031}
   - component: {fileID: 4491571517854037125}
   - component: {fileID: 8173381924977702283}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Veh_Boat_Medium_01_Sails_Up_Pirate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -230,7 +230,7 @@ GameObject:
   - component: {fileID: 659319614570129755}
   - component: {fileID: 473400408645832570}
   - component: {fileID: 7078532975953445265}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Veh_Boat_Medium_01_Mast_Pirate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -320,9 +320,9 @@ GameObject:
   - component: {fileID: 1121968147392857695}
   - component: {fileID: 2795139896991679563}
   - component: {fileID: 6018353940446339076}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RegularPirate1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -456,8 +456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a22ab5dcde2c725428fcca529c091caf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceStrength: 120
-  stopThreshold: 0.1
+  player: {fileID: 11400000, guid: dbbc44f7dad38234c9b5f874ddad99fb, type: 2}
 --- !u!114 &2795139896991679563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -502,7 +501,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6984981471086410203}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BackRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -533,7 +532,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8169753628834623246}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BuoyancyPoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -568,7 +567,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2957643300717789145}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FrontLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -601,7 +600,7 @@ GameObject:
   - component: {fileID: 5682480829436882565}
   - component: {fileID: 4625911172166295688}
   - component: {fileID: 2042709264716956936}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Veh_Boat_Medium_01_Hull_Pirate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -686,7 +685,7 @@ GameObject:
   - component: {fileID: 6447295611070276357}
   - component: {fileID: 6269178916136831735}
   - component: {fileID: 3167974504192375094}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Veh_Boat_Medium_01_Sails_Pirate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -767,7 +766,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6631375976792144702}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FrontRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -841,9 +840,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4087269626475767384, guid: 907f9b2d08650a448a51c527a0567811, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5599275337095807674, guid: 907f9b2d08650a448a51c527a0567811, type: 3}
       propertyPath: m_Name
       value: SpeedEffect
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599275337095807674, guid: 907f9b2d08650a448a51c527a0567811, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7906631230938332628, guid: 907f9b2d08650a448a51c527a0567811, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

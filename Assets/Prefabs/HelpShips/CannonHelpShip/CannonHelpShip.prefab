@@ -1108,6 +1108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65aeeb3e86384f44fb1d36529e99108a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shipType: 0
   bulletPrefab: {fileID: 610804159673701170, guid: 60cfc54bbf6f10d4684484bc404a99d5, type: 3}
   firePoint: {fileID: 7490422897718724669}
 --- !u!1 &903107655659550431
@@ -2100,7 +2101,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4180bffa9c9802b49ae30b3556be51fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Parent: {fileID: 0}
 --- !u!1 &1400590107569974678
 GameObject:
   m_ObjectHideFlags: 0
@@ -11807,7 +11807,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4180bffa9c9802b49ae30b3556be51fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Parent: {fileID: 0}
 --- !u!114 &8183121088443965463
 MonoBehaviour:
   m_ObjectHideFlags: 0

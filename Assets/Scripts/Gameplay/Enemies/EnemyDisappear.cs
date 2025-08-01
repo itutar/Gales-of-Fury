@@ -154,9 +154,9 @@ public class EnemyDisappear : MonoBehaviour
             yield break;
         }
 
-        // Randomly pick left or right
-        Vector3 direction = (Random.value < 0.5f) ? new Vector3(-1f, 0f, 1f) : new Vector3(1f, 0f, 1f);
-        direction.Normalize();
+        // if enemys transfom x is positive, move to top right corner, otherwise to top left corner
+        float horizontalSign = (enemy.transform.position.x >= 0f) ? 1f : -1f;
+        Vector3 direction = new Vector3(horizontalSign, 0f, 1f).normalized;
 
         Camera cam = Camera.main;
 

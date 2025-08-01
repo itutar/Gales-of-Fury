@@ -199,7 +199,7 @@ public class IsabellaIronheartBehaviour : MonoBehaviour
         GameObject playerObject = player.player;
         if (playerObject == null) return;
 
-        Vector3 adjustedTarget = playerObject.transform.position + Vector3.up;
+        Vector3 adjustedTarget = playerObject.transform.position + Vector3.up * 2f;
 
         // Ýlk cannon mermisini spawnla
         Vector3 dir1 = (adjustedTarget - cannonProjectileSpawnPoint.position).normalized;

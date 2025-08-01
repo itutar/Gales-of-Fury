@@ -160,7 +160,7 @@ public class ErikBladesBehaviour : MonoBehaviour
         GameObject playerObject = player.player;
         if (playerObject == null) return;
 
-        Vector3 adjustedTarget = playerObject.transform.position + Vector3.up;
+        Vector3 adjustedTarget = playerObject.transform.position + Vector3.up * 4.5f;
 
         Transform spawnPoint = movingRight ? rightPistoleerProjectileSpawnPoint : leftPistoleerProjectileSpawnPoint;
 

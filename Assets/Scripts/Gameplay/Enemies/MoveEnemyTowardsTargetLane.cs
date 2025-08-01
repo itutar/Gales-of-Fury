@@ -1,56 +1,129 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class MoveEnemyTowardsTargetLane : MonoBehaviour, IMoveToLane
 {
-    Rigidbody rb;
-    float targetXPosition;
-    public float forceStrength = 20f;
-    public float stopThreshold = 0.1f;
+    float forwardForce = 75f;   // push strength on -Z
+    float stopAheadDistance = 25f;   // how far in front of player to stop
+    float stopThreshold = 0.2f;  // precision on Z check
 
-    // IMoveToLane
+    [Header("Player Reference")]
+    [SerializeField] private PlayerReference player;
+
+    Rigidbody rb;
+    Transform playerT;
+    float targetZ;
     public bool IsFinished { get; private set; }
 
-    /// <summary>
-    /// Tells the enemy to move towards the target lane's X position.
-    /// </summary>
-    /// <param name="targetXPosition">the lane's x position for enemy to move towards</param>
-    public void Initialize(float targetXPosition)
+    // Flag to track collision state
+    private bool isCollidingWithEnemy = false;
+
+    /*  We keep the old parameter so other code (sharks etc.) compiles,
+        but X-movement is no longer needed. */
+    public void Initialize(float _ignoredTargetX)
     {
-        this.targetXPosition = targetXPosition;
+        GameObject playerObject = player?.player;
+        if (playerObject == null)
+        {
+            Debug.LogWarning($"{name}: PlayerReference boş!");
+            enabled = false;
+            return;
+        }
+
+        playerT = playerObject.transform;
+        UpdateTargetZ();
+
         IsFinished = false;
         enabled = true;
     }
 
-    private void OnEnable()
-    {
-        // Move horizontally first when the script is started
-        IsFinished = false;
-    }
-
-    private void Awake()
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
 
-    private void FixedUpdate()
+    //void OnDestroy()
+    //{
+        // Reset collision matrix layer adjustment so enemy can collide with other enemies again
+        //AdjustCollisionLayer(false);
+    //}
+
+    void FixedUpdate()
     {
-        float deltaX = targetXPosition - transform.position.x;
-        if (Mathf.Abs(deltaX) > stopThreshold)
+        if (IsFinished || playerT == null) return;
+
+        // If colliding with another enemy, stop Z movement
+        if (isCollidingWithEnemy)
         {
-            float multiplier = Blackboard.Instance.GetValue<float>(BlackboardKey.SpeedMultiplier);
-            // Force direction: towards the target 1 or -1
-            Vector3 force = Vector3.right * Mathf.Sign(deltaX) * forceStrength * multiplier;
-            rb.AddForce(force, ForceMode.Force);
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0f);
+            return;
+        }
+
+        UpdateTargetZ();                      // keep target fresh – player is moving
+
+        float deltaZ = transform.position.z - targetZ; // +ve when still ahead
+        if (deltaZ > stopThreshold)
+        {
+            float mult = Blackboard.Instance.GetValue<float>(BlackboardKey.SpeedMultiplier);
+            rb.AddForce(Vector3.back * forwardForce * mult, ForceMode.Force);
         }
         else
         {
-            Vector3 v = rb.velocity;
-            rb.velocity = new Vector3(0f, v.y, v.z); // stop horizontal movement
+            // reached attack point → stop and hand over to attack controller
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0f);
             IsFinished = true;
-            enabled = false; // stop this script from running
+
+            // collision matrix layer adjusment so enemy doesn't collide with other enemies
+            //AdjustCollisionLayer(true);
+
+            enabled = false;
+        }
+    }
+
+    void UpdateTargetZ()
+    {
+        if (playerT != null)
+            targetZ = playerT.position.z + stopAheadDistance;
+    }
+
+    /// <summary>
+    /// Enables or disables collision detection between objects in the "Enemy" layer.
+    /// </summary>
+    /// <param name="ignoreCollision">
+    /// A value indicating whether collisions between objects in the "Enemy" layer should be ignored.
+    /// true to ignore collisions; otherwise, false.
+    /// </param>
+    void AdjustCollisionLayer(bool ignoreCollision)
+    {
+        int enemyLayer = LayerMask.NameToLayer("Enemy");
+        Physics.IgnoreLayerCollision(enemyLayer, enemyLayer, ignoreCollision);
+    }
+
+    // Detect collision start with another "Enemy"
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            // Compare Z positions: the one with greater Z (further back) stops
+            if (transform.position.z > collision.transform.position.z)
+            {
+                isCollidingWithEnemy = true; // This one is behind -> stop
+            }
+            else
+            {
+                isCollidingWithEnemy = false; // This one is ahead -> keep moving
+            }
+        }
+    }
+
+    // Detect collision end with another "Enemy"
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            isCollidingWithEnemy = false;
         }
     }
 }

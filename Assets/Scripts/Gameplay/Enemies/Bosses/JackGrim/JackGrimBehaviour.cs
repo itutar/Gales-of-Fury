@@ -151,7 +151,7 @@ public class JackGrimBehaviour : MonoBehaviour
         GameObject playerObject = player.player;
         if (playerObject == null || projectilePrefab == null) return;
         // Adjust the target position to be slightly above the player to avoid collision issues(gravity)
-        Vector3 adjustedTarget = playerObject.transform.position + Vector3.up;
+        Vector3 adjustedTarget = playerObject.transform.position + Vector3.up * 2.5f;
 
         // FRONT projectile
         GameObject frontProj = Instantiate(projectilePrefab, frontLaunchPoint.position, Quaternion.identity);
