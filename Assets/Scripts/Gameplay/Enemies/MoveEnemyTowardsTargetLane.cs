@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class MoveEnemyTowardsTargetLane : MonoBehaviour, IMoveToLane
 {
-    float forwardForce = 75f;   // push strength on -Z
+    float forwardForce = 100f;   // push strength on -Z
     float stopAheadDistance = 25f;   // how far in front of player to stop
     float stopThreshold = 0.2f;  // precision on Z check
 

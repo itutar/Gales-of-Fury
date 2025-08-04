@@ -442,7 +442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7ccd08954d08eb4f8472cf9b13e77f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceStrength: 20
+  forceStrength: 30
   stopThreshold: 0.1
   turnDuration: 1
 --- !u!114 &7576467140772773457

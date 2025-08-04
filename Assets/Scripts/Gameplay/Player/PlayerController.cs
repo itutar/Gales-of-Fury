@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     // for test
     [SerializeField] PlayerHealth playerHealth;
 
+    private int extraJumpsRemaining;   // runtime counter
 
     float jumpForce = 55f; // Force applied when jumping
     float swipeThreshold = 20f; // Minimum distance to consider a swipe (25f baþlangýçtaki deðer)
@@ -67,6 +68,11 @@ public class PlayerController : MonoBehaviour
         {
             Debug.LogError("PlayerController: FindWaterSurfaceLevel component not found! Please add it to the player GameObject.", this);
         }
+
+        Blackboard.Instance.Subscribe<int>(BlackboardKey.ExtraJumps, val =>
+        {
+            extraJumpsRemaining = val;   // whenever boost starts / ends
+        });
     }
 
     void Update()
@@ -196,6 +202,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Jump()
     {
+        /*
         // Prevent jumping if not grounded
         if (!IsGrounded)
             return;
@@ -207,6 +214,32 @@ public class PlayerController : MonoBehaviour
             rb.velocity = velocity;
         }
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        */
+
+        if (IsGrounded)
+        {
+            // Stop downward movement if the player is moving up
+            if (rb.velocity.y < 0)
+            {
+                Vector3 velocity = rb.velocity;
+                velocity.y = 0;
+                rb.velocity = velocity;
+            }
+            // normal jump
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+
+            // refresh counter every time we leave the ground
+            extraJumpsRemaining = Blackboard.Instance.GetValue<int>(BlackboardKey.ExtraJumps);
+            return;
+        }
+
+        // allow mid-air jump if boost is active
+        if (extraJumpsRemaining > 0)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z); // cancel downward momentum
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            extraJumpsRemaining--;
+        }
     }
     /// <summary>
     /// makes the player go down.
@@ -216,7 +249,6 @@ public class PlayerController : MonoBehaviour
         // prevent swiping down if grounded
         if (IsGrounded)
         {
-            Debug.Log("Swipe down action is not allowed while grounded.");
             return;
         }
 

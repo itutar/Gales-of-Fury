@@ -51,6 +51,10 @@ public class PlayerHealth : MonoBehaviour
     /// ends.</remarks>
     public void TakeDamage()
     {
+        // protected by dolphin!
+        if (Blackboard.Instance.GetValue<bool>(BlackboardKey.PlayerInvulnerable))
+            return;                     
+
         if (!isDamaged)
         {
             // First time damage

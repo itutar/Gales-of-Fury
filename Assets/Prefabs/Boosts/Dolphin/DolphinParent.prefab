@@ -822,6 +822,37 @@ Transform:
   - {fileID: 7390363891061749731}
   m_Father: {fileID: 1303727531778348449}
   m_LocalEulerAnglesHint: {x: 24.9, y: -0.19713654, z: -0.5805561}
+--- !u!1 &5756112903071318256
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7854614272687463306}
+  m_Layer: 0
+  m_Name: BuoyancyPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7854614272687463306
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5756112903071318256}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.41, z: -0.31}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5109552968253293697}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5814796734775754709
 GameObject:
   m_ObjectHideFlags: 0
@@ -831,6 +862,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5109552968253293697}
+  - component: {fileID: -6741210226968706930}
+  - component: {fileID: 726320857566814612}
+  - component: {fileID: 7582275555362514822}
+  - component: {fileID: 6050723355766080857}
   m_Layer: 0
   m_Name: DolphinParent
   m_TagString: Untagged
@@ -852,8 +887,80 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2142536600549584213}
+  - {fileID: 7854614272687463306}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-6741210226968706930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5814796734775754709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8af46b78d8df26d4093ba3a71ea8820d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!54 &726320857566814612
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5814796734775754709}
+  serializedVersion: 4
+  m_Mass: 5
+  m_Drag: 1.1
+  m_AngularDrag: 0.65
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &7582275555362514822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5814796734775754709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6abd15f36b4ecc043a25daed3393900c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buoyancyPoint: {fileID: 7854614272687463306}
+  seaTileReference: {fileID: 11400000, guid: 0ab359a4ad0811344b63d77597534619, type: 2}
+  displacementAmount: 3
+  depthBeforeSubmerged: 1.5
+  alignmentTorque: 10
+--- !u!114 &6050723355766080857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5814796734775754709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd7568d41f119554ba17d1f55d559283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 726320857566814612}
+  targetForward: {x: 0, y: 0, z: 1}
+  targetUp: {x: 0, y: 1, z: 0}
 --- !u!1 &6356352016926044261
 GameObject:
   m_ObjectHideFlags: 0

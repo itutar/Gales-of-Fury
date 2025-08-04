@@ -12,5 +12,7 @@ public enum BlackboardKey
     CurrentBossType,
     BossHealth,
     CurrentBossTransform,
-    HelperShipReachedZOffset
+    HelperShipReachedZOffset,
+    ExtraJumps,
+    PlayerInvulnerable
 }

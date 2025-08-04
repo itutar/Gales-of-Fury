@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 6223147892764405506}
   - component: {fileID: 930586137823491937}
   - component: {fileID: 5709645185853571985}
-  - component: {fileID: -8849348175130163386}
-  - component: {fileID: -6140047556578697068}
-  - component: {fileID: 5604124918495477524}
-  - component: {fileID: 3367536047069537710}
+  - component: {fileID: -6890287940277132511}
+  - component: {fileID: -8046305214787362672}
+  - component: {fileID: 3818526470635292255}
+  - component: {fileID: -3996073395306739952}
   m_Layer: 0
-  m_Name: DoubleJump
+  m_Name: DolphinBoost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4839,7 +4839,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &-8849348175130163386
+--- !u!114 &-6890287940277132511
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4851,10 +4851,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d20dc0624681524b8a3f3d4adb90b8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tokenType: 2
-  waterSurfaceLevelFinder: {fileID: -6140047556578697068}
+  tokenType: 1
+  waterSurfaceLevelFinder: {fileID: -8046305214787362672}
   playerReference: {fileID: 11400000, guid: dbbc44f7dad38234c9b5f874ddad99fb, type: 2}
---- !u!114 &-6140047556578697068
+--- !u!114 &-8046305214787362672
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4867,7 +4867,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seaTileReference: {fileID: 11400000, guid: 0ab359a4ad0811344b63d77597534619, type: 2}
---- !u!65 &5604124918495477524
+--- !u!65 &3818526470635292255
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4886,9 +4886,9 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.8930576, y: 3.3257442, z: 1.87115}
-  m_Center: {x: 0.0067578554, y: 0.95287204, z: -0.0008158684}
---- !u!114 &3367536047069537710
+  m_Size: {x: 1.7568657, y: 3.3416028, z: 1.9078598}
+  m_Center: {x: 0.021053553, y: 0.96080136, z: -0.012928963}
+--- !u!114 &-3996073395306739952
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4897,9 +4897,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3542708068844434720}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66e770a1d18f0e94598a41eae578ef42, type: 3}
+  m_Script: {fileID: 11500000, guid: 6951f68f738b5674786403b361dcd446, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dolphinPrefab: {fileID: 5814796734775754709, guid: 62972878a6ba49946ade82ef4d8257c3, type: 3}
+  playerReference: {fileID: 11400000, guid: dbbc44f7dad38234c9b5f874ddad99fb, type: 2}
 --- !u!1 &5686758322707340503
 GameObject:
   m_ObjectHideFlags: 0
@@ -29467,7 +29469,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ca9126b7a1a732648b4e5d0b8e906e30, type: 2}
+  - {fileID: 2100000, guid: d4fb559a99ad198408cea49524329cee, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

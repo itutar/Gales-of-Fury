@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4060820692979528018}
   - component: {fileID: -2433713092766168683}
   - component: {fileID: 7140635122645963475}
+  - component: {fileID: 4225890897254526349}
   m_Layer: 0
   m_Name: Coin
   m_TagString: Untagged
@@ -64,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5e1235b2e417983469723d36f05de88d, type: 2}
+  - {fileID: 2100000, guid: c6fa00c57838b8f4abe0ef5b67ddf9c8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -144,3 +145,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4225890897254526349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8216786676666468849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ca44dd6857f2d942bccaafc2ac89ab6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coinRenderer: {fileID: 6840608600564254677}

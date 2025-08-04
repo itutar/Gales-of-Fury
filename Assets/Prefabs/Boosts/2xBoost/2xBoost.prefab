@@ -34061,6 +34061,10 @@ GameObject:
   - component: {fileID: 2523190824972329959}
   - component: {fileID: 4563503178998661986}
   - component: {fileID: 8752739189331518009}
+  - component: {fileID: 4402209561730644030}
+  - component: {fileID: 2348369789002842633}
+  - component: {fileID: 1416910811872334942}
+  - component: {fileID: -2260433534891139651}
   m_Layer: 0
   m_Name: 2xBoost
   m_TagString: Untagged
@@ -38892,6 +38896,67 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &4402209561730644030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2547204112832522735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d20dc0624681524b8a3f3d4adb90b8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tokenType: 0
+  waterSurfaceLevelFinder: {fileID: 2348369789002842633}
+  playerReference: {fileID: 11400000, guid: dbbc44f7dad38234c9b5f874ddad99fb, type: 2}
+--- !u!114 &2348369789002842633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2547204112832522735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 540481c76ea13664a9e24cbc036b4f1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seaTileReference: {fileID: 11400000, guid: 0ab359a4ad0811344b63d77597534619, type: 2}
+--- !u!65 &1416910811872334942
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2547204112832522735}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.3242283, y: 3.7743654, z: 2.0711794}
+  m_Center: {x: 0.006747246, y: 1.1771827, z: -0.011808872}
+--- !u!114 &-2260433534891139651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2547204112832522735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a12e8b6757b94b745a728276eb335502, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2711356462083612923
 GameObject:
   m_ObjectHideFlags: 0
