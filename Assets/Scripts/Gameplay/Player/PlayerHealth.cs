@@ -76,6 +76,20 @@ public class PlayerHealth : MonoBehaviour
         if (Blackboard.Instance.GetValue<bool>(BlackboardKey.PlayerInvulnerable))
             return;
 
+        // save coin count
+        int currentCoins = Blackboard.Instance.GetValue<int>(BlackboardKey.Coin);
+        int savedCoins = ES3.Load<int>("coins", 0); // Daha önce kaydedilen coin varsa yükle, yoksa 0 döner
+        ES3.Save("coins", savedCoins + currentCoins); // Var olan coinlere yenilerini ekle
+
+        // Save top score if it's higher than previous one
+        int currentScore = Blackboard.Instance.GetValue<int>(BlackboardKey.Score);
+        int savedTopScore = ES3.Load<int>("topScore", 0); // Daha önce kaydedilen top score yoksa 0 döner
+
+        if (currentScore > savedTopScore)
+        {
+            ES3.Save("topScore", currentScore);
+        }
+
         // Switch to death animation
         animator.SetTrigger("PlayerDeathTrigger");
 

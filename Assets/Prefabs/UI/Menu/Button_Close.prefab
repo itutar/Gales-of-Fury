@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 5345487252148973118}
   - component: {fileID: 4042145724427476210}
   - component: {fileID: 9199900385510837117}
+  - component: {fileID: 1787980250114181561}
   m_Layer: 0
   m_Name: Button_Close
   m_TagString: Untagged
@@ -195,4 +196,32 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4042145724427476210}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1787980250114181561}
+        m_TargetAssemblyTypeName: ShopCloseButton, Assembly-CSharp
+        m_MethodName: CloseShop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1787980250114181561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6076988708012367865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adb02672880554d4c9eaf1cff9fb5ea7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shopPanel: {fileID: 0}
+  shopMainMenuPanel: {fileID: 0}
+  shopCharactersMenuPanel: {fileID: 0}
+  shopBoardsMenuPanel: {fileID: 0}

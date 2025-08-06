@@ -7,6 +7,9 @@ using UnityEngine;
 /// </summary>
 public class ShopButton : MonoBehaviour
 {
+    // white background for the shop panel
+    [SerializeField] private GameObject background;
+
     [SerializeField] private GameObject mainMenuPanel; 
     [SerializeField] private GameObject shopPanel;     
 
@@ -15,6 +18,9 @@ public class ShopButton : MonoBehaviour
     /// </summary>
     public void OpenShop()
     {
+        // Activate the background
+        background.SetActive(true);
+
         // Deactivate Main Menu panel
         mainMenuPanel.SetActive(false);
 
