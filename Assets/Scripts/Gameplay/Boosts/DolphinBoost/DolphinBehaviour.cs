@@ -18,6 +18,7 @@ public class DolphinBehaviour : MonoBehaviour
         this.zOffset = zOffset;
         this.lifeTime = lifeTime;
         StartCoroutine(SelfDestruct());
+        BoostUIManager.Instance.ShowBoost(BoostType.Dolphin, lifeTime);
     }
 
     private void Update()

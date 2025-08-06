@@ -7,7 +7,7 @@ public class BoostTokenSpawner : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] private GameObject[] boostTokenPrefabs; 
 
-    private float spawnInterval = 10f;//50
+    private float spawnInterval = 50f;//50
     private float spawnY = -21f;
     private float spawnZ = 120f;
 
@@ -46,8 +46,8 @@ public class BoostTokenSpawner : MonoBehaviour
 
         // pick a random prefab from the array
         int randomIndex = Random.Range(0, boostTokenPrefabs.Length);
-        //GameObject selectedPrefab = boostTokenPrefabs[randomIndex];
-        GameObject selectedPrefab = boostTokenPrefabs[1];
+        GameObject selectedPrefab = boostTokenPrefabs[randomIndex];
+        //GameObject selectedPrefab = boostTokenPrefabs[1];// Debugging purposes
 
         Instantiate(selectedPrefab, spawnPos, Quaternion.identity);
     }

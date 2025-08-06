@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3118630370955901944
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3962915916666706088}
+  - component: {fileID: 592077565036715117}
+  m_Layer: 0
+  m_Name: EnemySpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3962915916666706088
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3118630370955901944}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &592077565036715117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3118630370955901944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8affeae134a754d40a68d50fbb8cb8e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharkPrefab: {fileID: 2452246647571159902, guid: 99792d6aa9fd7c94ba33c84b3aff5a7d, type: 3}
+  regularPirate1Prefab: {fileID: 5213961502025538312, guid: f3360b33b50ad7145a3e8d6e860a6cea, type: 3}
+  regularPirate2Prefab: {fileID: 4454457780852853469, guid: a5c10db95307e8b4aa82a9707c897011, type: 3}
+  regularPirate3Prefab: {fileID: 4219741620076811718, guid: 09be6a54abfe5834391bfb3ea437deaa, type: 3}
+  krakenPrefabPopUp: {fileID: 6009143311380208117, guid: b970d16dbeac01e4681b0e5a3526cf29, type: 3}
+  krakenPrefabAttack: {fileID: 7417081530511921840, guid: cd07d6f41fc8fe64683312df5aa1c781, type: 3}
+  playerReference: {fileID: 11400000, guid: dbbc44f7dad38234c9b5f874ddad99fb, type: 2}

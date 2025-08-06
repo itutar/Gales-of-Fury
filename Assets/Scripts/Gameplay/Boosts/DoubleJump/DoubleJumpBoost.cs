@@ -14,6 +14,7 @@ public class DoubleJumpBoost : MonoBehaviour
     {
         // ScoreManager already lives forever, so it is a safe host for coroutines
         ScoreManager.Instance.StartCoroutine(BoostRoutine());
+        BoostUIManager.Instance.ShowBoost(BoostType.DoubleJump, duration);
     }
 
     private IEnumerator BoostRoutine()

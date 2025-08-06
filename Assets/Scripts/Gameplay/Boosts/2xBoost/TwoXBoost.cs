@@ -11,6 +11,7 @@ public class TwoXBoost : MonoBehaviour
         // score manager gameobject won't be destroyed 
         // so we can safely start a coroutine from it
         ScoreManager.Instance.StartCoroutine(BoostRoutine());
+        BoostUIManager.Instance.ShowBoost(BoostType.TwoX, duration);
     }
 
     /// <summary>

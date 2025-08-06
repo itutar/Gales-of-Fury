@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3169139317870517154
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5344662161206270132}
+  - component: {fileID: 7527811762500912655}
+  m_Layer: 0
+  m_Name: BossSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5344662161206270132
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3169139317870517154}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.0557408, y: 9.5637045, z: -7.054493}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7527811762500912655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3169139317870517154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3be4534417d07c458d1c1ea842a5aab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  captainMagnusBlackstormPrefab: {fileID: 6765277470137331418, guid: 52329bb2036026742909bc892db244b5, type: 3}
+  erikBladesPrefab: {fileID: 7499500907136632242, guid: dc22c7efd8809464a8b2856b5e379879, type: 3}
+  isabellaIronheartPrefab: {fileID: 8168191719539108198, guid: 3cae6b55d55a5a0428a2654c3da279c2, type: 3}
+  jackGrimPrefab: {fileID: 4872099257543077625, guid: 5e4d39221d6ea564ea44ad071e127e73, type: 3}

@@ -16,8 +16,7 @@ public class PlayerController : MonoBehaviour
 
     #region Fields
 
-    // for test
-    [SerializeField] PlayerHealth playerHealth;
+    private bool isPaused = false;
 
     private int extraJumpsRemaining;   // runtime counter
 
@@ -267,10 +266,10 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void DoubleTapAction()
     {
-        // Call the help ship manager to spawn a help ship
-        HelpShipManager.instance?.CallHelpShip();
         // test
-        ScoreManager.Instance.Add(10000);
+        //ScoreManager.Instance.Add(10000);
+        isPaused = !isPaused;
+        Time.timeScale = isPaused ? 0f : 1f;
     }
 
     /// <summary>

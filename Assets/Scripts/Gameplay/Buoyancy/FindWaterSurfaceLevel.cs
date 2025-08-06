@@ -11,7 +11,7 @@ public class FindWaterSurfaceLevel : MonoBehaviour
     private EndlessTiles endlessTiles;
     private bool applyRipple = true;
 
-    private void Awake()
+    private void Start()
     {
         if (seaTileReference == null)
         {

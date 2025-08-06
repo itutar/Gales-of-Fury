@@ -72,6 +72,10 @@ public class PlayerHealth : MonoBehaviour
 
     public void GameOver()
     {
+        // protected by dolphin!
+        if (Blackboard.Instance.GetValue<bool>(BlackboardKey.PlayerInvulnerable))
+            return;
+
         // Switch to death animation
         animator.SetTrigger("PlayerDeathTrigger");
 
