@@ -10,10 +10,25 @@ public class MenuCoinDisplay : MonoBehaviour
 {
     [SerializeField] private TMP_Text coinText;
 
-    void Start()
+    private void OnEnable()
     {
-        // load the saved coins from ES3
-        int savedCoins = ES3.Load<int>("coins", 0); 
+        RefreshFromSave(); // Refresh on enable
+        if (OnCoinChangeEvent.Instance != null)
+            OnCoinChangeEvent.Instance.CoinChanged += RefreshFromSave;
+    }
+
+    private void OnDisable()
+    {
+        if (OnCoinChangeEvent.Instance != null)
+            OnCoinChangeEvent.Instance.CoinChanged -= RefreshFromSave;
+    }
+
+    /// <summary>
+    /// Loads coin amount from ES3 and updates the label.
+    /// </summary>
+    public void RefreshFromSave()
+    {
+        int savedCoins = ES3.Load<int>("coins", 0);
         coinText.text = savedCoins.ToString();
     }
 }
