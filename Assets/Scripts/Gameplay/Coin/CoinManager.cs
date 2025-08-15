@@ -20,7 +20,6 @@ public class CoinManager : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
 
         // Let the counter start from zero.
         Blackboard.Instance.SetValue(BlackboardKey.Coin, 0);

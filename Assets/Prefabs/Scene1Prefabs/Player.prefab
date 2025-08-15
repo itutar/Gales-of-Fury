@@ -355,6 +355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24faa66f47478d1488498f17e72827fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseUIRefs: {fileID: 11400000, guid: f0b556821ca59094f875df3331a8d461, type: 2}
   rb: {fileID: 6766625902504004245}
 --- !u!114 &818375949417279468
 MonoBehaviour:

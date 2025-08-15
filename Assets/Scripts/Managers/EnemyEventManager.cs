@@ -81,7 +81,6 @@ public class EnemyEventManager : MonoBehaviour
         {
             instance = this;
         }
-        DontDestroyOnLoad(gameObject);
     }
 
     #endregion

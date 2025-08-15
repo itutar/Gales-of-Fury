@@ -31,7 +31,6 @@ public class BossEventManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
         Debug.Log("BossEventManager Awake Çalýþtý");
     }
 

@@ -26,12 +26,7 @@ public class KrakenAttack : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
-            if (playerHealth != null)
-            {
-                playerHealth.GameOver();
-                canTrigger = false; // bir kere tetiklenmesini saðla
-            }
+            GameOverEvent.instance.TriggerGameOver();
         }
     }
 }

@@ -39,6 +39,22 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        if (GameOverEvent.instance != null)
+        {
+            GameOverEvent.instance.OnGameOver.AddListener(GameOver);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (GameOverEvent.instance != null)
+        {
+            GameOverEvent.instance.OnGameOver.RemoveListener(GameOver);
+        }
+    }
+
     #endregion
 
     #region Public Methods
@@ -66,11 +82,15 @@ public class PlayerHealth : MonoBehaviour
         else
         {
             // already damaged, end game
-            GameOver();
+            GameOverEvent.instance.TriggerGameOver();
         }
     }
 
-    public void GameOver()
+    #endregion
+
+    #region Private Methods
+
+    private void GameOver()
     {
         // protected by dolphin!
         if (Blackboard.Instance.GetValue<bool>(BlackboardKey.PlayerInvulnerable))
@@ -102,20 +122,11 @@ public class PlayerHealth : MonoBehaviour
         // deactivate apply root motion after a delay to allow the death animation to play properly
         StartCoroutine(DisableRootMotionDelayed());
 
-
-        // Trigger game over event
-        Debug.Log("Game Over!");
-        GameOverEvent.instance.TriggerGameOver();
-
         // Reset the damage state and stop any ongoing damage effects
         isDamaged = false;
         if (damageCoroutine != null)
             StopCoroutine(damageCoroutine);
     }
-
-    #endregion
-
-    #region Private Methods
 
     private IEnumerator DamageResetTimer()
     {

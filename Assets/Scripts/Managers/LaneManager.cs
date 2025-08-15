@@ -122,7 +122,6 @@ public class LaneManager : MonoBehaviour
         {
             instance = this;
         }
-        DontDestroyOnLoad(gameObject);
         CalculateLanePositions();
     }
 

@@ -29,32 +29,6 @@ public class CoinUI : MonoBehaviour
         Blackboard.Instance.Subscribe<int>(BlackboardKey.Coin, OnCoinChanged);
     }
 
-    // test
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            CoinManager.Instance.Add(1111); // test için puan ekle
-        }
-        else if (Input.GetKeyDown(KeyCode.R))
-        {
-            CoinManager.Instance.Add(100000); // test için puaný sýfýrla
-        }
-        else if (Input.GetKeyDown(KeyCode.T))
-        {
-            CoinManager.Instance.Add(1000000); // test için puaný sýfýrla
-        }
-        else if (Input.GetKeyDown(KeyCode.Y))
-        {
-            CoinManager.Instance.Add(10000000); // test için puaný sýfýrla
-        }
-        else if (Input.GetKeyDown(KeyCode.U))
-        {
-            CoinManager.Instance.Add(10); // test için puaný sýfýrla
-        }
-
-    }
-
     #endregion
 
     /// <summary>

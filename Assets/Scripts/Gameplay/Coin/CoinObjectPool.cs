@@ -89,7 +89,7 @@ public static class CoinObjectPool
     {
         GameObject coin = GameObject.Instantiate(prefabCoin);
         coin.SetActive(false);
-        GameObject.DontDestroyOnLoad(coin);
+        //GameObject.DontDestroyOnLoad(coin);
         return coin;
     }
 

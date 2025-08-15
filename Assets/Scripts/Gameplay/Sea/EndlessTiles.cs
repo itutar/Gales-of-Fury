@@ -6,24 +6,50 @@ public class EndlessTiles : MonoBehaviour
 {
     #region Fields
 
-    public GameObject tilePrefab;      // 400x400 boyutundaki tile prefab'i
-    public int numberOfTiles = 2;      // Sahnede ayný anda duracak tile sayýsý
-    public float tileSize = 400f;      // Her bir tile'ýn uzunluðu (z yönünde)
-    public Transform player;           // Yerinde sabit duran player
+    public GameObject tilePrefab;        // 400x400 tile prefab
+    public int numberOfTiles = 2;        // How many tiles are kept alive
+    public float tileSize = 400f;        // Length of a tile along Z
 
-    // Ýçeride spawn edilen tile objelerini tutacaðýmýz liste
+    [SerializeField] private PlayerReference playerRef;  // SO holding player reference
+
+    // List of spawned tiles
     private List<GameObject> spawnedTiles = new List<GameObject>();
 
-    // Sýradaki tile’ýn spawn edileceði z koordinatý
+    // Next spawn Z
     private float nextSpawnZ = 0f;
+
+    // Cached player transform
+    private Transform playerTr;
 
     #endregion
 
     #region Unity Methods
 
+    //private void Awake()
+    //{
+    //    // Cache player transform from ScriptableObject
+    //    if (playerRef == null || playerRef.player == null)
+    //    {
+    //        Debug.LogError("EndlessTiles: PlayerReference or its player is not assigned. Please create/assign the PlayerReference asset and set its player.");
+    //    }
+    //    else
+    //    {
+    //        playerTr = playerRef.player.transform; // cache transform for runtime speed
+    //    }
+    //}
+
     private void Start()
     {
-        // Baþlangýçta 4 tile’ý art arda dizelim.
+        // Cache player transform from ScriptableObject
+        if (playerRef == null || playerRef.player == null)
+        {
+            Debug.LogError("EndlessTiles: PlayerReference or its player is not assigned. Please create/assign the PlayerReference asset and set its player.");
+        }
+        else
+        {
+            playerTr = playerRef.player.transform; // cache transform for runtime speed
+        }
+        // Spawn initial tiles
         for (int i = 0; i < numberOfTiles; i++)
         {
             SpawnTile(nextSpawnZ);
@@ -33,25 +59,18 @@ public class EndlessTiles : MonoBehaviour
 
     private void Update()
     {
-        // Ýlk (en eski) tile player’ýn 400 birim gerisine düþtüyse
-        // onu en öne tekrar yerleþtir (yok etmek yerine tekrar kullanmak)
+        if (playerTr == null) return; // Safety guard
+
         if (spawnedTiles.Count > 0)
         {
             GameObject firstTile = spawnedTiles[0];
-
-            // Bu tile'ýn merkezi z konumu
             float tileZ = firstTile.transform.position.z;
 
-            // Player’ýn gerisine ne kadar düþmüþ, kontrol ediyoruz.
-            // Örneðin tile’ýn +200 pozisyonu: Orta noktasý. 
-            // Eðer bu hesaplamada tile, player’ýn z konumundan 400 birim gerideyse
-            // (daha basit bir yaklaþým için direkt tileZ < player.position.z - tileSize þeklinde de düþünebilirsiniz)
-            if (tileZ + tileSize < player.position.z)
+            // If the tile fell behind the player by one tile length, move it to the front
+            if (tileZ + tileSize < playerTr.position.z)
             {
-                // Bu tile’ý listeden çýkar
                 spawnedTiles.RemoveAt(0);
 
-                // Tile’ý en öne taþý
                 float newZ = spawnedTiles[spawnedTiles.Count - 1].transform.position.z + tileSize;
                 firstTile.transform.position = new Vector3(
                     firstTile.transform.position.x,
@@ -59,7 +78,6 @@ public class EndlessTiles : MonoBehaviour
                     newZ
                 );
 
-                // Listeye tekrar ekle (en yeni tile gibi)
                 spawnedTiles.Add(firstTile);
             }
         }
@@ -70,14 +88,11 @@ public class EndlessTiles : MonoBehaviour
     #region Private Methods
 
     /// <summary>
-    /// Verilen z konumunda yeni bir tile oluþturur.
+    /// Spawns a tile at given Z position.
     /// </summary>
-    /// <param name="zPos">Spawn edilecek tile’ýn z konumu</param>
     private void SpawnTile(float zPos)
     {
-        // X=0, Z=zPos’ta (Y=0 da olabilir veya tilePrefab’e göre ayarlayabilirsiniz)
         Vector3 spawnPosition = new Vector3(0f, 5f, zPos);
-
         GameObject newTile = Instantiate(tilePrefab, spawnPosition, Quaternion.identity);
         spawnedTiles.Add(newTile);
     }
@@ -87,9 +102,8 @@ public class EndlessTiles : MonoBehaviour
     #region Public Methods
 
     /// <summary>
-    /// A metod to get the list of endlessSeaTiles
+    /// Returns the spawned tile list.
     /// </summary>
-    /// <returns>the list of endlessSeaTiles</returns>
     public List<GameObject> GetSpawnedTiles()
     {
         return spawnedTiles;

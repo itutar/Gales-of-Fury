@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
@@ -15,6 +16,9 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Fields
+
+    [Header("Refs")]
+    [SerializeField] private PauseUIRefs pauseUIRefs; // // Drag the PauseUIRefs asset here
 
     private bool isPaused = false;
 
@@ -100,6 +104,7 @@ public class PlayerController : MonoBehaviour
 
     void OnFingerUp(Finger finger)
     {
+        /*
         if (finger.index == activeFingerId)
         {
             // SADECE swipe yapýlmadýysa double tap algýla
@@ -114,6 +119,28 @@ public class PlayerController : MonoBehaviour
             activeFingerId = -1;
             hasSwipedThisTouch = false; 
         }
+        */
+        if (finger.index != activeFingerId)
+            return;
+
+        float now = Time.unscaledTime; // unaffected by Time.timeScale
+
+        if (!hasSwipedThisTouch && lastTapTime != 0f && (now - lastTapTime < myDoubleTapDelay))
+        {
+            // Double tap detected
+            DoubleTapAction();
+
+            // Reset to mark that we are starting fresh
+            lastTapTime = 0f;
+        }
+        else
+        {
+            // First tap in a potential pair
+            lastTapTime = now;
+        }
+
+        activeFingerId = -1;
+        hasSwipedThisTouch = false;
     }
 
     void OnFingerMove(Finger finger)
@@ -270,6 +297,13 @@ public class PlayerController : MonoBehaviour
         //ScoreManager.Instance.Add(10000);
         isPaused = !isPaused;
         Time.timeScale = isPaused ? 0f : 1f;
+        // toggle the pause UI
+        if (pauseUIRefs.PauseUI != null)
+            pauseUIRefs.PauseUI.SetActive(isPaused);
+
+        if (pauseUIRefs.PauseUIBackground != null)
+            pauseUIRefs.PauseUIBackground.SetActive(isPaused);
+
     }
 
     /// <summary>

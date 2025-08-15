@@ -45,6 +45,10 @@ public class Coin : MonoBehaviour
 
     private void Update()
     {
+        // return to pool if paused
+        if (Time.timeScale == 0f)
+            CoinObjectPool.ReturnCoin(gameObject);
+
         int playerLane = Blackboard.Instance.GetValue<int>(BlackboardKey.PlayerLane);
         if (!isSuckedIn && laneIndex == playerLane
             && Vector3.Distance(transform.position, player.transform.position) < 3f)

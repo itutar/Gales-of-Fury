@@ -46,7 +46,6 @@ public class Blackboard : MonoBehaviour
             return;
         }
         _instance = this;
-        DontDestroyOnLoad(gameObject);
     }
 
     #endregion

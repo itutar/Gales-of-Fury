@@ -51,11 +51,7 @@ public class RegularPirate1Attack : MonoBehaviour, IAttackController
         // player collision control
         if (collision.collider.CompareTag("Player"))
         {
-            PlayerHealth playerHealth = collision.collider.GetComponent<PlayerHealth>();
-            if (playerHealth != null)
-            {
-                playerHealth.GameOver();
-            }
+            GameOverEvent.instance.TriggerGameOver();
         }
     }
 

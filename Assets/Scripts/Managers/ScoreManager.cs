@@ -28,7 +28,6 @@ public class ScoreManager : MonoBehaviour
     {
         if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
 
 
         // make sure the score starts at 0

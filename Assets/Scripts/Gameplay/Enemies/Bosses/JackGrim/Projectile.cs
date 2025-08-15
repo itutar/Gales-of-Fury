@@ -17,9 +17,7 @@ public class Projectile : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player VURULDU!");
-
-            other.GetComponent<PlayerHealth>()?.GameOver();
+            GameOverEvent.instance.TriggerGameOver();
 
             Destroy(gameObject);
         }
