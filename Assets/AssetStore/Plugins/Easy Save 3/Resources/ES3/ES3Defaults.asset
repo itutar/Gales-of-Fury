@@ -41,6 +41,9 @@ MonoBehaviour:
     - CFXRDemo
     - CFXRRuntime
     - Cinemachine
+    - Google.Play.Common
+    - Google.Play.Core
+    - Google.Play.Review
     - KinoBloom.Runtime
     - Lofelt.NiceVibrations
     - Lofelt.NiceVibrations.Demo

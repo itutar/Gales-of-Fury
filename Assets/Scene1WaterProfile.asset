@@ -21,14 +21,14 @@ MonoBehaviour:
   enableLightAbsorption: 1
   depthColor: {r: 0.38430038, g: 0.54062486, b: 0.7987421, a: 0.85}
   maxDepth: 10
-  enableFoam: 0
+  enableFoam: 1
   foamColor: {r: 1, g: 1, b: 1, a: 1}
   foamDistance: 1.2
   enableFoamHQ: 0
   foamNoiseScaleHQ: 1.32
   foamNoiseSpeedHQ: 1
-  shorelineFoamStrength: 0.06
-  crestFoamStrength: 0.08
+  shorelineFoamStrength: 0.001
+  crestFoamStrength: 0.001
   crestMaxDepth: 2.28
   slopeFoamStrength: 0.5
   slopeFoamFlowSpeed: 20
@@ -46,12 +46,12 @@ MonoBehaviour:
   fresnelStrength: 1.5
   fresnelBias: 0
   enableReflection: 1
-  reflectionTextureResolution: 256
+  reflectionTextureResolution: 128
   enableReflectionPixelLight: 0
   reflectionClipPlaneOffset: 0.1
   reflectionLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4
   reflectCustomSkybox: 0
   reflectionDistortionStrength: 25
   enableRefraction: 1
